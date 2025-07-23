@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Feedback Form</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 100vh;
+            background: #597E52;
+            padding: 20px;
+        }
+        .carousel-container { width: 800px; margin: auto; overflow: hidden; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .carousel { display: flex; transition: transform 0.5s ease-in-out; }
+        .card { min-width: 100%; box-sizing: border-box; padding: 20px; }
+        .stars { color: #4E6F48; }
+        .wrapper {
+            width: 900px;
+            background: linear-gradient(145deg, #4E6F48, #3b4a34); 
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            transition: 0.3s ease;
+            margin: auto;
+            margin-top: 100px;
+        }
+
+        .feedback-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .column .input-box {
+            margin-bottom: 15px;
+        }
+
+        .column .input-box:last-of-type {
+            margin-bottom: 20px;
+        }
+
+        .wrapper:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .column {
+            width: 48%;
+        }
+
+        .wrapper h1 {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+            width: 100%;
+        }
+        
+        .input-box label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #C6A969;
+        }
+
+        .input-box input, .input-box select, .input-box textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #C6A969;
+            outline: none;
+            background-color: white; 
+            color: black;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .input-box input:focus, .input-box select:focus, .input-box textarea:focus {
+            border: 1px solid #C6A969;
+            box-shadow: 0 0 5px #C6A969;
+        }
+
+        .input-box .required:after {
+            content: "*";
+            color: red;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        .search-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: 50px;
+  margin-right: 70px; 
+  
+}
+
+.search-container i {
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 5px;
+  color: white;
+}
+
+/* Hide the search input by default */
+.search-bar {
+  width: 0;
+  opacity: 0;
+  padding: 5px;
+  margin-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: all 0.4s ease;
+  font-size: 14px;
+  background-color: white;
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Expand on hover */
+.search-container:hover .search-bar {
+  width: 160px;
+  opacity: 1;
+  position: relative;
+  transform: translateY(0);
+}
+.navbtn-group {
+    display: flex;
+    gap: 15px; /* Spacing between the two buttons */
+}
+
+.navbtn-group {
+    margin-left: auto; /* Pushes this container to the far right */
+    display: flex;
+    gap: 15px;
+}
+
+
+
+
+
+
+.navbtn {
+    padding: 10px 15px;
+    background-color:black;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    margin-left: 5px;
+    cursor: pointer;
+    opacity: 60%;
+}
+
+.navbtn:hover {
+    background-color: #C6A969;
+}
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #C6A969;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .btn:hover {
+            background: #4E6F48;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+        }
+        
+        .footer {
+            background: #222;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            width:120%;
+            position: relative;
+            bottom: 0;
+            margin-top: 80px;
+        }
+
+        .footer .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer .box {
+            flex: 1 1 200px;
+            max-width: 300px;
+            text-align: left;
+        }
+
+        .footer .box h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #C6A969;
+        }
+
+        .footer .box a {
+            display: block;
+            color: #ccc;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .footer .box a:hover {
+            color: #C6A969;
+        }
+
+        .footer .box i {
+            margin-right: 8px;
+        }
+
+        .footer .credit {
+            margin-top: 20px;
+            font-size: 14px;
+            border-top: 1px solid #444;
+            padding-top: 10px;
+        }
+
+        .footer .credit strong {
+            color: #C6A969;
+        }
+        
+        *{
+            margin:0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        header{
+    z-index:999;
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 200px;
+    transition: 0.5s ease;
+}
+
+header .brand{
+    color:white;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap:8px;
+    white-space: nowrap;
+    font-family: 'Arial', sans-serif;
+}
+
+header .brand i {
+    font-size: 1.5em; 
+    color: #C6A969; 
+}
+
+.navigation {
+    display: flex;
+    gap: 20px;
+    flex-grow: 2; 
+    justify-content: flex-end; 
+}
+
+.brand {
+    font-size: 1.8em;
+    font-weight: bold;
+    flex-grow: 1; 
+    color: white; 
+}
+
+
+
+
+header .navigation{
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+}
+header .navigation .navigation-items {
+    display: flex;
+    align-items: center;
+}
+
+header .navigation .navigation-items a{
+     position: relative;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 30px;
+    transition: 0.3s ease ;
+
+}
+
+header .navigation .navigation-items a:before{
+    content:'';
+    position: absolute;
+    background: white;
+    width:0;
+    height: 3px;
+    bottom: 0;
+    left:0;
+    transition: 0.3s ease;
+}
+
+header .navigation .navigation-items a:hover:before{
+    width:100%; 
+}
+
+        .btn1 {
+            padding: 10px 15px;
+            background-color:black;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            margin-left: 5px;
+            cursor: pointer;
+            opacity: 60%;
+        }
+
+        .btn1:hover {
+            background-color: #C6A969;
+        }
+
+        @media (max-width: 1040px){
+            header {
+                padding: 12px 20px;
+            }
+        }
+        
+        .btn-pdf {
+            width: 100%;
+            padding: 12px;
+            background: #597E52;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn-pdf:hover {
+            background: #3b4a34;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #success-message {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!--Header Section-->
+
+    <header>
+        <a href="/" class="brand"> Ayubo Go</a>
+
+        <div class="navigation">
+            <div class="navigation-items">
+              <a href="/">Home</a>
+              <a href="/categories">Explore</a>
+              <a href="/aboutus">About</a>
+              <a href="/feedback">Blogs and reviews</a>
+
+                 <div class="search-container">
+                    <i class='bx bx-search'></i>
+                    <input type="text" class="search-bar" placeholder="Search...">
+
+                  </div>
+
+                <button class="navbtn" href="/cart" id="cartbtn"><i class='bx bx-cart'></i>  Cart</button>
+
+                <button class="navbtn" id="loginBtn" >Login/Register</button>
+
+            </div>
+        </div>
+    </header>
+
+    <div class="feedback">
+        <h1 style="text-align: center;margin-top: 70px;margin-bottom: 50px;color: #fff;">Blogs and reviews</h1>
+        <div class="carousel-container">
+            <div class="carousel" id="carousel">
+            </div>
+        </div>
+
+        <form id="feedback-form" method="POST" action="/feedback" onsubmit="submitFeedbackForm(event)">
+            <div class="wrapper">
+                <div class="column">
+                    <h1>Feedback Form</h1>
+                    <div class="input-box">
+                        <label for="feedback-type" class="required">Feedback Type</label>
+                        <select id="feedback-type" name="feedback_type" required>
+                            <option value="" disabled selected>Select Feedback Type</option>
+                            <option value="Service">Service</option>
+                            <option value="Experience">Experience</option>
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="input-box">
+                        <label for="rating" class="required">Rating</label>
+                        <select id="rating" name="rating" required>
+                            <option value="" disabled selected>Select Rating</option>
+                            <option value="1">1 - Very Poor</option>
+                            <option value="2">2 - Poor</option>
+                            <option value="3">3 - Average</option>
+                            <option value="4">4 - Good</option>
+                            <option value="5">5 - Excellent</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label for="comments">Comments</label>
+                        <textarea id="comments" name="comments" rows="4"></textarea>
+                    </div>
+                
+                    <button type="submit" class="btn"><b>Submit Feedback</b></button>
+                    <button type="button" class="btn-pdf" onclick="generatePDF()"><b>Download as PDF</b></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="success-message">
+        Feedback submitted successfully!
+    </div>
+    
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="box-container">
+            <div class="box">
+                <h3>Quick Links</h3>
+                <a href="/home"><i class="fas fa-home"></i> Home</a>
+                <a href="#"><i class="fas fa-map-marked-alt"></i> Experiences</a>
+                <a href="#"><i class="fas fa-question-circle"></i> Help</a>
+                <a href="/aboutus"><i class="fas fa-info-circle"></i> About</a>
+                <a href="#"><i class="fas fa-comments"></i> Blogs & Reviews</a>
+            </div>
+            <div class="box">
+                <h3>Legal</h3>
+                <a href="#"><i class="fas fa-user-shield"></i> Privacy Policy</a>
+                <a href="#"><i class="fas fa-file-contract"></i> Terms & Conditions</a>
+            </div>
+            <div class="box">
+                <h3>Connect With Us</h3>
+                <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
+            <div class="box">
+                <h3>Contact Us</h3>
+                <a href="tel:+94760127391"><i class="fas fa-phone"></i> +94 760 127 391</a>
+                <a href="https://maps.google.com/?q=Colombo,Sri Lanka" target="_blank">
+                    <i class="fas fa-map-marker-alt"></i> Colombo, Sri Lanka
+                </a>
+                <a href="mailto:Ayubogo@gmail.com"><i class="fas fa-envelope"></i> Ayubogo@gmail.com</a>
+            </div>
+        </div>
+        <div class="credit">© 2025 <strong>AyuboGo.lk</strong>. All rights reserved.</div>
+    </footer>
+
+    <script>
+        function submitFeedbackForm(event) {
+            event.preventDefault();
+            
+            if (!validateFeedbackForm()) {
+                return;
+            }
+
+            const form = document.getElementById('feedback-form');
+            const formData = new FormData(form);
+
+            fetch('/feedback', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccessMessage();
+                    form.reset();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while submitting the feedback.');
+            });
+        }
+
+        function validateFeedbackForm() {
+            const rating = document.getElementById('rating').value;
+            const feedbackType = document.getElementById('feedback-type').value;
+
+            if (!feedbackType) {
+                alert("Please select a feedback type.");
+                return false;
+            }
+
+            if (!rating) {
+                alert("Please select a rating.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function showSuccessMessage() {
+            const successMessage = document.getElementById('success-message');
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Get form values
+            const feedbackType = document.getElementById('feedback-type').value;
+            const rating = document.getElementById('rating').value;
+            const comments = document.getElementById('comments').value;
+            
+            // Set document properties
+            doc.setProperties({
+                title: 'Feedback Form Submission',
+                subject: 'Customer Feedback',
+                author: 'Ayubo Go',
+                keywords: 'feedback, customer, ayubo',
+                creator: 'Ayubo Go'
+            });
+            
+            // Add header
+            doc.setFontSize(20);
+            doc.setTextColor(40);
+            doc.text('Ayubo Go - Feedback Summary', 105, 20, { align: 'center' });
+            
+            // Add current date
+            const today = new Date();
+            doc.setFontSize(10);
+            doc.text(`Generated on: ${today.toLocaleDateString()}`, 105, 30, { align: 'center' });
+            
+            // Add line separator
+            doc.setDrawColor(200, 200, 200);
+            doc.line(20, 35, 190, 35);
+            
+            // Add feedback details
+            doc.setFontSize(14);
+            doc.text('Feedback Details', 20, 45);
+            
+            doc.setFontSize(12);
+            doc.text(`Feedback Type: ${feedbackType}`, 20, 55);
+            doc.text(`Rating: ${rating}`, 20, 65);
+            
+            // Add comments with word wrap
+            doc.text('Comments:', 20, 80);
+            const splitComments = doc.splitTextToSize(comments, 170);
+            doc.text(splitComments, 20, 90);
+            
+            // Add footer
+            doc.setFontSize(10);
+            doc.setTextColor(150);
+            doc.text('Thank you for your feedback!', 105, 280, { align: 'center' });
+            
+            // Save the PDF
+            doc.save(`AyuboGo_Feedback_${today.getTime()}.pdf`);
+        }
+
+        // Login button functionality
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            window.location.href = '/login';
+        });
+    </script>
+
+<script>
+
+        const loginBtn = document.getElementById('loginBtn');
+        loginBtn.addEventListener('click', function() {
+            window.location.href = '/login';
+        });
+
+        const cartbtn = document.getElementById('cartbtn');
+        cartbtn.addEventListener('click', function() {
+            window.location.href = '/cart';
+        });
+
+    async function loadFeedback() {
+        const response = await fetch('/api/feedback');
+        const result = await response.json();
+        const carousel = document.getElementById('carousel');
+
+        if (!result.success) {
+            carousel.innerHTML = `<div class="card">Error: ${result.message}</div>`;
+            return;
+        }
+
+        const feedbacks = result.data;
+
+        if (feedbacks.length === 0) {
+            carousel.innerHTML = `<div class="card">No feedback available.</div>`;
+            return;
+        }
+
+        feedbacks.forEach(fb => {
+            const stars = '★'.repeat(fb.rating) + '☆'.repeat(5 - fb.rating);
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <h3>${fb.feedback_type}</h3>
+                <div class="stars">${stars}</div>
+                <p>${fb.comments}</p>
+            `;
+            carousel.appendChild(card);
+        });
+
+        // Auto move
+        let index = 0;
+        setInterval(() => {
+            index = (index + 1) % feedbacks.length;
+            carousel.style.transform = `translateX(-${index * 100}%)`;
+        }, 3000);
+    }
+
+    loadFeedback();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayubo Go - Explore Cultural Categories</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: #597E52;
+        }
+
+        .search-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: 50px;
+  margin-right: 70px; 
+  
+}
+
+.search-container i {
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 5px;
+  color: white;
+}
+
+/* Hide the search input by default */
+.search-bar {
+  width: 0;
+  opacity: 0;
+  padding: 5px;
+  margin-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: all 0.4s ease;
+  font-size: 14px;
+  background-color: white;
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+.btn {
+    padding: 10px 15px;
+    background-color:black;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    margin-left: 5px;
+    cursor: pointer;
+    opacity: 60%;
+}
+
+.btn:hover {
+    background-color: #C6A969;
+}
+
+/* Expand on hover */
+.search-container:hover .search-bar {
+  width: 160px;
+  opacity: 1;
+  position: relative;
+  transform: translateY(0);
+}   
+header{
+    z-index:999;
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 200px;
+    transition: 0.5s ease;
+}
+
+header .brand{
+    color:white;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap:8px;
+    white-space: nowrap;
+    font-family: 'Arial', sans-serif;
+}
+
+header .brand i {
+    font-size: 1.5em; 
+    color: #C6A969; 
+}
+
+.navigation {
+    display: flex;
+    gap: 20px;
+    flex-grow: 2; 
+    justify-content: flex-end; 
+}
+
+.brand {
+    font-size: 1.8em;
+    font-weight: bold;
+    flex-grow: 1; 
+    color: white; 
+}
+
+
+
+
+header .navigation{
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+}
+header .navigation .navigation-items {
+    display: flex;
+    align-items: center;
+}
+
+header .navigation .navigation-items a{
+     position: relative;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 30px;
+    transition: 0.3s ease ;
+
+}
+
+header .navigation .navigation-items a:before{
+    content:'';
+    position: absolute;
+    background: white;
+    width:0;
+    height: 3px;
+    bottom: 0;
+    left:0;
+    transition: 0.3s ease;
+}
+
+header .navigation .navigation-items a:hover:before{
+    width:100%; 
+}
+
+        .btnr1 {
+            padding: 10px 15px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            margin-left: 5px;
+            cursor: pointer;
+            opacity: 60%;
+        }
+
+        .btnr1:hover {
+            background-color: #C6A969;
+        }
+
+        /* Categories Section Styles */
+        .categories-section {
+            min-height: 100vh;
+            background-color: #597E52;
+            padding: 120px 50px 60px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .categories-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+        }
+
+        .categories-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .category-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .category-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .category-card:hover .category-image img {
+            transform: scale(1.1);
+        }
+
+        .category-content {
+            padding: 20px;
+        }
+
+        .category-content h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .category-content p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .category-btn {
+            display: block;
+            background-color: white;
+            color: #597E52;
+            text-align: center;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            width: fit-content;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover {
+            background-color: #C6A969;
+            color: #333;
+            transform: translateY(-2px);
+        }
+
+        /* Footer Styles */
+        .footer {
+            width: 100%;
+            background: #222;
+            padding: 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer .box {
+            flex: 1 1 200px;
+            max-width: 300px;
+            text-align: left;
+        }
+
+        .footer .box h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #C6A969;
+        }
+
+        .footer .box a {
+            display: block;
+            color: #ccc;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .footer .box a:hover {
+            color: #C6A969;
+        }
+
+        .footer .box i {
+            margin-right: 8px;
+        }
+
+        .footer .credit {
+            margin-top: 20px;
+            font-size: 14px;
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            text-align: center;
+        }
+
+        .footer .credit strong {
+            color: #C6A969;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1040px) {
+            header {
+                padding: 12px 20px;
+            }
+
+            .categories-section {
+                padding: 100px 20px 40px;
+            }
+
+            .categories-title {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header .navigation .navigation-items {
+                display: none;
+            }
+
+            .categories-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .category-card {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .footer .box-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer .box {
+                text-align: center;
+            }
+        }
+
+        header {
+    z-index: 999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px; /* Reduced side padding */
+    transition: 0.5s ease;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Reduced gap between items */
+}
+
+.navigation-items {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Reduced gap between navigation links */
+}
+
+header .navigation .navigation-items a {
+    position: relative;
+    color: white;
+    font-size: 0.9em; /* Slightly smaller font */
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 15px; /* Reduced margin */
+    transition: 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.search-container {
+    margin-left: 15px; /* Reduced margin */
+    margin-right: 15px; /* Reduced margin */
+}
+
+.btnr1 {
+    padding: 8px 12px; /* Slightly smaller buttons */
+    font-size: 0.9em; /* Smaller font */
+}
+
+/* Cart Styles - made more compact */
+.cart-container {
+    position: relative;
+    margin-left: 15px;
+    margin-right: 5px;
+}
+
+.cart-icon {
+    font-size: 20px; /* Smaller icon */
+    color: white;
+    position: relative;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #C6A969;
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* For mobile view */
+@media (max-width: 768px) {
+    header {
+        padding: 12px 15px;
+    }
+    
+    .navigation-items a:not(.brand) {
+        display: none; /* Hide regular nav items on mobile */
+    }
+    
+    .cart-container {
+        margin-left: auto; /* Push cart to the right */
+        margin-right: 15px;
+    }
+    
+    /* You might want to add a mobile menu button here */
+}
+/* Cart Styles */
+.cart-container {
+    position: relative;
+    margin-left: 20px;
+}
+
+.cart-icon {
+    font-size: 24px;
+    color: white;
+    position: relative;
+    text-decoration: none;
+}
+
+.cart-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #C6A969;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Cart Page Styles - Added to main page */
+.cart-page {
+    display: none;
+    flex-grow: 1;
+    padding: 120px 50px 40px;
+    background-color: #597E52;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.cart-title {
+    font-size: 36px;
+    color: white;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.cart-items {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.cart-item-image {
+    width: 80px;
+    height: 60px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+.cart-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cart-item-details h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.cart-item-price {
+    font-size: 16px;
+    color: #C6A969;
+    font-weight: 600;
+    margin-right: 20px;
+}
+
+.cart-item-quantity {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-btn {
+    width: 25px;
+    height: 25px;
+    background-color: #597E52;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.quantity-btn:hover {
+    background-color: #C6A969;
+}
+
+.quantity-value {
+    margin: 0 10px;
+    font-size: 16px;
+}
+
+.remove-item {
+    color: #ff6b6b;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.remove-item:hover {
+    color: #ff0000;
+}
+
+.cart-summary {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.summary-title {
+    font-size: 16px;
+    color: #666;
+}
+
+.summary-value {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.total-row {
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.total-value {
+    color: #C6A969;
+    font-size: 18px;
+}
+
+.checkout-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #597E52;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.checkout-btn:hover {
+    background-color: #C6A969;
+}
+
+.empty-cart {
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    padding: 50px 0;
+}
+
+/* Toast notification */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <a href="/" class="brand"> Ayubo Go</a>
+
+
+       
+        </div>
+        <div class="navigation">
+            <div class="navigation-items">
+              <a href="/">Home</a>
+              <a href="/categories">Explore</a>
+              <a href="/aboutus">About</a>
+              <a href="/feedback">Blogs and reviews</a>
+
+                 <div class="search-container">
+                    <i class='bx bx-search'></i>
+                    <input type="text" class="search-bar" placeholder="Search...">
+
+                  </div>
+
+                <button class="btn" id="cartbtn"><i class='bx bx-cart'></i> Cart</button>
+
+                <button class="btn" id="loginBtn" >Login/Register</button>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Categories Section (Frame 7) -->
+    <section class="categories-section" id="categories-section">
+        <h2 class="categories-title">Explore Cultural Categories</h2>
+        <div class="categories-container">
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="https://media.timeout.com/images/101852779/image.jpg" alt="Arts & Crafts">
+                </div>
+                <div class="category-content">
+                    <h3>Arts & Crafts</h3>
+                    <p>Learn traditional mask carving, pottery, and craft from master artisans.</p>
+                    <a href="/arts" class="category-btn">Explore Arts</a>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="https://www.jetwinghotels.com/jetwingayurvedapavilions/wp-content/uploads/sites/30/2017/12/spa_main.jpg" alt="Wellness & Healing">
+                </div>
+                <div class="category-content">
+                    <h3>Wellness & Healing</h3>
+                    <p>Experience restorative Ayurveda treatments and traditional healing.</p>
+                    <a href="/wellness" class="category-btn">Discover Wellness</a>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="https://bmkltsly13vb.compat.objectstorage.ap-mumbai-1.oraclecloud.com/cdn.dailymirror.lk/media/images/image_1518437839-36fd4e9cab.jpg" alt="Performing Arts">
+                </div>
+                <div class="category-content">
+                    <h3>Performing Arts</h3>
+                    <p>Watch and learn traditional dance, music and theatrical performances.</p>
+                    <a href="/performing-arts" class="category-btn">View Performances</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="box-container">
+            <div class="box">
+                <h3>Quick Links</h3>
+                <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
+                <a href="#"><i class="fas fa-map-marked-alt"></i> Experiences</a>
+                <a href="#"><i class="fas fa-question-circle"></i> Help</a>
+                <a href="#"><i class="fas fa-info-circle"></i> About</a>
+                <a href="#"><i class="fas fa-comments"></i> Blogs & Reviews</a>
+            </div>
+            <div class="box">
+                <h3>Legal</h3>
+                <a href="#"><i class="fas fa-user-shield"></i> Privacy Policy</a>
+                <a href="#"><i class="fas fa-file-contract"></i> Terms & Conditions</a>
+            </div>
+            <div class="box">
+                <h3>Connect With Us</h3>
+                <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
+            <div class="box">
+                <h3>Contact Us</h3>
+                <a href="tel:+94760127391"><i class="fas fa-phone"></i> +94 760 127 391</a>
+                <a href="https://maps.google.com/?q=Colombo,Sri Lanka" target="_blank">
+                    <i class="fas fa-map-marker-alt"></i> Colombo, Sri Lanka
+                </a>
+                <a href="mailto:Ayubogo@gmail.com"><i class="fas fa-envelope"></i> Ayubogo@gmail.com</a>
+            </div>
+        </div>
+        <div class="credit">© 2025 <strong>AyuboGo.lk</strong>. All rights reserved.</div>
+    </footer>
+
+    <script>
+        
+        const loginBtn = document.getElementById('loginBtn');
+        loginBtn.addEventListener('click', function() {
+            window.location.href = '/login';
+        });
+
+        const cartbtn = document.getElementById('cartbtn');
+        cartbtn.addEventListener('click', function() {
+            window.location.href = '/cart';
+        });
+
+    </script>
+</body>
+</html>

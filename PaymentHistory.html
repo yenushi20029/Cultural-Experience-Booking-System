@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Aybo Go - Payment History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #597E52;
+    color: rgb(12, 12, 12);
+}
+
+
+header{
+    z-index:999;
+    position: absolute;
+    top:0;
+    left:0;
+    width:70%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 200px;
+    transition: 0.5s ease;
+}
+
+header .brand{
+    color:white;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap:8px;
+    white-space: nowrap;
+    font-family: 'Arial', sans-serif;
+}
+
+header .brand i {
+    font-size: 1.5em; 
+    color: #C6A969; 
+}
+
+.navigation {
+    display: flex;
+    gap: 20px;
+    flex-grow: 2; 
+    justify-content: flex-end; 
+}
+
+.brand {
+    font-size: 1.8em;
+    font-weight: bold;
+    flex-grow: 1; 
+    color: white; 
+}
+
+header .navigation{
+    position: relative;
+}
+
+header .navigation .navigation-items a{
+    position: relative;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 30px;
+    transition: 0.3s ease;
+}
+
+header .navigation .navigation-items a:before{
+    content:'';
+    position: absolute;
+    background: white;
+    width:0;
+    height: 3px;
+    bottom: 0;
+    left:0;
+    transition: 0.3s ease;
+}
+
+header .navigation .navigation-items a:hover:before{
+    width:100%; 
+}
+
+.btnr1 {
+    padding: 10px 15px;
+    background-color:black;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    margin-left: 5px;
+    cursor: pointer;
+    opacity: 60%;
+}
+
+.btnr1:hover {
+    background-color: #C6A969;
+}
+
+@media (max-width: 1040px){
+    header {
+        padding: 12px 20px;
+    }
+}
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 120px;
+        }
+
+        .payment-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 1000px;
+            width: 85%;
+            margin: 0 auto;
+        }
+
+        .payment-history-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .payment-history-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #C6A969, #597E52);
+        }
+
+        .payment-history-container h1 {
+            color: #43623d;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .payment-history-container h1::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            right: 25%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #C6A969, transparent);
+        }
+
+        .filter-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .date-filters {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .date-filters label {
+            font-weight: 500;
+            color: #43623d;
+        }
+
+        .date-filters select {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: white;
+            color: #333;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: #597E52;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #43623d;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #C6A969;
+            color: black;
+        }
+
+        .btn-secondary:hover {
+            background-color: #b89a5a;
+            transform: translateY(-2px);
+        }
+
+        .payment-history-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .payment-history-table th {
+            background: linear-gradient(to right, #43623d, #597E52);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .payment-history-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
+        }
+
+        .payment-history-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .payment-history-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .payment-history-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .payment-history-total {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            text-align: right;
+            font-weight: bold;
+            color: #43623d;
+            border-top: 2px solid #C6A969;
+        }
+
+        .footer {
+            background: #222;
+            color: #fff;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .footer .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer .box {
+            flex: 1 1 250px;
+            max-width: 300px;
+            text-align: left;
+        }
+
+        .footer .box h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #C6A969;
+        }
+
+        .footer .box a {
+            display: block;
+            color: #ccc;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .footer .box a:hover {
+            color: #C6A969;
+        }
+
+        .footer .box i {
+            margin-right: 8px;
+        }
+
+        .footer .credit {
+            margin-top: 20px;
+            font-size: 14px;
+            border-top: 1px solid #444;
+            padding-top: 10px;
+        }
+
+        .footer .credit strong {
+            color: #C6A969;
+        }
+
+        @media (max-width: 768px) {
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .date-filters {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            
+            .action-buttons {
+                margin-top: 15px;
+                justify-content: center;
+            }
+            
+            .payment-history-table th, 
+            .payment-history-table td {
+                padding: 8px 10px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!--Header Section-->
+    <header>
+        <a href="#" class="brand"> Ayubo Go</a>
+        <div class="navigation">
+            <div class="navigation-items">
+                <a href="home.html">Home</a>
+                <a href="#">Experiences</a>
+                <a href="#">Help</a>
+                <a href="#">About</a>
+                <a href="#">Blogs and reviews</a>
+                <button class="btnr1" id="loginBtn">Login/Register</button>
+                <button class="btnr1">Book Now</button>
+            </div>
+        </div>
+    </header>
+     
+    <main>
+        <div class="payment-container">
+            <div class="payment-history-container">
+                <h1><i class="fas fa-credit-card"></i> Payment History</h1>
+                
+                <div class="filter-controls">
+                    <div class="date-filters">
+                        <label for="month-select">Select Month:</label>
+                        <select id="month-select">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="calculateMonthlyTotal()">
+                            <i class="fas fa-calculator"></i> Calculate Total
+                        </button>
+                        <button class="btn btn-secondary" onclick="downloadPDFReport()">
+                            <i class="fas fa-file-pdf"></i> Download Report
+                        </button>
+                    </div>
+                </div>
+                
+                <table class="payment-history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Passport Number</th>
+                            <th>Payment Method</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payment-history">
+                        <!-- Payments will be loaded here dynamically -->
+                    </tbody>
+                </table>
+                
+                <div class="payment-history-total" id="total-container"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="box-container">
+            <div class="box">
+                <h3>Quick Links</h3>
+                <a href="#home"><i class="fas fa-home"></i> Home</a>
+                <a href="#experiences"><i class="fas fa-map-marked-alt"></i> Experiences</a>
+                <a href="#help"><i class="fas fa-question-circle"></i> Help</a>
+                <a href="#about"><i class="fas fa-info-circle"></i> About</a>
+                <a href="#blogs"><i class="fas fa-comments"></i> Blogs & Reviews</a>
+            </div>
+            <div class="box">
+                <h3>Legal</h3>
+                <a href="#privacy"><i class="fas fa-user-shield"></i> Privacy Policy</a>
+                <a href="#terms"><i class="fas fa-file-contract"></i> Terms & Conditions</a>
+            </div>
+            <div class="box">
+                <h3>Connect With Us</h3>
+                <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
+            <div class="box">
+                <h3>Contact Us</h3>
+                <a href="tel:+94760127391"><i class="fas fa-phone"></i> +94 760 127 391</a>
+                <a href="https://maps.google.com/?q=Colombo,Sri Lanka" target="_blank">
+                    <i class="fas fa-map-marker-alt"></i> Colombo, Sri Lanka
+                </a>
+                <a href="mailto:Ayubogo@gmail.com"><i class="fas fa-envelope"></i> Ayubogo@gmail.com</a>
+            </div>
+        </div>
+        <div class="credit">©️ 2025 <strong>AyuboGo.lk</strong>. All rights reserved.</div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPaymentHistory();
+        });
+        
+        function loadPaymentHistory() {
+            // In a real application, you would fetch from your API
+            // fetch('/payments')
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         populatePaymentTable(data);
+            //     })
+            //     .catch(error => {
+            //         console.error('Error loading payment history:', error);
+            //     });
+            
+            // Mock data for demonstration
+            const mockData = [
+                {
+                    date: '2025-05-15',
+                    passport_number: 'AB12345678',
+                    payment_method: 'Credit Card',
+                    amount: 150.00
+                },
+                {
+                    date: '2025-05-10',
+                    passport_number: 'CD98765432',
+                    payment_method: 'Online Banking',
+                    amount: 200.00
+                },
+                {
+                    date: '2025-05-05',
+                    passport_number: 'EF45678901',
+                    payment_method: 'PayPal',
+                    amount: 175.50
+                }
+            ];
+            
+            populatePaymentTable(mockData);
+        }
+        
+        function populatePaymentTable(data) {
+            const historyTable = document.getElementById('payment-history');
+            historyTable.innerHTML = '';
+            
+            data.forEach(payment => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${formatDate(payment.date)}</td>
+                    <td>${payment.passport_number}</td>
+                    <td>${payment.payment_method}</td>
+                    <td>$${payment.amount.toFixed(2)}</td>
+                `;
+                historyTable.appendChild(row);
+            });
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+        
+        function calculateMonthlyTotal() {
+            const selectedMonth = document.getElementById('month-select').value;
+            
+            // In a real application, you would fetch from your API
+            // fetch('/payments')
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         const filteredPayments = data.filter(payment => {
+            //             const paymentDate = new Date(payment.date);
+            //             return (paymentDate.getMonth() + 1) == selectedMonth;
+            //         });
+            //         
+            //         displayFilteredResults(filteredPayments);
+            //     })
+            //     .catch(error => {
+            //         console.error('Error calculating monthly total:', error);
+            //     });
+            
+            // Mock data filtering for demonstration
+            const mockData = [
+                {
+                    date: '2025-05-15',
+                    passport_number: 'AB12345678',
+                    payment_method: 'Credit Card',
+                    amount: 150.00
+                },
+                {
+                    date: '2025-05-10',
+                    passport_number: 'CD98765432',
+                    payment_method: 'Online Banking',
+                    amount: 200.00
+                },
+                {
+                    date: '2025-04-20',
+                    passport_number: 'EF45678901',
+                    payment_method: 'PayPal',
+                    amount: 175.50
+                }
+            ];
+            
+            const filteredPayments = mockData.filter(payment => {
+                const paymentDate = new Date(payment.date);
+                return (paymentDate.getMonth() + 1) == selectedMonth;
+            });
+            
+            displayFilteredResults(filteredPayments);
+        }
+        
+        function displayFilteredResults(filteredPayments) {
+            const total = filteredPayments.reduce((sum, payment) => sum + payment.amount, 0);
+            
+            document.getElementById('total-container').innerHTML = `
+                <strong>Total for selected month: $${total.toFixed(2)}</strong>
+            `;
+            
+            populatePaymentTable(filteredPayments);
+        }
+
+        async function downloadPDFReport() {
+            const selectedMonth = document.getElementById('month-select').value;
+            const monthNames = ["January", "February", "March", "April", "May", "June", 
+                               "July", "August", "September", "October", "November", "December"];
+            const monthName = monthNames[selectedMonth - 1];
+
+            try {
+                // In a real app, you would fetch from your API
+                // const response = await fetch('/payments');
+                // const data = await response.json();
+                
+                // Mock data for demonstration
+                const data = [
+                    {
+                        date: '2025-05-15',
+                        passport_number: 'AB12345678',
+                        payment_method: 'Credit Card',
+                        amount: 150.00
+                    },
+                    {
+                        date: '2025-05-10',
+                        passport_number: 'CD98765432',
+                        payment_method: 'Online Banking',
+                        amount: 200.00
+                    }
+                ];
+
+                const filtered = data.filter(payment => {
+                    const paymentDate = new Date(payment.date);
+                    return (paymentDate.getMonth() + 1) == selectedMonth;
+                });
+
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                // Title + subtitle
+                doc.setFontSize(18);
+                doc.setTextColor(67, 98, 61);
+                doc.text("Ayubo Go - Payment Report", 105, 20, { align: "center" });
+                
+                doc.setFontSize(12);
+                doc.setTextColor(100, 100, 100);
+                doc.text(`${monthName} 2025`, 105, 30, { align: "center" });
+
+                // Table
+                const headers = [["Date", "Passport", "Method", "Amount"]];
+                const rows = filtered.map(payment => [
+                    formatDate(payment.date),
+                    payment.passport_number,
+                    payment.payment_method,
+                    `$${payment.amount.toFixed(2)}`
+                ]);
+
+                doc.autoTable({
+                    head: headers,
+                    body: rows,
+                    startY: 40,
+                    theme: 'grid',
+                    headStyles: { 
+                        fillColor: [89, 126, 82],
+                        textColor: 255,
+                        fontStyle: 'bold'
+                    },
+                    alternateRowStyles: { 
+                        fillColor: [240, 240, 240] 
+                    },
+                    styles: { 
+                        fontSize: 10 
+                    },
+                    margin: { top: 40 }
+                });
+
+                const total = filtered.reduce((sum, p) => sum + p.amount, 0);
+                doc.setFontSize(12);
+                doc.setTextColor(67, 98, 61);
+                doc.text(`Total: $${total.toFixed(2)}`, 14, doc.lastAutoTable.finalY + 10);
+
+                // Footer
+                doc.setFontSize(10);
+                doc.setTextColor(150);
+                doc.text("Generated by Ayubo Go", 14, doc.internal.pageSize.height - 10);
+
+                doc.save(`AyuboGo_Payments_${monthName}_2025.pdf`);
+
+            } catch (error) {
+                console.error("Error generating PDF:", error);
+                alert("Failed to generate PDF report. Please try again.");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard</title>
+
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+  
+  <!-- Add Chart.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Add jsPDF library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: poppins;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background-color: #f4f6f9;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: linear-gradient(to bottom right, #597E52, #3b4a34);
+      color: white;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+      font-size: 24px;
+      text-align: center;
+      font-family: poppins;
+      font-weight: bold;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      margin: 20px 0;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.3s ease;
+    }
+
+    .sidebar ul li a i {
+      font-size: 20px;
+      font-family: poppins;
+      font-size: medium;
+      font-weight: bold;
+    }
+
+    .sidebar ul li a:hover {
+      color: #C6A969;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      font-family: poppins;
+      overflow-y: auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .main-content h1 {
+      font-size: 36px;
+      color: #023047;
+    }
+
+    .search-container {
+      position: relative;
+      width: 250px;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 10px 15px 10px 40px;
+      border: 1px solid #ddd;
+      border-radius: 25px;
+      outline: none;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .search-container input:focus {
+      border-color: #597E52;
+      box-shadow: 0 0 5px rgba(89, 126, 82, 0.3);
+    }
+
+    .search-container i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+    }
+
+    .card {
+      margin-top: 30px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+      color: #3b4a34;
+    }
+
+    .card ul {
+      margin-top: 20px;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .card ul li {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .card ul li i {
+      color: #597E52;
+    }
+
+    .card .tip {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f0f4f8;
+      border-left: 4px solid #597E52;
+      border-radius: 8px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #555;
+    }
+
+    /* Chart container styles */
+    .chart-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .chart-box {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .chart-box h3 {
+      margin-bottom: 15px;
+      color: #3b4a34;
+    }
+
+    .chart-wrapper {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+
+    /* Activity boxes styles */
+    .activity-boxes {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .activity-box {
+      background-color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .activity-box img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .activity-box h3 {
+      margin-top: 15px;
+      color: #3b4a34;
+      font-size: 18px;
+    }
+
+    .activity-box p {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .activity-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 30px;
+      border-radius: 10px;
+      width: 50%;
+      max-width: 600px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: black;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .form-group select, 
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .form-group button {
+      background-color: #597E52;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .form-group button:hover {
+      background-color: #3b4a34;
+    }
+
+    #report-results {
+      margin-top: 30px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    /* Supplier table styles */
+    .suppliers-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .suppliers-table th, 
+    .suppliers-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .suppliers-table th {
+      background-color: #597E52;
+      color: white;
+    }
+
+    .suppliers-table tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .action-btn {
+      padding: 5px 10px;
+      margin-right: 5px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .edit-btn {
+      background-color: #FFC107;
+      color: black;
+    }
+
+    .delete-btn {
+      background-color: #F44336;
+      color: white;
+    }
+
+    /* Responsive styling */
+    @media (max-width: 1024px) {
+      .chart-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .activity-boxes {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .search-container {
+        width: 100%;
+        margin-top: 15px;
+      }
+
+      .modal-content {
+        width: 80%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .activity-boxes {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-content {
+        width: 95%;
+        padding: 15px;
+      }
+    }
+
+    .profile-picture-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 12px 24px;
+    }
+
+    .profile-picture-container img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-right: 0;
+      margin-bottom: 15px;
+      object-fit: cover;
+    }
+
+    .profile-picture-container input[type="file"] {
+      display: none;
+    }
+
+    .profile-picture-container label {
+      padding: 8px 20px;
+      background: #C6A969;
+      color: black;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      font-size: 14px;
+      width: fit-content;
+    }
+
+    .profile-picture-container label:hover {
+      background: #4E6F48;
+      color: white;
+    }
+
+    /* Search results styling */
+    .search-highlight {
+      background-color: #FFF9C4;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 20px;
+      font-size: 16px;
+      color: #666;
+      grid-column: 1 / -1;
+    }
+    
+    /* Stats cards */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .stat-card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .stat-card h3 {
+      color: #555;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .stat-card .value {
+      font-size: 28px;
+      font-weight: bold;
+      color: #3b4a34;
+    }
+
+    .stat-card .change {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .positive {
+      color: #4CAF50;
+    }
+
+    .negative {
+      color: #F44336;
+    }
+
+    @media (max-width: 768px) {
+      .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-container {
+        grid-template-columns: 1fr;
+      }
+
+      
+    }
+    input:invalid, 
+select:invalid,
+textarea:invalid {
+  border-color: #F44336;
+}
+
+input:valid, 
+select:valid,
+textarea:valid {
+  border-color: #4CAF50;
+}
+
+input:focus:invalid, 
+select:focus:invalid,
+textarea:focus:invalid {
+  box-shadow: 0 0 5px rgba(244, 67, 54, 0.3);
+}
+
+input:focus:valid, 
+select:focus:valid,
+textarea:focus:valid {
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+.sidebar ul li {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar ul li button {
+  padding: 0;
+  margin-left: 10px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.sidebar ul li button:hover {
+  color: #C6A969;
+}
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>Admin Dashboard</h2>
+    
+    <ul>
+      <li><a href="#"><i class='bx bx-pie-chart-alt-2'></i> Analytics</a></li>
+      <li><a href="#" onclick="showSuppliers()"><i class='bx bx-group'></i> Suppliers</a></li>
+      <li><a href="/mypayment"><i class='bx bx-calendar-event'></i> Payments</a></li>
+      <li>
+  <a href="#" onclick="showTourists()"><i class='bx bx-user'></i> Customers</a>
+  <button onclick="openCountryFilterDialog()" style="margin-left: 10px; background: none; border: none; color: white; cursor: pointer;">
+    <i class='bx bx-filter-alt'></i>
+  </button>
+</li>
+      <li><a href="#"><i class='bx bx-cog'></i> Settings</a></li>
+      <li><a href="/logout"><i class='bx bx-log-out'></i> Log Out</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h1>Admin Dashboard</h1>
+      <div class="search-container">
+        <i class='bx bx-search'></i>
+        <input type="text" id="dashboard-search" placeholder="Search dashboard..." oninput="searchDashboard()">
+      </div>
+    </div>
+    
+    <!-- Country Filter Modal -->
+<div id="country-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeCountryDialog()">&times;</span>
+    <h2>Filter Tourists by Country</h2>
+    <form id="country-form">
+      <div class="form-group">
+        <label for="country-select">Select Country:</label>
+        <select id="country-select" required>
+          <option value="">-- Select Country --</option>
+           <option value="United States">United States</option> 
+                            <option value="United Kingdom">United Kingdom</option> 
+                            <option value="Afghanistan">Afghanistan</option> 
+                            <option value="Albania">Albania</option> 
+                            <option value="Algeria">Algeria</option> 
+                            <option value="American Samoa">American Samoa</option> 
+                            <option value="Andorra">Andorra</option> 
+                            <option value="Angola">Angola</option> 
+                            <option value="Anguilla">Anguilla</option> 
+                            <option value="Antarctica">Antarctica</option> 
+                            <option value="Antigua and Barbuda">Antigua and Barbuda</option> 
+                            <option value="Argentina">Argentina</option> 
+                            <option value="Armenia">Armenia</option> 
+                            <option value="Aruba">Aruba</option> 
+                            <option value="Australia">Australia</option> 
+                            <option value="Austria">Austria</option> 
+                            <option value="Azerbaijan">Azerbaijan</option> 
+                            <option value="Bahamas">Bahamas</option> 
+                            <option value="Bahrain">Bahrain</option> 
+                            <option value="Bangladesh">Bangladesh</option> 
+                            <option value="Barbados">Barbados</option> 
+                            <option value="Belarus">Belarus</option> 
+                            <option value="Belgium">Belgium</option> 
+                            <option value="Belize">Belize</option> 
+                            <option value="Benin">Benin</option> 
+                            <option value="Bermuda">Bermuda</option> 
+                            <option value="Bhutan">Bhutan</option> 
+                            <option value="Bolivia">Bolivia</option> 
+                            <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option> 
+                            <option value="Botswana">Botswana</option> 
+                            <option value="Bouvet Island">Bouvet Island</option> 
+                            <option value="Brazil">Brazil</option> 
+                            <option value="British Indian Ocean Territory">British Indian Ocean Territory</option> 
+                            <option value="Brunei Darussalam">Brunei Darussalam</option> 
+                            <option value="Bulgaria">Bulgaria</option> 
+                            <option value="Burkina Faso">Burkina Faso</option> 
+                            <option value="Burundi">Burundi</option> 
+                            <option value="Cambodia">Cambodia</option> 
+                            <option value="Cameroon">Cameroon</option> 
+                            <option value="Canada">Canada</option> 
+                            <option value="Cape Verde">Cape Verde</option> 
+                            <option value="Cayman Islands">Cayman Islands</option> 
+                            <option value="Central African Republic">Central African Republic</option> 
+                            <option value="Chad">Chad</option> 
+                            <option value="Chile">Chile</option> 
+                            <option value="China">China</option> 
+                            <option value="Christmas Island">Christmas Island</option> 
+                            <option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option> 
+                            <option value="Colombia">Colombia</option> 
+                            <option value="Comoros">Comoros</option> 
+                            <option value="Congo">Congo</option> 
+                            <option value="Congo, The Democratic Republic of The">Congo, The Democratic Republic of The</option> 
+                            <option value="Cook Islands">Cook Islands</option> 
+                            <option value="Costa Rica">Costa Rica</option> 
+                            <option value="Cote D'ivoire">Cote D'ivoire</option> 
+                            <option value="Croatia">Croatia</option> 
+                            <option value="Cuba">Cuba</option> 
+                            <option value="Cyprus">Cyprus</option> 
+                            <option value="Czech Republic">Czech Republic</option> 
+                            <option value="Denmark">Denmark</option> 
+                            <option value="Djibouti">Djibouti</option> 
+                            <option value="Dominica">Dominica</option> 
+                            <option value="Dominican Republic">Dominican Republic</option> 
+                            <option value="Ecuador">Ecuador</option> 
+                            <option value="Egypt">Egypt</option> 
+                            <option value="El Salvador">El Salvador</option> 
+                            <option value="Equatorial Guinea">Equatorial Guinea</option> 
+                            <option value="Eritrea">Eritrea</option> 
+                            <option value="Estonia">Estonia</option> 
+                            <option value="Ethiopia">Ethiopia</option> 
+                            <option value="Falkland Islands (Malvinas)">Falkland Islands (Malvinas)</option> 
+                            <option value="Faroe Islands">Faroe Islands</option> 
+                            <option value="Fiji">Fiji</option> 
+                            <option value="Finland">Finland</option> 
+                            <option value="France">France</option> 
+                            <option value="French Guiana">French Guiana</option> 
+                            <option value="French Polynesia">French Polynesia</option> 
+                            <option value="French Southern Territories">French Southern Territories</option> 
+                            <option value="Gabon">Gabon</option> 
+                            <option value="Gambia">Gambia</option> 
+                            <option value="Georgia">Georgia</option> 
+                            <option value="Germany">Germany</option> 
+                            <option value="Ghana">Ghana</option> 
+                            <option value="Gibraltar">Gibraltar</option> 
+                            <option value="Greece">Greece</option> 
+                            <option value="Greenland">Greenland</option> 
+                            <option value="Grenada">Grenada</option> 
+                            <option value="Guadeloupe">Guadeloupe</option> 
+                            <option value="Guam">Guam</option> 
+                            <option value="Guatemala">Guatemala</option> 
+                            <option value="Guinea">Guinea</option> 
+                            <option value="Guinea-bissau">Guinea-bissau</option> 
+                            <option value="Guyana">Guyana</option> 
+                            <option value="Haiti">Haiti</option> 
+                            <option value="Heard Island and Mcdonald Islands">Heard Island and Mcdonald Islands</option> 
+                            <option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option> 
+                            <option value="Honduras">Honduras</option> 
+                            <option value="Hong Kong">Hong Kong</option> 
+                            <option value="Hungary">Hungary</option> 
+                            <option value="Iceland">Iceland</option> 
+                            <option value="India">India</option> 
+                            <option value="Indonesia">Indonesia</option> 
+                            <option value="Iran, Islamic Republic of">Iran, Islamic Republic of</option> 
+                            <option value="Iraq">Iraq</option> 
+                            <option value="Ireland">Ireland</option> 
+                            <option value="Israel">Israel</option> 
+                            <option value="Italy">Italy</option> 
+                            <option value="Jamaica">Jamaica</option> 
+                            <option value="Japan">Japan</option> 
+                            <option value="Jordan">Jordan</option> 
+                            <option value="Kazakhstan">Kazakhstan</option> 
+                            <option value="Kenya">Kenya</option> 
+                            <option value="Kiribati">Kiribati</option> 
+                            <option value="Korea, Democratic People's Republic of">Korea, Democratic People's Republic of</option> 
+                            <option value="Korea, Republic of">Korea, Republic of</option> 
+                            <option value="Kuwait">Kuwait</option> 
+                            <option value="Kyrgyzstan">Kyrgyzstan</option> 
+                            <option value="Lao People's Democratic Republic">Lao People's Democratic Republic</option> 
+                            <option value="Latvia">Latvia</option> 
+                            <option value="Lebanon">Lebanon</option> 
+                            <option value="Lesotho">Lesotho</option> 
+                            <option value="Liberia">Liberia</option> 
+                            <option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option> 
+                            <option value="Liechtenstein">Liechtenstein</option> 
+                            <option value="Lithuania">Lithuania</option> 
+                            <option value="Luxembourg">Luxembourg</option> 
+                            <option value="Macao">Macao</option> 
+                            <option value="Macedonia, The Former Yugoslav Republic of">Macedonia, The Former Yugoslav Republic of</option> 
+                            <option value="Madagascar">Madagascar</option> 
+                            <option value="Malawi">Malawi</option> 
+                            <option value="Malaysia">Malaysia</option> 
+                            <option value="Maldives">Maldives</option> 
+                            <option value="Mali">Mali</option> 
+                            <option value="Malta">Malta</option> 
+                            <option value="Marshall Islands">Marshall Islands</option> 
+                            <option value="Martinique">Martinique</option> 
+                            <option value="Mauritania">Mauritania</option> 
+                            <option value="Mauritius">Mauritius</option> 
+                            <option value="Mayotte">Mayotte</option> 
+                            <option value="Mexico">Mexico</option> 
+                            <option value="Micronesia, Federated States of">Micronesia, Federated States of</option> 
+                            <option value="Moldova, Republic of">Moldova, Republic of</option> 
+                            <option value="Monaco">Monaco</option> 
+                            <option value="Mongolia">Mongolia</option> 
+                            <option value="Montserrat">Montserrat</option> 
+                            <option value="Morocco">Morocco</option> 
+                            <option value="Mozambique">Mozambique</option> 
+                            <option value="Myanmar">Myanmar</option> 
+                            <option value="Namibia">Namibia</option> 
+                            <option value="Nauru">Nauru</option> 
+                            <option value="Nepal">Nepal</option> 
+                            <option value="Netherlands">Netherlands</option> 
+                            <option value="Netherlands Antilles">Netherlands Antilles</option> 
+                            <option value="New Caledonia">New Caledonia</option> 
+                            <option value="New Zealand">New Zealand</option> 
+                            <option value="Nicaragua">Nicaragua</option> 
+                            <option value="Niger">Niger</option> 
+                            <option value="Nigeria">Nigeria</option> 
+                            <option value="Niue">Niue</option> 
+                            <option value="Norfolk Island">Norfolk Island</option> 
+                            <option value="Northern Mariana Islands">Northern Mariana Islands</option> 
+                            <option value="Norway">Norway</option> 
+                            <option value="Oman">Oman</option> 
+                            <option value="Pakistan">Pakistan</option> 
+                            <option value="Palau">Palau</option> 
+                            <option value="Palestinian Territory, Occupied">Palestinian Territory, Occupied</option> 
+                            <option value="Panama">Panama</option> 
+                            <option value="Papua New Guinea">Papua New Guinea</option> 
+                            <option value="Paraguay">Paraguay</option> 
+                            <option value="Peru">Peru</option> 
+                            <option value="Philippines">Philippines</option> 
+                            <option value="Pitcairn">Pitcairn</option> 
+                            <option value="Poland">Poland</option> 
+                            <option value="Portugal">Portugal</option> 
+                            <option value="Puerto Rico">Puerto Rico</option> 
+                            <option value="Qatar">Qatar</option> 
+                            <option value="Reunion">Reunion</option> 
+                            <option value="Romania">Romania</option> 
+                            <option value="Russian Federation">Russian Federation</option> 
+                            <option value="Rwanda">Rwanda</option> 
+                            <option value="Saint Helena">Saint Helena</option> 
+                            <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option> 
+                            <option value="Saint Lucia">Saint Lucia</option> 
+                            <option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option> 
+                            <option value="Saint Vincent and The Grenadines">Saint Vincent and The Grenadines</option> 
+                            <option value="Samoa">Samoa</option> 
+                            <option value="San Marino">San Marino</option> 
+                            <option value="Sao Tome and Principe">Sao Tome and Principe</option> 
+                            <option value="Saudi Arabia">Saudi Arabia</option> 
+                            <option value="Senegal">Senegal</option> 
+                            <option value="Serbia and Montenegro">Serbia and Montenegro</option> 
+                            <option value="Seychelles">Seychelles</option> 
+                            <option value="Sierra Leone">Sierra Leone</option> 
+                            <option value="Singapore">Singapore</option> 
+                            <option value="Slovakia">Slovakia</option> 
+                            <option value="Slovenia">Slovenia</option> 
+                            <option value="Solomon Islands">Solomon Islands</option> 
+                            <option value="Somalia">Somalia</option> 
+                            <option value="South Africa">South Africa</option> 
+                            <option value="South Georgia and The South Sandwich Islands">South Georgia and The South Sandwich Islands</option> 
+                            <option value="Spain">Spain</option> 
+                            <option value="Sri Lanka">Sri Lanka</option> 
+                            <option value="Sudan">Sudan</option> 
+                            <option value="Suriname">Suriname</option> 
+                            <option value="Svalbard and Jan Mayen">Svalbard and Jan Mayen</option> 
+                            <option value="Swaziland">Swaziland</option> 
+                            <option value="Sweden">Sweden</option> 
+                            <option value="Switzerland">Switzerland</option> 
+                            <option value="Syrian Arab Republic">Syrian Arab Republic</option> 
+                            <option value="Taiwan, Province of China">Taiwan, Province of China</option> 
+                            <option value="Tajikistan">Tajikistan</option> 
+                            <option value="Tanzania, United Republic of">Tanzania, United Republic of</option> 
+                            <option value="Thailand">Thailand</option> 
+                            <option value="Timor-leste">Timor-leste</option> 
+                            <option value="Togo">Togo</option> 
+                            <option value="Tokelau">Tokelau</option> 
+                            <option value="Tonga">Tonga</option> 
+                            <option value="Trinidad and Tobago">Trinidad and Tobago</option> 
+                            <option value="Tunisia">Tunisia</option> 
+                            <option value="Turkey">Turkey</option> 
+                            <option value="Turkmenistan">Turkmenistan</option> 
+                            <option value="Turks and Caicos Islands">Turks and Caicos Islands</option> 
+                            <option value="Tuvalu">Tuvalu</option> 
+                            <option value="Uganda">Uganda</option> 
+                            <option value="Ukraine">Ukraine</option> 
+                            <option value="United Arab Emirates">United Arab Emirates</option> 
+                            <option value="United Kingdom">United Kingdom</option> 
+                            <option value="United States">United States</option> 
+                            <option value="United States Minor Outlying Islands">United States Minor Outlying Islands</option> 
+                            <option value="Uruguay">Uruguay</option> 
+                            <option value="Uzbekistan">Uzbekistan</option> 
+                            <option value="Vanuatu">Vanuatu</option> 
+                            <option value="Venezuela">Venezuela</option> 
+                            <option value="Viet Nam">Viet Nam</option> 
+                            <option value="Virgin Islands, British">Virgin Islands, British</option> 
+                            <option value="Virgin Islands, U.S.">Virgin Islands, U.S.</option> 
+                            <option value="Wallis and Futuna">Wallis and Futuna</option> 
+                            <option value="Western Sahara">Western Sahara</option> 
+                            <option value="Yemen">Yemen</option> 
+                            <option value="Zambia">Zambia</option> 
+                            <option value="Zimbabwe">Zimbabwe</option> 
+        </select>
+      </div>
+      <div class="form-group">
+        <button type="button" onclick="filterTouristsByCountry()">Filter Tourists</button>
+        <button type="button" onclick="downloadTouristReport()" style="background-color: #4CAF50;">Download Report</button>
+      </div>
+    </form>
+    <div id="tourist-results" class="hidden">
+      <h3>Tourist Results</h3>
+      <div id="tourist-data"></div>
+    </div>
+  </div>
+</div>
+    <!-- Stats Cards -->
+    <div class="stats-container">
+      <div class="stat-card">
+        <h3>Total Visitors</h3>
+        <div class="value">1,254</div>
+        <div class="change positive">↑ 12% from last month</div>
+      </div>
+      <div class="stat-card">
+        <h3>Active Suppliers</h3>
+        <div class="value">42</div>
+        <div class="change positive">↑ 5% from last month</div>
+      </div>
+      <div class="stat-card">
+        <h3>Bookings This Month</h3>
+        <div class="value">186</div>
+        <div class="change negative">↓ 8% from last month</div>
+      </div>
+      <div class="stat-card">
+        <h3>Revenue</h3>
+        <div class="value">$12,450</div>
+        <div class="change positive">↑ 15% from last month</div>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="card">
+      <h2>Cultural Experience Analytics</h2>
+      <p style="margin-top: 10px; font-size: 16px;">
+        Insights into customer preferences and engagement with different cultural experiences.
+      </p>
+
+      <div class="chart-container">
+        <div class="chart-box">
+          <h3>Most Popular Experiences</h3>
+          <div class="chart-wrapper">
+            <canvas id="popularExperiencesChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-box">
+          <h3>Customer Satisfaction</h3>
+          <div class="chart-wrapper">
+            <canvas id="satisfactionChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-box">
+          <h3>Bookings by Experience Type</h3>
+          <div class="chart-wrapper">
+            <canvas id="bookingsChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-box">
+          <h3>Monthly Visitors</h3>
+          <div class="chart-wrapper">
+            <canvas id="visitorsChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suppliers Section (hidden by default) -->
+    <div class="card" id="suppliers-section" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Supplier Management</h2>
+        <button class="activity-box" onclick="openAddSupplierDialog()" style="width: auto; padding: 10px 20px;">
+          <i class='bx bx-plus'></i> Add New Supplier
+        </button>
+      </div>
+      
+      <table class="suppliers-table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Experience Type</th>
+                <th>Sub Category</th>
+                <th>Location</th>  <!-- Location column header -->
+                <th>Description</th>
+                <th>Price</th>
+                <th>Times</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="suppliers-table-body">
+            <!-- Table rows will be dynamically inserted here -->
+        </tbody>
+    </table>
+    </div>
+
+    <!-- Activity Boxes Section -->
+    <div class="activity-boxes">
+      <button class="activity-box" onclick="openReportDialog()">
+        <h3>Generate Report</h3>
+        <p>Generate detailed summary of cultural experiences and bookings.</p>
+      </button>
+      <button class="activity-box" onclick="showSuppliers()">
+        <h3>Manage Suppliers</h3>
+        <p>View and manage all cultural experience suppliers.</p>
+      </button>
+      <button class="activity-box" onclick="viewRecentBookings()">
+        <h3>Recent Bookings</h3>
+        <p>Check recent customer bookings and activities.</p>
+      </button>
+      <button class="activity-box" onclick="viewCustomerFeedback()">
+        <h3>Customer Feedback</h3>
+        <p>Review customer ratings and feedback.</p>
+      </button>
+    </div>
+  </div>
+
+  <!-- Report Generation Modal -->
+  <div id="report-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeReportDialog()">&times;</span>
+      <h2>Generate Detail Summary Report</h2>
+      <form id="report-form">
+        <div class="form-group">
+          <label for="date-range">Time Range:</label>
+          <select id="date-range" onchange="toggleCustomDateRange()">
+            <option value="today">Today</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+            <option value="quarter">This Quarter</option>
+            <option value="year">This Year</option>
+            <option value="all">All Time</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="report-type">Report Type:</label>
+          <select id="report-type">
+            <option value="bookings">Bookings Report</option>
+            <option value="suppliers">Suppliers Report</option>
+            <option value="revenue">Revenue Report</option>
+            <option value="customers">Customers Report</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="location">Location:</label>
+          <select id="location">
+            <option value="all">All Locations</option>
+            <option value="colombo">Colombo</option>
+            <option value="kandy">Kandy</option>
+            <option value="galle">Galle</option>
+            <option value="jaffna">Jaffna</option>
+            <option value="anuradhapura">Anuradhapura</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="format">Format:</label>
+          <select id="format">
+            <option value="pdf">PDF</option>
+            <option value="csv">CSV</option>
+            <option value="excel">Excel</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button type="button" onclick="generateReportFromDB()">Generate Report</button>
+        </div>
+      </form>
+      <div id="report-results" class="hidden">
+        <h3>Report Results</h3>
+        <div id="report-data"></div>
+        <button onclick="downloadReport()">Download Report</button>
+      </div>
+    </div>
+  </div>
+
+<!-- Add Supplier Modal -->
+<div id="supplier-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeSupplierDialog()">&times;</span>
+    <h2 id="supplier-modal-title">Add New Supplier</h2>
+
+    <form id="supplier-form" onsubmit="event.preventDefault(); saveSupplier();">
+      <div class="form-group">
+        <label for="supplier-name">Supplier Name:</label>
+        <input type="text" id="supplier-name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="supplier-contact">Contact Email:</label>
+        <input type="email" id="supplier-contact" required>
+      </div>
+
+      <div class="form-group">
+        <label for="supplier-category">Category:</label>
+        <select id="supplier-category" required onchange="updateSubcategories()">
+          <option value="">Select Category</option>
+          <option value="Arts and Crafts">Arts and Crafts</option>
+          <option value="Wellness and Healing">Wellness and Healing</option>
+          <option value="Performing Arts">Performing Arts</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="supplier-subcategory">Subcategory:</label>
+        <select id="supplier-subcategory" required>
+          <option value="">Select Subcategory</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="time-slots">Available Time Slots:</label>
+        <div id="time-slots-container"></div>
+        <button type="button" onclick="addTimeSlot()">+ Add Time Slot</button>
+      </div>
+      
+      
+      <div class="form-group">
+        <label for="supplier-location">Location:</label>
+        <input type="text" id="supplier-location" required>
+      </div>
+
+      <div class="form-group">
+        <label for="supplier-price">Price ($):</label>
+        <input type="number" id="supplier-price" required min="0" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label for="supplier-image">Image:</label>
+        <img id="supplier-image-preview" src="" alt="Image Preview" style="max-width: 200px; max-height: 200px; display: none;">
+        <input type="file" id="supplier-image" required>
+      </div>
+
+      <div class="form-group">
+        <label for="supplier-description">Description:</label>
+        <textarea id="supplier-description" rows="3" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <button type="submit">Save Supplier</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  
+  let timeSlotCounter = 0;
+
+function addTimeSlot() {
+  const container = document.getElementById('time-slots-container');
+
+  const div = document.createElement('div');
+  div.className = 'time-slot';
+  div.style.marginBottom = '10px';
+
+  const index = timeSlotCounter++;
+
+  div.innerHTML = `
+    <label>Start: <input type="time" name="start_time_${index}" min="06:00" max="23:59" required></label>
+    <label>End: <input type="time" name="end_time_${index}" min="06:00" max="23:59" required></label>
+    <span class="time-period" id="period_${index}" style="margin-left: 10px; font-weight: bold;"></span>
+    <button type="button" onclick="this.parentElement.remove()">Remove</button>
+  `;
+
+  container.appendChild(div);
+
+  // Auto-calculate period on change
+  const startInput = div.querySelector(`input[name="start_time_${index}"]`);
+  const endInput = div.querySelector(`input[name="end_time_${index}"]`);
+
+  startInput.addEventListener('change', () => updatePeriod(startInput.value, `period_${index}`));
+  endInput.addEventListener('change', () => updatePeriod(startInput.value, `period_${index}`));
+}
+
+function updatePeriod(startTime, elementId) {
+  const hour = parseInt(startTime.split(':')[0]);
+
+  let period = '';
+  if (hour >= 6 && hour < 12) period = 'Morning';
+  else if (hour >= 12 && hour < 17) period = 'Afternoon';
+  else if (hour >= 17 && hour < 21) period = 'Evening';
+  else if ((hour >= 21 && hour <= 23) || hour === 0) period = 'Night';
+  else period = 'Invalid';
+
+  document.getElementById(elementId).textContent = period;
+}
+
+const subcategoryOptions = {
+  "Arts and Crafts": [
+    "Batik Making",
+    "Handloom Weaving",
+    "Pottery Making",
+    "Mask Making"
+  ],
+  "Wellness and Healing": [
+    "Traditional Healing Experience",
+    "Sri Lankan Kandyan Medicine"
+  ],
+  "Performing Arts": [
+    "Traditional Dance",
+    "Drumming and Local Instruments",
+    "Folk Storytelling Sessions"
+  ]
+};
+
+function updateSubcategories() {
+  const category = document.getElementById('supplier-category').value;
+  const subcategorySelect = document.getElementById('supplier-subcategory');
+  subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+
+  if (subcategoryOptions[category]) {
+    subcategoryOptions[category].forEach(sub => {
+      const opt = document.createElement('option');
+      opt.value = sub;
+      opt.textContent = sub;
+      subcategorySelect.appendChild(opt);
+    });
+  }
+}
+</script>
+
+
+
+  <script>
+
+    
+    // Country Filter Functions
+let currentFilteredTourists = [];
+
+function openCountryFilterDialog() {
+  document.getElementById('country-modal').style.display = 'block';
+  document.getElementById('tourist-results').classList.add('hidden');
+  document.getElementById('country-form').reset();
+}
+
+function closeCountryDialog() {
+  document.getElementById('country-modal').style.display = 'none';
+}
+
+function filterTouristsByCountry() {
+  const country = document.getElementById('country-select').value;
+  if (!country) {
+    alert('Please select a country');
+    return;
+  }
+
+  // In a real application, you would fetch this from your database
+  // Here we're using mock data that includes the Sri Lankan tourists from your image
+  const mockTourists = {
+    'Sri Lanka': [
+      { id: 38, firstname: 'Vishaka', lastname: 'Wickramasinghe', email: 'vishakapwickramasingha@mail.com', passport: 'WER45670', dob: '2002-05-08' },
+      { id: 39, firstname: 'Amashi', lastname: 'Pathirage', email: 'amashipathirage@mail.com', passport: 'WER45671', dob: '2002-05-08' },
+      { id: 40, firstname: 'Chamod', lastname: 'Lakshitha', email: 'chamzy87@gmil.com', passport: 'ABCert456', dob: '2002-05-02' },
+      { id: 43, firstname: 'Rasika', lastname: 'Jayasundara', email: 'rasikanayomi@gmail.com', passport: 'En5678', dob: '0000-00-00' },
+      { id: 44, firstname: 'Danuji', lastname: 'Singappuli', email: 'danyjtharuka2002@gmail.com', passport: 'ABCert4560', dob: '2002-05-01' },
+      { id: 47, firstname: 'Nithuli', lastname: 'Kalansooriya', email: 'mithulinethara123@gmail.com', passport: 'ABCcert45600', dob: '2002-05-01' },
+      { id: 48, firstname: 'Thanuki', lastname: 'Nehansa', email: 'thanukinehansa3@gmail.com', passport: 'abcDEF789', dob: '2002-05-01' },
+      { id: 49, firstname: 'Sanuli', lastname: 'Nehansa', email: 'Sanulinehansa@gmail.com', passport: 'ssT5678', dob: '2002-05-16' }
+    ],
+    'India': [
+      { id: 50, firstname: 'Priya', lastname: 'Patel', email: 'priya.patel@example.com', passport: 'IND123456', dob: '1990-04-15' },
+      { id: 51, firstname: 'Raj', lastname: 'Sharma', email: 'raj.sharma@example.com', passport: 'IND789012', dob: '1985-11-22' }
+    ],
+    'United States': [
+     { id: 38, firstname: 'Vishaka', lastname: 'Wickramasinghe', email: 'vishakapwickramasingha@mail.com', passport: 'WER45670', dob: '2002-05-08' },
+      { id: 39, firstname: 'Amashi', lastname: 'Pathirage', email: 'amashipathirage@mail.com', passport: 'WER45671', dob: '2002-05-08' },
+      { id: 40, firstname: 'Chamod', lastname: 'Lakshitha', email: 'chamzy87@gmil.com', passport: 'ABCert456', dob: '2002-05-02' },
+      { id: 43, firstname: 'Rasika', lastname: 'Jayasundara', email: 'rasikanayomi@gmail.com', passport: 'En5678', dob: '0000-00-00' },
+      { id: 44, firstname: 'Danuji', lastname: 'Singappuli', email: 'danyjtharuka2002@gmail.com', passport: 'ABCert4560', dob: '2002-05-01' },
+    ],
+    'United Kingdom': [
+      { id: 54, firstname: 'James', lastname: 'Wilson', email: 'james.w@example.com', passport: 'GB1234567', dob: '1978-09-05' },
+      { id: 55, firstname: 'Olivia', lastname: 'Brown', email: 'olivia.b@example.com', passport: 'GB7654321', dob: '1988-12-12' }
+    ]
+    
+  };
+
+  currentFilteredTourists = mockTourists[country] || [];
+  
+  if (currentFilteredTourists.length === 0) {
+    document.getElementById('tourist-data').innerHTML = `<p>No tourists found from ${country}.</p>`;
+  } else {
+    displayTouristResults(currentFilteredTourists, country);
+  }
+  
+  document.getElementById('tourist-results').classList.remove('hidden');
+}
+
+function displayTouristResults(tourists, country) {
+  const touristDataElement = document.getElementById('tourist-data');
+  
+  let html = `<h4>Tourists from ${country} (${tourists.length})</h4>`;
+  html += '<table border="1" style="width:100%; border-collapse:collapse; margin-top:10px;">';
+  
+  // Add headers
+  html += '<tr>';
+  ['ID', 'Name', 'Email', 'Date of Birth', 'Passport Number'].forEach(header => {
+    html += `<th style="padding:8px; text-align:left; background-color:#f2f2f2;">${header}</th>`;
+  });
+  html += '</tr>';
+  
+  // Add data rows
+  tourists.forEach(tourist => {
+    html += '<tr>';
+    html += `<td style="padding:8px;">${tourist.id}</td>`;
+    html += `<td style="padding:8px;">${tourist.firstname} ${tourist.lastname}</td>`;
+    html += `<td style="padding:8px;">${tourist.email}</td>`;
+    html += `<td style="padding:8px;">${tourist.dob}</td>`;
+    html += `<td style="padding:8px;">${tourist.passport}</td>`;
+    html += '</tr>';
+  });
+  
+  html += '</table>';
+  touristDataElement.innerHTML = html;
+}
+
+function downloadTouristReport() {
+  if (currentFilteredTourists.length === 0) {
+    alert('No tourists to download. Please filter first.');
+    return;
+  }
+
+  const country = document.getElementById('country-select').value;
+  const format = 'pdf'; // Default to PDF, can be made configurable
+  
+  if (format === 'pdf') {
+    generateTouristPDF(country);
+  } else {
+    generateTouristCSV(country);
+  }
+}
+
+function generateTouristPDF(country) {
+  try {
+    if (!jsPDF) {
+      throw new Error("jsPDF not available");
+    }
+    
+    const doc = new jsPDF();
+    
+    // Add title
+    doc.setFontSize(18);
+    doc.text(`Tourists from ${country}`, 14, 20);
+    
+    // Add generation date
+    doc.setFontSize(10);
+    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
+    
+    // Prepare data for the table
+    const headers = ['ID', 'Name', 'Email', 'Date of Birth', 'Passport Number'];
+    const data = currentFilteredTourists.map(tourist => [
+      tourist.id,
+      `${tourist.firstname} ${tourist.lastname}`,
+      tourist.email,
+      tourist.dob,
+      tourist.passport
+    ]);
+    
+    // Add table
+    doc.autoTable({
+      head: [headers],
+      body: data,
+      startY: 45,
+      styles: {
+        fontSize: 8,
+        cellPadding: 3,
+        halign: 'left'
+      },
+      headStyles: {
+        fillColor: [89, 126, 82],
+        textColor: 255
+      }
+    });
+    
+    // Save the PDF
+    doc.save(`Tourists_from_${country.replace(/ /g, '_')}_${new Date().toISOString().slice(0,10)}.pdf`);
+  } catch (error) {
+    console.error("PDF generation error:", error);
+    alert("Failed to generate PDF. Please check console for details.");
+  }
+}
+
+function generateTouristCSV(country) {
+  try {
+    if (currentFilteredTourists.length === 0) return;
+    
+    const headers = ['ID', 'Name', 'Email', 'Date of Birth', 'Passport Number'];
+    let csv = headers.join(',') + '\n';
+    
+    currentFilteredTourists.forEach(tourist => {
+      const row = [
+        tourist.id,
+        `"${tourist.firstname} ${tourist.lastname}"`,
+        tourist.email,
+        tourist.dob,
+        tourist.passport
+      ];
+      csv += row.join(',') + '\n';
+    });
+    
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `Tourists_from_${country.replace(/ /g, '_')}_${new Date().toISOString().slice(0,10)}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (error) {
+    console.error("CSV generation error:", error);
+    alert("Failed to generate CSV file. Please check console for details.");
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  initializeCharts();
+});
+    
+let jsPDF;
+try {
+  jsPDF = window.jspdf.jsPDF;
+  console.log("jsPDF library loaded successfully");
+} catch (error) {
+  console.error("Failed to load jsPDF:", error);
+  alert("PDF generation library failed to load. Please refresh the page.");
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  initializeCharts();
+});
+
+function initializeCharts() {
+  const popularCtx = document.getElementById('popularExperiencesChart').getContext('2d');
+  const popularChart = new Chart(popularCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Batik Handloom', 'Mask Making', 'Traditional Drums', 'Culinary', 'Pottery', 'Dance'],
+      datasets: [{
+        label: 'Number of Bookings',
+        data: [120, 95, 80, 65, 45, 30],
+        backgroundColor: [
+          'rgba(89, 126, 82, 0.7)',
+          'rgba(198, 169, 105, 0.7)',
+          'rgba(62, 95, 138, 0.7)',
+          'rgba(206, 147, 216, 0.7)',
+          'rgba(255, 159, 64, 0.7)',
+          'rgba(75, 192, 192, 0.7)'
+        ],
+        borderColor: [
+          'rgba(89, 126, 82, 1)',
+          'rgba(198, 169, 105, 1)',
+          'rgba(62, 95, 138, 1)',
+          'rgba(206, 147, 216, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(75, 192, 192, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+
+  // Satisfaction Chart (Radar Chart)
+  const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
+  const satisfactionChart = new Chart(satisfactionCtx, {
+    type: 'radar',
+    data: {
+      labels: ['Batik Handloom', 'Mask Making', 'Traditional Drums', 'Culinary', 'Pottery', 'Dance'],
+      datasets: [{
+        label: 'Customer Satisfaction',
+        data: [4.8, 4.6, 4.7, 4.9, 4.5, 4.7],
+        backgroundColor: 'rgba(89, 126, 82, 0.2)',
+        borderColor: 'rgba(89, 126, 82, 1)',
+        pointBackgroundColor: 'rgba(89, 126, 82, 1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(89, 126, 82, 1)'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          angleLines: {
+            display: true
+          },
+          suggestedMin: 3,
+          suggestedMax: 5
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+
+  // Bookings by Type Chart (Pie Chart)
+  const bookingsCtx = document.getElementById('bookingsChart').getContext('2d');
+  const bookingsChart = new Chart(bookingsCtx, {
+    type: 'pie',
+    data: {
+      labels: ['Batik Handloom', 'Mask Making', 'Traditional Drums', 'Culinary', 'Pottery', 'Dance'],
+      datasets: [{
+        data: [120, 95, 80, 65, 45, 30],
+        backgroundColor: [
+          'rgba(89, 126, 82, 0.7)',
+          'rgba(198, 169, 105, 0.7)',
+          'rgba(62, 95, 138, 0.7)',
+          'rgba(206, 147, 216, 0.7)',
+          'rgba(255, 159, 64, 0.7)',
+          'rgba(75, 192, 192, 0.7)'
+        ],
+        borderColor: [
+          'rgba(89, 126, 82, 1)',
+          'rgba(198, 169, 105, 1)',
+          'rgba(62, 95, 138, 1)',
+          'rgba(206, 147, 216, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(75, 192, 192, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'right',
+        }
+      }
+    }
+  });
+
+  // Monthly Visitors Chart (Line Chart)
+  const visitorsCtx = document.getElementById('visitorsChart').getContext('2d');
+  const visitorsChart = new Chart(visitorsCtx, {
+    type: 'line',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      datasets: [{
+        label: 'Monthly Visitors',
+        data: [85, 92, 105, 120, 150, 180, 210, 190, 160, 140, 110, 95],
+        fill: false,
+        backgroundColor: 'rgba(89, 126, 82, 0.7)',
+        borderColor: 'rgba(89, 126, 82, 1)',
+        tension: 0.1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+}
+
+function showSuppliers() {
+  document.getElementById('suppliers-section').style.display = 'block';
+  refreshSuppliersTable(); // Load data when showing the section
+  document.getElementById('suppliers-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+function openAddSupplierDialog() {
+  document.getElementById('supplier-modal-title').textContent = 'Add New Supplier';
+  document.getElementById('supplier-form').reset();
+  document.getElementById('supplier-modal').style.display = 'block';
+  document.getElementById('supplier-image-preview').style.display = 'none';
+}
+
+let currentEditingSupplierId = null;
+
+function editSupplier(supplierId) {
+  currentEditingSupplierId = supplierId;
+  
+  fetch(`/api/suppliers/${supplierId}`,
+    {
+      method: 'GET',
+    }
+  )
+    .then(response => response.json())
+    .then(supplier => {   
+      console.log("supplier: ", supplier);
+      document.getElementById('supplier-modal-title').textContent = 'Edit Supplier';
+      document.getElementById('supplier-name').value = supplier.name;
+      document.getElementById('supplier-category').value = supplier.type;
+      updateSubcategories();
+      document.getElementById('supplier-subcategory').value = supplier.sub_category;
+      document.getElementById('supplier-location').value = supplier.location; 
+      document.getElementById('supplier-contact').value = supplier.email;
+      document.getElementById('supplier-description').value = supplier.description;
+      document.getElementById('supplier-price').value = supplier.price;
+      document.getElementById('supplier-times').value = supplier.times;
+      document.getElementById('supplier-image-preview').style.display = 'block';
+      document.getElementById('supplier-image-preview').src = supplier.image;
+      document.getElementById('supplier-image').value = supplier.image;
+    }
+  )
+  console.log("id: ", supplierId);
+  document.getElementById('supplier-modal').style.display = 'block';
+  document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.form-group input, .form-group select, .form-group textarea').forEach(el => 
+      el.classList.remove('input-error')
+  );
+}
+
+
+
+  function deleteSupplier(supplierId) {
+    if (confirm(`Are you sure you want to delete supplier ${supplierId}?`)) {
+        fetch(`/api/suppliers/${supplierId}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('Supplier deleted successfully');
+            refreshSuppliersTable(); // Refresh the table after deletion
+        })
+        .catch(error => {
+            console.error('Error deleting supplier:', error);
+            alert('Error deleting supplier');
+        });
+    }
+}
+
+function closeSupplierDialog() {
+  document.getElementById('supplier-modal').style.display = 'none';
+}
+
+function saveSupplier() {
+    const name = document.getElementById('supplier-name').value.trim();
+    const type = document.getElementById('supplier-category').value;
+    const subcategory = document.getElementById('supplier-subcategory').value.trim();
+    const location = document.getElementById('supplier-location').value.trim();
+    const email = document.getElementById('supplier-contact').value.trim();
+    const description = document.getElementById('supplier-description').value.trim();
+    const price = parseFloat(document.getElementById('supplier-price').value);
+    const imageInput = document.getElementById('supplier-image');
+    const image = imageInput.files[0];
+
+    if (!name || !type || !subcategory || !location || !email || !description || isNaN(price)) {
+        alert('Please fill in all required fields');
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address');
+        return;
+    }
+
+    // Collect dynamic time slots
+    const timeSlotDivs = document.querySelectorAll('#time-slots-container .time-slot');
+    const timeSlots = [];
+
+    for (const div of timeSlotDivs) {
+        const startInput = div.querySelector('input[name^="start_time_"]');
+        const endInput = div.querySelector('input[name^="end_time_"]');
+        const start = startInput.value;
+        const end = endInput.value;
+        if (!start || !end) {
+            alert('Please fill all time slots');
+            return;
+        }
+
+        timeSlots.push({ start, end });
+    }
+    // Check if we're editing an existing supplier
+    if (currentEditingSupplierId) {
+    const url = `/api/suppliers/${currentEditingSupplierId}`;
+    const formData = new FormData();
+
+    formData.append('name', name);
+    formData.append('type', type);
+    formData.append('subcategory', subcategory);
+    formData.append('location', location);
+    formData.append('email', email);
+    formData.append('description', description);
+    formData.append('price', price);
+    formData.append('times', JSON.stringify(timeSlots));
+    if (image) {
+        formData.append('image', image);
+    }
+
+    fetch(url, {
+        method: 'PUT',
+        body: formData
+    })
+    .then(response => {
+      console.log("response: ", response);
+        if (!response.ok) {
+            throw new Error('Failed to update supplier');
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert('Supplier updated successfully!');
+        closeSupplierDialog();
+        refreshSuppliersTable();
+        currentEditingSupplierId = null;
+    })
+    .catch(error => {
+        console.error('Error updating supplier:', error);
+        alert('Error updating supplier. Please try again.');
+    });
+} else {
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('type', type);
+        formData.append('subcategory', subcategory);
+        formData.append('location', location);
+        formData.append('email', email);
+        formData.append('description', description);
+        formData.append('price', price);
+        formData.append('times', JSON.stringify(timeSlots));
+        if (image) {
+            formData.append('image', image);
+        }
+
+        fetch('/api/add-supplier', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to add supplier');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('Supplier added successfully!');
+            closeSupplierDialog();
+            refreshSuppliersTable();
+        })
+        .catch(error => {
+            console.error('Error adding supplier:', error);
+            alert('Error saving supplier. Please try again.');
+        });
+    }
+}
+
+    function closeSupplierDialog() {
+    document.getElementById('supplier-modal').style.display = 'none';
+    document.getElementById('supplier-form').reset();
+    currentEditingSupplierId = null;
+}
+
+    function openReportDialog() {
+      document.getElementById('report-modal').style.display = 'block';
+    }
+
+    function closeReportDialog() {
+      document.getElementById('report-modal').style.display = 'none';
+      document.getElementById('report-results').classList.add('hidden');
+      document.getElementById('report-form').reset();
+    }
+
+    function toggleCustomDateRange() {
+      // Not needed for current implementation
+    }
+
+
+    function generateReportFromDB() {
+      const dateRange = document.getElementById('date-range').value;
+      const reportType = document.getElementById('report-type').value;
+      const format = document.getElementById('format').value;
+      const location = document.getElementById('location').value.toLowerCase(); 
+      console.log("location: ", location);
+
+      document.getElementById('report-data').innerHTML = '<p>Generating report...</p>';
+      document.getElementById('report-results').classList.remove('hidden');
+
+      setTimeout(() => {
+        const mockData = {
+          bookings: {
+            title: 'Bookings Report',
+            headers: ['ID', 'Customer', 'Experience', 'Date', 'Status', 'Amount', 'Location'],
+            data: [
+              ['BK001', 'John Smith', 'Batik Handloom', '2025-04-27', 'Completed', '$45.00', 'colombo'],
+              ['BK002', 'Emma Johnson', 'Mask Making', '2025-04-28', 'Completed', '$35.00', 'kandy'],
+              ['BK003', 'Michael Brown', 'Traditional Drums', '2025-04-29', 'Pending', '$40.00', 'galle'],
+              ['BK004', 'Sarah Davis', 'Culinary Experience', '2025-04-30', 'Completed', '$50.00', 'colombo']
+            ]
+          },
+          revenue: {
+            title: 'Revenue Report',
+            headers: ['Month', 'Bookings', 'Revenue', 'Avg. Booking Value'],
+            data: [
+              ['January', 85, '$3,825.00', '$45.00'],
+              ['February', 92, '$4,140.00', '$45.00'],
+              ['March', 105, '$4,725.00', '$45.00'],
+              ['April', 120, '$5,400.00', '$45.00']
+            ]
+          },
+          customers: {
+            title: 'Customers Report',
+            headers: ['ID', 'Name', 'Email', 'Bookings', 'Last Booking'],
+            data: [
+              ['CU001', 'John Smith', 'john@example.com', 3, '2025-04-27'],
+              ['CU002', 'Emma Johnson', 'emma@example.com', 2, '2025-04-28'],
+              ['CU003', 'Michael Brown', 'michael@example.com', 1, '2025-04-29'],
+              ['CU004', 'Sarah Davis', 'sarah@example.com', 4, '2025-04-30']
+            ]
+          },
+          suppliers: {
+            title: 'Suppliers Report',
+            headers: ['ID', 'Name', 'Experience Type', 'Location', 'Rating', 'Active Experiences'],
+            data: [
+              ['SP001', 'Nilmini Crafts', 'Batik Handloom', 'colombo', '4.8', 3],
+              ['SP002', 'Kandy Arts', 'Mask Making', 'kandy', '4.5', 2],
+              ['SP003', 'Galle Crafters', 'Traditional Drums', 'galle', '4.7', 4],
+              ['SP004', 'Ceylon Cuisine', 'Culinary Experience', 'colombo', '4.9', 5],
+              ['SP005', 'Heritage Handicrafts', 'Wood Carving', 'kandy', '4.6', 3],
+              ['SP006', 'Coastal Artisans', 'Jewelry Making', 'galle', '4.4', 2]
+            ]
+          }
+        };
+
+        let reportData = mockData[reportType] || mockData.bookings;
+
+        // Filter bookings by location
+        if (reportType === 'bookings' && location !== 'all') {
+          reportData = {
+            ...reportData,
+            data: reportData.data.filter(row => row[6].toLowerCase() === location)
+          };
+        }
+        
+        // Filter suppliers by location - location is at index 3 for suppliers
+        if (reportType === 'suppliers' && location !== 'all') {
+          reportData = {
+            ...reportData,
+            data: reportData.data.filter(row => row[3].toLowerCase() === location)
+          };
+        }
+
+        displayReportData(reportData.title, reportData.headers, reportData.data, format);
+      }, 1000);
+    }
+    function displayReportData(title, headers, data, format) {
+      const reportDataElement = document.getElementById('report-data');
+      
+      if (data.length === 0) {
+        reportDataElement.innerHTML = '<p>No data found for the selected report criteria.</p>';
+        return;
+      }
+      
+      let html = `<h4>${title}</h4>`;
+      html += '<table border="1" style="width:100%; border-collapse:collapse; margin-top:10px;">';
+      
+      // Add headers
+      html += '<tr>';
+      headers.forEach(header => {
+        html += `<th style="padding:8px; text-align:left; background-color:#f2f2f2;">${header}</th>`;
+      });
+      html += '</tr>';
+      
+      // Add data rows
+      data.forEach(row => {
+        html += '<tr>';
+        row.forEach(cell => {
+          html += `<td style="padding:8px;">${cell}</td>`;
+        });
+        html += '</tr>';
+      });
+      
+      html += '</table>';
+      reportDataElement.innerHTML = html;
+      
+      reportDataElement.setAttribute('data-report-title', title);
+      reportDataElement.setAttribute('data-report-headers', JSON.stringify(headers));
+      reportDataElement.setAttribute('data-report-data', JSON.stringify(data));
+      reportDataElement.setAttribute('data-report-format', format);
+    }
+
+    function downloadReport() {
+      try {
+        const format = document.getElementById('report-data').getAttribute('data-report-format');
+        const title = document.getElementById('report-data').getAttribute('data-report-title');
+        const headers = JSON.parse(document.getElementById('report-data').getAttribute('data-report-headers'));
+        const data = JSON.parse(document.getElementById('report-data').getAttribute('data-report-data'));
+        
+        if (!jsPDF && format === 'pdf') {
+          throw new Error("PDF library not loaded");
+        }
+        
+        if (format === 'pdf') {
+          generatePDF(title, headers, data);
+        } else if (format === 'csv') {
+          generateCSV(title, headers, data);
+        } else {
+          alert('Excel export would be implemented in a real application');
+        }
+      } catch (error) {
+        console.error("Download failed:", error);
+        alert("Failed to generate download. Please try again.");
+      }
+    }
+
+    function generatePDF(title, headers, data) {
+      try {
+        if (!jsPDF) {
+          throw new Error("jsPDF not available");
+        }
+        
+        const doc = new jsPDF();
+        
+        // Add title
+        doc.setFontSize(18);
+        doc.text(title, 14, 20);
+        
+        // Add generation date
+        doc.setFontSize(10);
+        doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
+        
+        // Add table
+        doc.autoTable({
+          head: [headers],
+          body: data,
+          startY: 45,
+          styles: {
+            fontSize: 8,
+            cellPadding: 3,
+            halign: 'left'
+          },
+          headStyles: {
+            fillColor: [89, 126, 82],
+            textColor: 255
+          }
+        });
+        
+        // Save the PDF
+        doc.save(`${title.replace(/ /g, '_')}_${new Date().toISOString().slice(0,10)}.pdf`);
+      } catch (error) {
+        console.error("PDF generation error:", error);
+        alert("Failed to generate PDF. Please check console for details.");
+        throw error;
+      }
+    }
+
+    function generateCSV(title, headers, data) {
+      try {
+        if (data.length === 0) return;
+        
+        let csv = headers.join(',') + '\n';
+        
+        data.forEach(row => {
+          const csvRow = row.map(value => {
+            if (typeof value === 'string' && (value.includes(',') || value.includes('"'))) {
+              return `"${value.replace(/"/g, '""')}"`;
+            }
+            return value;
+          });
+          csv += csvRow.join(',') + '\n';
+        });
+        
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', `${title.replace(/ /g, '_')}_${new Date().toISOString().slice(0,10)}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (error) {
+        console.error("CSV generation error:", error);
+        alert("Failed to generate CSV file. Please check console for details.");
+        throw error;
+      }
+    }
+
+    function searchDashboard() {
+      const searchTerm = document.getElementById('dashboard-search').value.toLowerCase();
+      if (!searchTerm.trim()) {
+        resetSearch();
+        return;
+      }
+
+      // Search in all cards
+      const cards = document.querySelectorAll('.card, .stat-card, .activity-box');
+      let hasResults = false;
+      
+      cards.forEach(card => {
+        const cardText = card.textContent.toLowerCase();
+        if (cardText.includes(searchTerm)) {
+          highlightText(card, searchTerm);
+          hasResults = true;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      // Show "no results" message if nothing found
+      const noResultsElement = document.getElementById('no-results');
+      if (!hasResults) {
+        if (!noResultsElement) {
+          const mainContent = document.querySelector('.main-content');
+          const noResultsDiv = document.createElement('div');
+          noResultsDiv.id = 'no-results';
+          noResultsDiv.className = 'no-results';
+          noResultsDiv.textContent = 'No results found for "' + searchTerm + '"';
+          mainContent.appendChild(noResultsDiv);
+        }
+      } else if (noResultsElement) {
+        noResultsElement.remove();
+      }
+    }
+
+    function highlightText(element, searchTerm) {
+      const regex = new RegExp(searchTerm, 'gi');
+      const text = element.textContent;
+      const highlightedText = text.replace(regex, match => `<span class="search-highlight">${match}</span>`);
+      
+      // Create a temporary element to hold our HTML
+      const temp = document.createElement('div');
+      temp.innerHTML = highlightedText;
+      
+      // Replace the element's content with the highlighted version
+      while (element.firstChild) {
+        element.removeChild(element.firstChild);
+      }
+      
+      // Append all nodes from the temp element
+      while (temp.firstChild) {
+        element.appendChild(temp.firstChild);
+      }
+    }
+
+    function resetSearch() {
+      // Show all elements
+      document.querySelectorAll('.card, .stat-card, .activity-box').forEach(element => {
+        element.classList.remove('hidden');
+      });
+
+      // Remove highlights
+      document.querySelectorAll('.search-highlight').forEach(highlight => {
+        const parent = highlight.parentNode;
+        while (highlight.firstChild) {
+          parent.insertBefore(highlight.firstChild, highlight);
+        }
+        parent.removeChild(highlight);
+      });
+
+      // Remove "no results" message if it exists
+      const noResultsElement = document.getElementById('no-results');
+      if (noResultsElement) {
+        noResultsElement.remove();
+      }
+    }
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      });
+    }
+
+    function viewRecentBookings() {
+      alert("Showing recent bookings...");
+      // In a real implementation, this would show recent bookings
+    }
+
+    function viewCustomerFeedback() {
+      alert("Showing customer feedback...");
+      // In a real implementation, this would show customer feedback
+    }
+
+    function refreshSuppliersTable() {
+
+    fetch('/api/get-suppliers')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(suppliers => {
+            const tableBody = document.getElementById('suppliers-table-body');
+            tableBody.innerHTML = ''; 
+            
+            if (suppliers.length === 0) {
+                const emptyRow = document.createElement('tr');
+                emptyRow.innerHTML = `
+                    <td colspan="6" style="text-align: center;">No suppliers found</td>
+                `;
+                tableBody.appendChild(emptyRow);
+                return;
+            }
+            
+            suppliers.forEach(supplier => {
+              console.log(supplier);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+
+                    <td><img src="${supplier.image}" alt="${supplier.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;"></td>
+                    <td>${supplier.name}</td>
+                    <td>${supplier.type}</td>
+                    <td>${supplier.sub_category || 'N/A'}</td>  
+                    <td>${supplier.location || 'N/A'}</td>  
+                    <td>${supplier.description || 'No description provided'}</td>
+                    <td>${supplier.price}</td>
+                    <td>
+                        ${supplier.times.map(time => 
+                            `${time.start_time} - ${time.end_time} (${time.period})`
+                        ).join('<br>')}
+                    </td>
+
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editSupplier(${supplier.id})">Edit</button>
+                        <button class="action-btn delete-btn" onclick="deleteSupplier(${supplier.id})">Delete</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching suppliers:', error);
+            const tableBody = document.getElementById('suppliers-table-body');
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align: center; color: #F44336;">
+                        Error loading suppliers. Please try again.
+                    </td>
+                </tr>
+            `;
+        });
+}
+  
+  
+  </script>
+</body>
+</html>

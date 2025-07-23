@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Your Card - Ayubo Go</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(rgba(89, 126, 82, 0.9), rgba(89, 126, 82, 0.9));
+      min-height: 100vh;
+      color: white;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header, footer, main {
+      width: 100%;
+    }
+
+    header {
+      z-index: 999;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: transparent;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 100px;
+      transition: 0.5s ease;
+    }
+
+    header .brand {
+      color: white;
+      font-size: 1.5em;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .navigation {
+      display: flex;
+      align-items: center;
+    }
+
+    .navigation-items a {
+      position: relative;
+      color: white;
+      font-size: 1em;
+      font-weight: 500;
+      text-decoration: none;
+      margin-left: 30px;
+      transition: 0.3s ease;
+    }
+
+    .navigation-items a:before {
+      content: '';
+      position: absolute;
+      background: white;
+      width: 0;
+      height: 3px;
+      bottom: 0;
+      left: 0;
+      transition: 0.3s ease;
+    }
+
+    .navigation-items a:hover:before {
+      width: 100%;
+    }
+
+    .btnr1 {
+      padding: 10px 15px;
+      background-color: black;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      margin-left: 10px;
+      cursor: pointer;
+      opacity: 60%;
+    }
+
+    .btnr1:hover {
+      background-color: #C6A969;
+    }
+
+    main {
+      flex: 1;
+      margin-top: 80px; /* for fixed header space */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px;
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1200px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .form-section, .preview-section {
+      flex: 1 1 500px;
+      padding: 40px;
+      background: rgba(245,247,250,0.9);
+      color: #333;
+    }
+
+    .preview-section {
+      background: linear-gradient(135deg, #597E52, #43623D);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+      position: relative;
+    }
+
+    h1::after, h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 25%;
+      width: 50%;
+      height: 3px;
+      background: #C6A969;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #43623D;
+    }
+
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background: rgba(255,255,255,0.8);
+      font-size: 16px;
+    }
+
+    input:focus {
+      border-color: #C6A969;
+      outline: none;
+    }
+
+    .expiry-cvv {
+      display: flex;
+      gap: 20px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: #597E52;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .submit-btn:hover {
+      background: #43623D;
+    }
+
+    .edit-btn {
+      width: 100%;
+      padding: 14px;
+      background: #C6A969;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .edit-btn:hover {
+      background: #b89a5a;
+    }
+    
+    .delete-btn {
+      width: 100%;
+      padding: 14px;
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .delete-btn:hover {
+      background: #c82333;
+    }
+
+    .card-preview {
+      width: 320px;
+      height: 200px;
+      border-radius: 15px;
+      background: rgba(0,0,0,0.2);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transform: rotate(-5deg);
+      transition: 0.3s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .card-preview:hover {
+      transform: rotate(-5deg) translateY(-5px);
+    }
+
+    .card-logo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .card-logo-text {
+      color: #C6A969;
+    }
+
+    .card-logo-img {
+      height: 30px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .card-number {
+      font-size: 18px;
+      letter-spacing: 2px;
+    }
+
+    .card-details {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    .message {
+      margin-top: 15px;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+      display: none;
+      border-radius: 5px;
+    }
+
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+
+    .saved-card-info {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 4px solid #597E52;
+    }
+
+    .saved-card-info p {
+      margin: 5px 0;
+      color: #333;
+    }
+
+    .saved-card-info strong {
+      color: #43623D;
+    }
+
+    .card-item {
+      background: rgba(255,255,255,0.9);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .card-info {
+      margin-bottom: 10px;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .card-actions button {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    #cardsList {
+      margin-top: 20px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    footer {
+      background: #222;
+      color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    footer .box-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    footer .box {
+      flex: 1 1 250px;
+      max-width: 300px;
+    }
+
+    footer .box h3 {
+      color: #C6A969;
+      margin-bottom: 10px;
+    }
+
+    footer .box a {
+      display: block;
+      color: #ccc;
+      text-decoration: none;
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    footer .box a:hover {
+      color: #C6A969;
+    }
+
+    footer .credit {
+      margin-top: 20px;
+      font-size: 14px;
+      border-top: 1px solid #444;
+      padding-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .card-container {
+        flex-direction: column;
+      }
+      header {
+        padding: 15px 20px;
+      }
+    }
+
+    .error-message {
+      color: #dc3545;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+    
+    /* Hide the card type select */
+    #cardTypeContainer {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="brand">Ayubo Go</a>
+    <div class="navigation">
+      <div class="navigation-items">
+        <a href="#">Home</a>
+        <a href="#">Experiences</a>
+        <a href="#">Help</a>
+        <a href="#">About</a>
+        <a href="#">Blogs and Reviews</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="card-container">
+      <div class="form-section">
+        <h1 id="formTitle">Manage Your Payment Cards</h1>
+        
+        <div id="noCardsMessage" style="display: none;">
+          <p>No cards available. Add your first card to get started.</p>
+          <button class="submit-btn" onclick="showAddCardForm()">Add Card</button>
+          <button class="submit-btn" onclick="window.location.href='/paymentmethod'">Back to Payment Method</button>
+        </div>
+
+        <div id="cardsList" style="display: none;">
+          <h3>Your Saved Cards</h3>
+          <button class="submit-btn" onclick="showAddCardForm()">Add New Card</button>
+          <button class="submit-btn" onclick="window.location.href='/paymentmethod'">Back to Payment Method</button>
+        </div>
+        
+        <form id="cardForm" style="display: none;">
+          <div class="form-group">
+            <label for="cardNumber">Card Number</label>
+            <input type="text" id="cardNumber" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+            <div id="cardNumberError" class="error-message"></div>
+          </div>
+          <div class="form-group">
+            <label for="cardName">Cardholder Name</label>
+            <input type="text" id="cardName" name="cardholder_name" placeholder="Enter full name" required>
+            <div id="cardholderNameError" class="error-message"></div>
+          </div>
+          <div class="expiry-cvv">
+            <div class="form-group">
+              <label for="expiryDate">Expiry Date</label>
+              <input type="text" id="expiryDate" name="expiry_date" placeholder="MM/YY" maxlength="5" required>
+              <div id="expiryDateError" class="error-message"></div>
+            </div>
+            <div class="form-group">
+              <label for="cvv">CVV</label>
+              <input type="number" id="cvv" name="cvv" placeholder="•••" required>
+              <div id="cvvError" class="error-message"></div>
+            </div>
+          </div>
+          <div class="form-group" id="cardTypeContainer">
+            <label for="cardType">Card Type</label>
+            <select id="cardType" name="card_type" required>
+              <option value="">Select Card Type</option>
+              <option value="Visa">Visa</option>
+              <option value="Mastercard">Mastercard</option>
+              <option value="American Express">American Express</option>
+            </select>
+          </div>
+          <button type="submit" class="submit-btn" id="saveCardBtn">Save Card</button>
+          <button type="button" class="edit-btn" id="cancelEditBtn" style="margin-top: 5px;">Cancel</button>
+          <div class="message" id="message"></div>
+        </form>
+      </div>
+      <div class="preview-section">
+        <h2>Card Preview</h2>
+        <div class="card-preview">
+          <div class="card-logo">
+            <span class="card-logo-text">AyuboGo</span>
+            <img id="previewCardLogo" class="card-logo-img" src="" alt="Card Logo" style="display: none;">
+          </div>
+          <div class="card-number" id="previewCardNumber">•••• •••• •••• ••••</div>
+          <div class="card-details">
+            <div id="previewCardName">CARDHOLDER NAME</div>
+            <div id="previewExpiry">••/••</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="box-container">
+      <div class="box">
+        <h3>Quick Links</h3>
+        <a href="#">Home</a>
+        <a href="#">Experiences</a>
+        <a href="#">Help</a>
+        <a href="#">About</a>
+        <a href="#">Blogs & Reviews</a>
+      </div>
+      <div class="box">
+        <h3>Legal</h3>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms & Conditions</a>
+      </div>
+      <div class="box">
+        <h3>Connect with Us</h3>
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">WhatsApp</a>
+      </div>
+      <div class="box">
+        <h3>Contact</h3>
+        <a href="tel:+94760127391">+94 760 127 391</a>
+        <a href="mailto:Ayubogo@gmail.com">Ayubogo@gmail.com</a>
+        <a href="#">Colombo, Sri Lanka</a>
+      </div>
+    </div>
+    <div class="credit">
+      © 2025 <strong>AyuboGo.lk</strong>. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Card logos (using base64 encoded SVGs for simplicity)
+    const cardLogos = {
+      visa:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png',
+      mastercard: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png',
+      amex: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/American_Express_logo.svg/1200px-American_Express_logo.svg.png'
+    };
+
+    function showAddCardForm() {
+      document.getElementById('cardForm').reset();
+      document.getElementById('previewCardNumber').textContent = '•••• •••• •••• ••••';
+      document.getElementById('previewCardName').textContent = 'CARDHOLDER NAME';
+      document.getElementById('previewExpiry').textContent = '••/••';
+      document.getElementById('previewCardLogo').style.display = 'none';
+      
+      document.getElementById('cardForm').style.display = 'block';
+      document.getElementById('noCardsMessage').style.display = 'none';
+      document.getElementById('cardsList').style.display = 'none';
+      
+      const saveBtn = document.getElementById('saveCardBtn');
+      saveBtn.textContent = 'Save Card';
+      delete saveBtn.dataset.cardId;
+      
+      document.getElementById('formTitle').textContent = 'Add New Card';
+    }
+
+    function showCardsList() {
+      document.getElementById('cardForm').style.display = 'none';
+      document.getElementById('noCardsMessage').style.display = 'none';
+      document.getElementById('cardsList').style.display = 'block';
+      alert("Cards List");
+    }
+
+    function showNoCardsMessage() {
+      document.getElementById('cardForm').style.display = 'none';
+      document.getElementById('noCardsMessage').style.display = 'block';
+      document.getElementById('cardsList').style.display = 'none';
+    }
+
+    function detectCardType(cardNumber) {
+      const firstDigit = cardNumber.charAt(0);
+      
+      if (firstDigit === '4') {
+        return { type: 'Visa', logo: cardLogos.visa };
+      } else if (firstDigit === '5' || firstDigit === '2') {
+        return { type: 'Mastercard', logo: cardLogos.mastercard };
+      } else if (firstDigit === '3') {
+        return { type: 'American Express', logo: cardLogos.amex };
+      }
+      
+      return { type: '', logo: '' };
+    }
+
+    function updateCardPreview() {
+      const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+      const cardName = document.getElementById('cardName').value;
+      const expiryDate = document.getElementById('expiryDate').value;
+      
+      // Update card number preview
+      if (cardNumber.length > 0) {
+        const formattedNumber = cardNumber.replace(/(\d{4})/g, '$1 ').trim();
+        document.getElementById('previewCardNumber').textContent = formattedNumber || '•••• •••• •••• ••••';
+        
+        // Detect and show card logo
+        const cardInfo = detectCardType(cardNumber);
+        const logoImg = document.getElementById('previewCardLogo');
+        
+        if (cardInfo.logo) {
+          logoImg.src = cardInfo.logo;
+          logoImg.style.display = 'block';
+          document.getElementById('cardType').value = cardInfo.type;
+        } else {
+          logoImg.style.display = 'none';
+          document.getElementById('cardType').value = '';
+        }
+      } else {
+        document.getElementById('previewCardNumber').textContent = '•••• •••• •••• ••••';
+        document.getElementById('previewCardLogo').style.display = 'none';
+        document.getElementById('cardType').value = '';
+      }
+      
+      // Update cardholder name
+      document.getElementById('previewCardName').textContent = cardName || 'CARDHOLDER NAME';
+      
+      // Update expiry date
+      document.getElementById('previewExpiry').textContent = expiryDate || '••/••';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      loadCards();
+      
+      const cardForm = document.getElementById('cardForm');
+      const noCardsMessage = document.getElementById('noCardsMessage');
+      const cardsList = document.getElementById('cardsList');
+      
+      const cardNumberInput = document.getElementById('cardNumber');
+      const expiryDateInput = document.getElementById('expiryDate');
+      const cardholderNameInput = document.getElementById('cardName');
+      const cvvInput = document.getElementById('cvv');
+      const submitBtn = document.getElementById('saveCardBtn');
+
+      // Add event listeners for preview updates
+      cardNumberInput.addEventListener('input', function() {
+        updateCardPreview();
+        
+        // Format card number with spaces after every 4 digits
+        let value = this.value.replace(/\D/g, '');
+        
+        // Limit to 16 digits
+        if (value.length > 16) {
+          value = value.slice(0, 16);
+        }
+        
+        // Add space after every 4 digits
+        let formattedValue = '';
+        for (let i = 0; i < value.length; i++) {
+          if (i > 0 && i % 4 === 0) {
+            formattedValue += ' ';
+          }
+          formattedValue += value[i];
+        }
+        this.value = formattedValue;
+        
+        // Validate card number
+        validateCardNumber(value);
+      });
+      
+      cardholderNameInput.addEventListener('input', function() {
+        updateCardPreview();
+        
+        let value = this.value.trim();
+        if (value.length > 30) {
+          value = value.slice(0, 30);
+        }
+        this.value = value;
+        
+        validateCardholderName(value);
+      });
+      
+      expiryDateInput.addEventListener('input', function() {
+        updateCardPreview();
+        
+        let value = this.value.replace(/\D/g, '');
+        if (value.length > 4) {
+          value = value.slice(0, 4);
+        }
+        if (value.length > 2) {
+          value = value.slice(0, 2) + '/' + value.slice(2);
+        }
+        this.value = value;
+        
+        validateExpiryDate(value);
+      });
+      
+      cvvInput.addEventListener('input', function() {
+        let value = this.value.replace(/\D/g, '');
+        if (value.length > 4) {
+          value = value.slice(0, 4);
+        }
+        this.value = value;
+          
+        validateCVV(value);
+      });
+
+      // Validate card number
+      function validateCardNumber(number) {
+        const cardNumberError = document.getElementById('cardNumberError');
+        const cleanNumber = number.replace(/\s/g, '');
+        
+        if (cleanNumber.length < 16) {
+          cardNumberError.textContent = 'Card number must be 16 digits';
+          cardNumberError.style.display = 'block';
+          return false;
+        }
+        
+        // Luhn algorithm validation
+        let sum = 0;
+        let isEven = false;
+        
+        for (let i = cleanNumber.length - 1; i >= 0; i--) {
+          let digit = parseInt(cleanNumber.charAt(i));
+          
+          if (isEven) {
+            digit *= 2;
+            if (digit > 9) {
+              digit -= 9;
+            }
+          }
+          
+          sum += digit;
+          isEven = !isEven;
+        }
+        
+        if (sum % 10 !== 0) {
+          cardNumberError.textContent = 'Invalid card number';
+          cardNumberError.style.display = 'block';
+          return false;
+        }
+        
+        cardNumberError.style.display = 'none';
+        return true;
+      }
+      
+      // Validate expiry date
+      function validateExpiryDate(date) {
+        const expiryDateError = document.getElementById('expiryDateError');
+        const [month, year] = date.split('/');
+        
+        if (!month || !year || month.length !== 2 || year.length !== 2) {
+          expiryDateError.textContent = 'Invalid expiry date format (MM/YY)';
+          expiryDateError.style.display = 'block';
+          return false;
+        }
+        
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear() % 100;
+        const currentMonth = currentDate.getMonth() + 1;
+        
+        const expMonth = parseInt(month);
+        const expYear = parseInt(year);
+        
+        if (expMonth < 1 || expMonth > 12) {
+          expiryDateError.textContent = 'Invalid month';
+          expiryDateError.style.display = 'block';
+          return false;
+        }
+        
+        if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) {
+          expiryDateError.textContent = 'Card has expired';
+          expiryDateError.style.display = 'block';
+          return false;
+        }
+        
+        expiryDateError.style.display = 'none';
+        return true;
+      }
+
+      // Validate cardholder name
+      function validateCardholderName(name) {
+        const cardholderNameError = document.getElementById('cardholderNameError');
+        
+        if (name.length < 3) {
+          cardholderNameError.textContent = 'Name must be at least 3 characters';
+          cardholderNameError.style.display = 'block';
+          return false;
+        }
+        
+        if (!/^[a-zA-Z\s]+$/.test(name)) {
+          cardholderNameError.textContent = 'Name can only contain letters and spaces';
+          cardholderNameError.style.display = 'block';
+          return false;
+        }
+        
+        cardholderNameError.style.display = 'none';
+        return true;
+      }
+      
+      // Validate CVV
+      function validateCVV(cvv) {
+        const cvvError = document.getElementById('cvvError');
+        
+        if (cvv.length < 3) {
+          cvvError.textContent = 'CVV must be 3-4 digits';
+          cvvError.style.display = 'block';
+          return false;
+        }
+      
+        if (!/^\d+$/.test(cvv)) {
+          cvvError.textContent = 'CVV must contain only numbers';
+          cvvError.style.display = 'block';
+          return false;
+        }
+        
+        cvvError.style.display = 'none';
+        return true;
+      }
+
+      // Form submission validation
+      submitBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const cardNumber = cardNumberInput.value.replace(/\s/g, '');
+        const expiryDate = expiryDateInput.value;
+        const cardholderName = cardholderNameInput.value.trim();
+        const cvv = cvvInput.value;
+        const cardType = document.getElementById('cardType').value;
+        const userID = getCookieValue('user_id');
+
+        if (!validateCardNumber(cardNumber) ||
+          !validateExpiryDate(expiryDate) ||
+          !validateCardholderName(cardholderName) ||
+          !validateCVV(cvv)) {
+          return;
+        }
+        
+        // If all validations pass, submit the form
+        const formData = {
+          card_number: cardNumber,
+          cardholder_name: cardholderName,
+          expiry_date: expiryDate,
+          cvv: cvv,
+          card_type: cardType,
+          tourist_id: userID
+        };
+        
+        const cardId = this.dataset.cardId;
+        const url = cardId ? `/api/cards/${cardId}` : '/api/cards';
+        const method = cardId ? 'PUT' : 'POST';
+        
+        fetch(url, {
+            method: method,
+            headers: {
+            'Content-Type': 'application/json'
+            },
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            showMessage(cardId ? 'Card updated successfully!' : 'Card added successfully!', 'success');
+            loadCards();
+            showCardsList();
+          } else {
+            showMessage('Error: ' + data.error, 'error');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showMessage('An error occurred while saving the card.', 'error');
+        });
+      });
+      
+      document.getElementById('cancelEditBtn').addEventListener('click', function() {
+        showCardsList();
+      });
+    });
+
+    function loadCards() {
+        const userID = getCookieValue('user_id');
+        fetch(`/api/cards/${userID}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          if (data.success) {
+            const cardsContainer = document.getElementById('cardsList');  
+            if (data.cards.length === 0) {
+              showNoCardsMessage();
+            } else {
+              cardsContainer.innerHTML = '<h3>Your Saved Cards</h3><button class="submit-btn" onclick="showAddCardForm()">Add New Card</button><button class="submit-btn" onclick="window.location.href=\'/paymentmethod\'">Back to Payment Method</button>';
+              data.cards.forEach(card => {
+                const cardElement = createCardElement(card);
+                cardsContainer.appendChild(cardElement);
+              });
+              showCardsList();
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showNoCardsMessage();
+        });
+    }
+
+    function createCardElement(card) {
+      const cardDiv = document.createElement('div');
+      cardDiv.className = 'card-item';
+      cardDiv.dataset.cardId = card.id;
+      
+      // Get card logo based on type
+      let cardLogo = '';
+      if (card.card_type === 'Visa') {
+        cardLogo = cardLogos.visa;
+      } else if (card.card_type === 'Mastercard') {
+        cardLogo = cardLogos.mastercard;
+      } else if (card.card_type === 'American Express') {
+        cardLogo = cardLogos.amex;
+      }
+      
+      cardDiv.innerHTML = `
+        <div class="card-info">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+            ${cardLogo ? `<img src="${cardLogo}" alt="${card.card_type}" style="height: 20px;">` : ''}
+            <p><strong>${card.card_type || 'Card'}</strong></p>
+          </div>
+          <p><strong>Card Number:</strong> •••• •••• •••• ${card.card_number.slice(-4)}</p>
+          <p><strong>Cardholder:</strong> ${card.cardholder_name}</p>
+          <p><strong>Expiry:</strong> ${card.expiry_date}</p>
+        </div>
+        <div class="card-actions">
+          <button onclick="editCard(${card.id})" class="edit-btn">Edit</button>
+          <button onclick="deleteCard(${card.id})" class="delete-btn">Delete</button>
+        </div>
+      `;
+      return cardDiv;
+    }
+        
+    function editCard(cardId) {
+      console.log(cardId);
+      fetch(`/api/cards/${cardId}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const card = data.card;
+            console.log(card);
+
+            document.getElementById('cardNumber').value = card.card_number;
+            document.getElementById('cardName').value = card.cardholder_name;
+            document.getElementById('expiryDate').value = card.expiry_date;
+            document.getElementById('cvv').value = card.cvv;
+            document.getElementById('cardType').value = card.card_type;
+            // Update preview
+            updateCardPreview();
+            
+            document.getElementById('cardForm').style.display = 'block';
+            document.getElementById('cardsList').style.display = 'none';
+            document.getElementById('noCardsMessage').style.display = 'none';
+            
+            const saveBtn = document.getElementById('saveCardBtn');
+            saveBtn.textContent = 'Update Card';
+            saveBtn.dataset.cardId = cardId;
+            
+            document.getElementById('formTitle').textContent = 'Edit Card Details';
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showMessage('Error loading card details', 'error');
+      });
+    }
+    
+    function formatCardNumber(number) {
+      return number.replace(/(\d{4})/g, '$1 ').trim();
+    }
+
+    function deleteCard(cardId) {
+      if (confirm('Are you sure you want to delete this card?')) {
+        fetch(`/api/cards/${cardId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            loadCards();
+          } else {
+            showMessage('Error: ' + data.error, 'error');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showMessage('An error occurred while deleting the card.', 'error');
+        });
+      }
+    }
+      
+    function showMessage(message, type) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = message;
+      messageDiv.className = `message ${type}`;
+      messageDiv.style.display = 'block';
+      setTimeout(() => {
+        messageDiv.style.display = 'none';
+      }, 3000);
+    }
+
+    function getCookieValue(name) {
+        const cookies = document.cookie.split('; ');
+        for (const cookie of cookies) {
+            const [key, value] = cookie.split('=');
+            if (key === name) {
+                return value;
+            }
+        }
+        return null;
+    }
+  </script>
+</body>
+</html>
+

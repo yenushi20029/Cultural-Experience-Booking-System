@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rate Your Experiences</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #597E52;
+      --primary-dark: #3b4a34;
+      --accent-color: #C6A969;
+      --text-dark: #023047;
+      --text-light: #6c757d;
+      --bg-light: #f8f9fa;
+      --bg-white: #ffffff;
+      --border-radius: 12px;
+      --box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding: 40px;
+      min-height: 100vh;
+      background-image: linear-gradient(135deg, #f5f7fa 0%, #e4f0e2 100%);
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--bg-white);
+      padding: 40px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      transform: translateY(0);
+      animation: fadeInUp 0.6s ease;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    h1 {
+      color: var(--primary-dark);
+      margin-bottom: 30px;
+      text-align: center;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--accent-color);
+      border-radius: 2px;
+    }
+    
+    .experience-card {
+      background: var(--bg-white);
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      margin-bottom: 25px;
+      position: relative;
+      transition: var(--transition);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .experience-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+    
+    .experience-card h3 {
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+    
+    .experience-card h3 i {
+      margin-right: 10px;
+      color: var(--accent-color);
+    }
+    
+    .experience-card p {
+      color: var(--text-light);
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+    
+    .experience-card p strong {
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+    
+    .rating-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px dashed #eee;
+    }
+    
+    .rating-container span {
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+    
+    .star-rating {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .star-rating i {
+      font-size: 26px;
+      color: #e0e0e0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .star-rating i.hover {
+      color: var(--accent-color);
+      opacity: 0.7;
+    }
+    
+    .star-rating i.active {
+      color: var(--accent-color);
+      transform: scale(1.1);
+    }
+    
+    .submit-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 14px 25px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 500;
+      margin-top: 40px;
+      display: block;
+      width: 100%;
+      transition: var(--transition);
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgba(89, 126, 82, 0.3);
+    }
+    
+    .submit-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(59, 74, 52, 0.4);
+    }
+    
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 25px;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+    
+    .back-btn:hover {
+      background: rgba(89, 126, 82, 0.1);
+      transform: translateX(-3px);
+    }
+    
+    .back-btn i {
+      margin-right: 8px;
+      font-size: 1.1rem;
+    }
+    
+    .no-experiences {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-light);
+      font-size: 1.1rem;
+    }
+    
+    .no-experiences i {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+      margin-bottom: 15px;
+      display: block;
+    }
+    
+    .thank-you-message {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+    
+    .thank-you-message.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .message-box {
+      background: white;
+      padding: 40px;
+      border-radius: var(--border-radius);
+      text-align: center;
+      max-width: 400px;
+      transform: scale(0.9);
+      transition: var(--transition);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .thank-you-message.active .message-box {
+      transform: scale(1);
+    }
+    
+    .message-box i {
+      font-size: 3.5rem;
+      color: var(--accent-color);
+      margin-bottom: 20px;
+    }
+    
+    .message-box h2 {
+      color: var(--primary-dark);
+      margin-bottom: 15px;
+    }
+    
+    .message-box p {
+      color: var(--text-light);
+      margin-bottom: 25px;
+    }
+    
+    .message-box button {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    
+    .message-box button:hover {
+      background: var(--primary-dark);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/userdash" class="back-btn"><i class='bx bx-arrow-back'></i> Back to Dashboard</a>
+    <h1>Rate Your Completed Experiences</h1>
+    <div id="experiences-container"></div>
+    <button class="submit-btn" onclick="submitRatings()">
+      <i class='bx bx-check-circle' style="margin-right: 8px;"></i> Submit Ratings
+    </button>
+  </div>
+
+  <div class="thank-you-message" id="thankYouMessage">
+    <div class="message-box">
+      <i class='bx bxs-check-circle'></i>
+      <h2>Thank You!</h2>
+      <p>Your ratings have been successfully submitted.</p>
+      <button onclick="redirectToDashboard()">Back to Dashboard</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get completed experiences from sessionStorage
+      const completedExperiences = JSON.parse(sessionStorage.getItem('completedExperiences')) || [];
+      const container = document.getElementById('experiences-container');
+      
+      if (completedExperiences.length === 0) {
+        container.innerHTML = `
+          <div class="no-experiences">
+            <i class='bx bx-calendar-heart'></i>
+            <p>No completed experiences found.<br>Complete some activities to rate them!</p>
+          </div>
+        `;
+        document.querySelector('.submit-btn').style.display = 'none';
+        return;
+      }
+      
+      // Create a rating card for each experience
+      completedExperiences.forEach((exp, index) => {
+        const card = document.createElement('div');
+        card.className = 'experience-card';
+        card.innerHTML = `
+          <h3><i class='bx bx-trip'></i>${exp.activity}</h3>
+          <p><strong>Date:</strong> ${exp.date || 'Not specified'}</p>
+          <p><strong>Location:</strong> ${exp.location || 'Not specified'}</p>
+          <div class="rating-container">
+            <span>Your rating:</span>
+            <div class="star-rating" data-index="${index}">
+              <i class='bx bxs-star' data-rating="1"></i>
+              <i class='bx bxs-star' data-rating="2"></i>
+              <i class='bx bxs-star' data-rating="3"></i>
+              <i class='bx bxs-star' data-rating="4"></i>
+              <i class='bx bxs-star' data-rating="5"></i>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      
+      // Add star rating functionality with hover effects
+      document.querySelectorAll('.star-rating i').forEach(star => {
+        star.addEventListener('mouseover', function() {
+          const rating = parseInt(this.getAttribute('data-rating'));
+          const starContainer = this.parentElement;
+          const stars = starContainer.querySelectorAll('i');
+          
+          stars.forEach((s, i) => {
+            if (i < rating) {
+              s.classList.add('hover');
+            } else {
+              s.classList.remove('hover');
+            }
+          });
+        });
+        
+        star.addEventListener('mouseout', function() {
+          const starContainer = this.parentElement;
+          const stars = starContainer.querySelectorAll('i');
+          stars.forEach(s => s.classList.remove('hover'));
+        });
+        
+        star.addEventListener('click', function() {
+          const rating = parseInt(this.getAttribute('data-rating'));
+          const starContainer = this.parentElement;
+          const stars = starContainer.querySelectorAll('i');
+          
+          // Set active class on clicked star and previous stars
+          stars.forEach((s, i) => {
+            if (i < rating) {
+              s.classList.add('active');
+            } else {
+              s.classList.remove('active');
+            }
+          });
+          
+          // Store the rating in the experience object
+          const expIndex = parseInt(starContainer.getAttribute('data-index'));
+          completedExperiences[expIndex].userRating = rating;
+          
+          // Store updated experiences back to sessionStorage
+          sessionStorage.setItem('completedExperiences', JSON.stringify(completedExperiences));
+        });
+      });
+    });
+    
+    function submitRatings() {
+      const completedExperiences = JSON.parse(sessionStorage.getItem('completedExperiences')) || [];
+      
+      // Filter only experiences that have been rated
+      const ratedExperiences = completedExperiences.filter(exp => exp.userRating);
+      
+      if (ratedExperiences.length === 0) {
+        alert('Please rate at least one experience before submitting.');
+        return;
+      }
+      
+      // Here you would typically send the ratings to your backend
+      console.log('Submitting ratings:', ratedExperiences);
+      
+      // Show the thank you message
+      document.getElementById('thankYouMessage').classList.add('active');
+    }
+    
+    function redirectToDashboard() {
+      // Redirect to dashboard after a short delay for animation
+      setTimeout(() => {
+        window.location.href = '/userdash';
+      }, 300);
+    }
+  </script>
+</body>
+</html>

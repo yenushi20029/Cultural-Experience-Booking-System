@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayubo Go - Sri Lankan Cultural Experiences</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: #597E52;
+        }
+
+        header {
+            z-index: 999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px; /* Reduced side padding */
+    transition: 0.5s ease;
+        }
+
+        header .brand {
+            color: white;
+            font-size: 1.5em;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            font-family: 'Arial', sans-serif;
+        }
+
+        header .brand i {
+            font-size: 1.5em;
+            color: #C6A969;
+        }
+
+        .navigation {
+            display: flex;
+    align-items: center;
+    gap: 10px; /* Reduced gap between items */
+        }
+        header {
+    z-index: 999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px; /* Reduced side padding */
+    transition: 0.5s ease;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Reduced gap between items */
+}
+
+.navigation-items {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Reduced gap between navigation links */
+}
+
+header .navigation .navigation-items a {
+    position: relative;
+    color: white;
+    font-size: 0.9em; /* Slightly smaller font */
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 15px; /* Reduced margin */
+    transition: 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.search-container {
+    margin-left: 15px; /* Reduced margin */
+    margin-right: 15px; /* Reduced margin */
+}
+
+.btnr1 {
+    padding: 8px 12px; /* Slightly smaller buttons */
+    font-size: 0.9em; /* Smaller font */
+}
+
+/* Cart Styles - made more compact */
+.cart-container {
+    position: relative;
+    margin-left: 15px;
+    margin-right: 5px;
+}
+
+.cart-icon {
+    font-size: 20px; /* Smaller icon */
+    color: white;
+    position: relative;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #C6A969;
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* For mobile view */
+@media (max-width: 768px) {
+    header {
+        padding: 12px 15px;
+    }
+    
+    .navigation-items a:not(.brand) {
+        display: none; /* Hide regular nav items on mobile */
+    }
+    
+    .cart-container {
+        margin-left: auto; /* Push cart to the right */
+        margin-right: 15px;
+    }
+    
+    /* You might want to add a mobile menu button here */
+}
+        .brand {
+            font-size: 1.8em;
+            font-weight: bold;
+            flex-grow: 1;
+            color: white;
+        }
+
+        header .navigation .navigation-items a {
+            position: relative;
+            color: white;
+            font-size: 1em;
+            font-weight: 500;
+            text-decoration: none;
+            margin-left: 30px;
+            transition: 0.3s ease;
+        }
+
+        header .navigation .navigation-items a:before {
+            content: '';
+            position: absolute;
+            background: white;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            transition: 0.3s ease;
+        }
+
+        header .navigation .navigation-items a:hover:before {
+            width: 100%;
+        }
+
+        .btnr1 {
+            padding: 10px 15px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            margin-left: 5px;
+            cursor: pointer;
+            opacity: 60%;
+        }
+
+        .btnr1:hover {
+            background-color: #C6A969;
+        }
+
+        /* Hero Section Styles */
+        .hero-section {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("https://www.adhityaayurveda.com/wp-content/uploads/2022/08/Ayurveda-1920x980-1.webp') }}");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .search-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .search-option {
+            background-color: rgba(255, 217, 102, 0.9);
+            color: #333;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            min-width: 200px;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .search-option:hover {
+            background-color: rgba(255, 217, 102, 1);
+        }
+
+        .search-option i {
+            margin-right: 10px;
+        }
+
+        /* New button style for Explore Experiences */
+        .explore-btn {
+            background-color: #C6A969;
+            color: #333;
+            padding: 12px 25px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            min-width: 200px;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1em;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .explore-btn:hover {
+            background-color: #e8c87e;
+        }
+
+        .explore-btn i {
+            margin-right: 10px;
+        }
+
+        .footer {
+            width: 100%;
+            background: #222;
+            padding: 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer .box {
+            flex: 1 1 200px;
+            max-width: 300px;
+            text-align: left;
+        }
+
+        .footer .box h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #C6A969;
+        }
+
+        .footer .box a {
+            display: block;
+            color: #ccc;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .footer .box a:hover {
+            color: #C6A969;
+        }
+
+        .footer .box i {
+            margin-right: 8px;
+        }
+
+        .footer .credit {
+            margin-top: 20px;
+            font-size: 14px;
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            text-align: center;
+        }
+
+        .footer .credit strong {
+            color: #C6A969;
+        }
+
+        @media (max-width: 1040px) {
+            header {
+                padding: 12px 20px;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .search-option, .explore-btn {
+                min-width: 180px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header .navigation .navigation-items {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 32px;
+            }
+
+            .search-options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .search-option, .explore-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .footer .box-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer .box {
+                text-align: center;
+            }
+        }
+
+        /* Cart Styles */
+.cart-container {
+    position: relative;
+    margin-left: 20px;
+}
+
+.cart-icon {
+    font-size: 24px;
+    color: white;
+    position: relative;
+    text-decoration: none;
+}
+
+.cart-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #C6A969;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <a href="{{ url_for('home') }}" class="brand">Ayubo Go</a>
+        <div class="navigation">
+            <div class="navigation-items">
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="#">Experiences</a>
+                <a href="#">Help</a>
+                <a href="#">About</a>
+                <a href="#">Blogs and reviews</a>
+                <button class="btnr1" id="loginBtn">Login/Register</button>
+                <button class="btnr1">Book Now</button>
+
+                <div class="cart-container">
+                    <a href="/cart" class="cart-icon">
+                        <i class='bx bx-cart'></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Discover Authentic Sri Lankan Cultural Experiences</h1>
+            <p>Immerse yourself in centuries-old traditions, healing practices, and artistic heritage through carefully curated experiences.</p>
+            <div class="search-options">
+                <div class="search-option">
+                    <i class="fas fa-list"></i>
+                    Select Experience
+                </div>
+                <div class="search-option">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Select Location
+                </div>
+                <button class="explore-btn" id="exploreBtn">
+                    <i class="fas fa-search"></i>
+                    Explore Experiences
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="box-container">
+            <div class="box">
+                <h3>Quick Links</h3>
+                <a href="#home"><i class="fas fa-home"></i> Home</a>
+                <a href="#experiences"><i class="fas fa-map-marked-alt"></i> Experiences</a>
+                <a href="#help"><i class="fas fa-question-circle"></i> Help</a>
+                <a href="#about"><i class="fas fa-info-circle"></i> About</a>
+                <a href="#blogs"><i class="fas fa-comments"></i> Blogs & Reviews</a>
+            </div>
+            <div class="box">
+                <h3>Legal</h3>
+                <a href="#privacy"><i class="fas fa-user-shield"></i> Privacy Policy</a>
+                <a href="#terms"><i class="fas fa-file-contract"></i> Terms & Conditions</a>
+            </div>
+            <div class="box">
+                <h3>Connect With Us</h3>
+                <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
+            <div class="box">
+                <h3>Contact Us</h3>
+                <a href="tel:+94760127391"><i class="fas fa-phone"></i> +94 760 127 391</a>
+                <a href="https://maps.google.com/?q=Colombo,Sri Lanka" target="_blank">
+                    <i class="fas fa-map-marker-alt"></i> Colombo, Sri Lanka
+                </a>
+                <a href="mailto:Ayubogo@gmail.com"><i class="fas fa-envelope"></i> Ayubogo@gmail.com</a>
+            </div>
+        </div>
+        <div class="credit">© 2025 <strong>AyuboGo.lk</strong>. All rights reserved.</div>
+    </footer>
+
+    <script>
+
+document.getElementById('exploreBtn').addEventListener('click', function() {
+    window.location.href = "{{ url_for('explore') }}";  // Matches the Flask route name
+});
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchOptions = document.querySelectorAll('.search-option');
+            searchOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const optionText = this.textContent.trim();
+                    if (optionText.includes('Select Experience')) {
+                        alert('Experience selection modal would open here');
+                    } else if (optionText.includes('Select Location')) {
+                        alert('Location selection modal would open here');
+                    }
+                });
+            });
+
+            const exploreBtn = document.getElementById('exploreBtn');
+if (exploreBtn) {
+    exploreBtn.addEventListener('click', function() {
+        window.location.href = "{{ url_for('categories') }}";
+    });
+}
+
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', function() {
+                    alert('Login/Register modal would open here');
+                });
+            }
+        });
+
+        document.getElementById('loginBtn').addEventListener('click', function() {
+    window.location.href = '/adminlog';
+});
+
+    </script>
+</body>
+</html>

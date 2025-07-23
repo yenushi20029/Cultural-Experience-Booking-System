@@ -1,0 +1,457 @@
+/* Base Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: url('https://www.laingbuissonnews.com/wp-content/uploads/sites/3/2021/02/Spa-wellness-massage.jpg') no-repeat center center/cover;
+    background-size: cover;
+    color: white;
+}
+
+/* Dark Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: -1;
+}
+
+/* Form Styling */
+form {
+    width: 90%;
+    max-width: 800px;
+    color: rgb(255, 255, 255);
+    text-align: left;
+    background: linear-gradient(145deg, #4E6F48, #3b4a34);
+    backdrop-filter: blur(15px);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 80px;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.section-title i {
+    margin-right: 8px;
+    color: #FFD700;
+}
+
+/* Inputs and Select */
+input, select {
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+input::placeholder, select {
+    color: white;
+}
+
+/* Spacing Between Rows */
+.row {
+    margin-bottom: 30px;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #C6A969;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 10px 0;
+}
+
+.button-group button {
+    width: auto;
+    margin: 0 8px;
+    display: inline-block;
+}
+
+.button-group button:first-child {
+    margin-left: 1;
+}
+
+.button-group button:last-child {
+    margin-right: 1;
+}
+
+button:hover {
+    background: #B89D5F;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Title Styling */
+.title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Sub-heading Styling */
+.sub-heading {
+    font-size: 1.5rem;
+    font-weight: lighter;
+    color: white;
+    text-align: center;
+    margin-top: 0;
+    opacity: 0.9;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Header Styling */
+header {
+    z-index: 999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 170px;
+    transition: 0.5s ease;
+    background: transparent;
+}
+
+header .brand {
+    color: white;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    font-family: 'Arial', sans-serif;
+    margin-left: 0;
+}
+
+header .brand i {
+    font-size: 1.5em;
+    color: #C6A969;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-left: auto;
+}
+
+.navigation-items {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 20px;
+}
+
+.navigation-items li {
+    margin: 0;
+}
+
+.navigation-items li a {
+    text-decoration: none;
+    color: white;
+    position: relative;
+    font-size: 1em;
+    font-weight: 500;
+    transition: 0.3s ease;
+    white-space: nowrap;
+}
+
+.navigation-items li a:before {
+    content: '';
+    position: absolute;
+    background: white;
+    width: 0;
+    height: 3px;
+    bottom: 0;
+    left: 0;
+    transition: 0.3s ease;
+}
+
+.navigation-items li a:hover:before {
+    width: 100%;
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: 20px;
+}
+
+.btnr1 {
+    padding: 10px 15px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    text-transform: capitalize;
+    font-weight: normal;
+}
+
+.btnr1:hover {
+    background-color: #C6A969;
+    transform: translateY(-2px);
+}
+
+
+/* Footer */
+.footer {
+    width: 100%;
+    background: #222;
+    padding: 30px 20px;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer .box {
+    flex: 1 1 250px;
+    max-width: 300px;
+    text-align: left;
+}
+
+.footer .box h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #C6A969;
+}
+
+.footer .box a {
+    display: block;
+    color: #ccc;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.footer .box a:hover {
+    color: #C6A969;
+}
+
+.footer .box i {
+    margin-right: 8px;
+}
+
+.footer .credit {
+    margin-top: 20px;
+    font-size: 14px;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.footer .credit strong {
+    color: #C6A969;
+}
+
+/* Responsive Design */
+@media (max-width: 1040px) {
+    header {
+        padding: 12px 20px;
+    }
+
+    .navigation {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .navigation-items {
+        flex-wrap: wrap;
+    }
+
+    .payment-history-container {
+        width: 95%;
+        margin: 80px auto 20px auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .payment-history-table {
+        font-size: 0.8em;
+    }
+
+    .payment-history-table th,
+    .payment-history-table td {
+        padding: 8px 10px;
+    }
+
+    .footer .box {
+        flex: 1 1 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    header .brand {
+        font-size: 1.2rem;
+    }
+
+    .payment-history-container {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .footer .box {
+        flex: 1 1 100%;
+    }
+}
+
+/* Booking Form Buttons Section */
+.booking-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.booking-buttons .btn-group {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Common Button Styles */
+.confirm-btn,
+.normal-btn,
+#generateReportBtn {
+    background: linear-gradient(145deg, #C6A969, #B89D5F);
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-width: 150px;
+    margin: 0 10px;
+}
+
+.confirm-btn:hover,
+.normal-btn:hover,
+#generateReportBtn:hover {
+    background: linear-gradient(145deg, #B89D5F, #C6A969);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.confirm-btn:active,
+.normal-btn:active,
+#generateReportBtn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.normal-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive adjustments for buttons */
+@media (max-width: 768px) {
+    .booking-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .booking-buttons .btn-group {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .confirm-btn,
+    .normal-btn,
+    #generateReportBtn {
+        width: 100%;
+        max-width: 200px;
+        padding: 8px 15px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .booking-buttons .btn-group {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .confirm-btn,
+    .normal-btn,
+    #generateReportBtn {
+        width: 100%;
+        max-width: 180px;
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}

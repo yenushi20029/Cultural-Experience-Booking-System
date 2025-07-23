@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Registration</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+   
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #597E52;
+        }
+
+        .wrapper {
+            width: 850px;
+            background: linear-gradient(145deg, #4E6F48, #3b4a34); 
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s ease;
+           
+            margin-bottom: 150px; 
+        }
+
+        .wrapper:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .column {
+            width: 48%;
+        }
+
+        .wrapper h1 {
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+            width: 100%;
+        }
+
+        .input-box {
+            margin-bottom: 15px;
+        }
+
+        .input-box label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #C6A969;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #C6A969;
+            outline: none;
+            background-color: white; 
+            color: black;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .input-box input:focus {
+            border: 1px solid #C6A969;
+            box-shadow: 0 0 5px #C6A969;
+        }
+
+        .input-box .required:after {
+            content: "*";
+            color: red;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 17px;
+            align-items: center;
+        }
+
+        .input-box input[type="radio"] {
+            width: 14px; 
+            height: 14px; 
+            accent-color: #C6A969; 
+            cursor: pointer;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #C6A969;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #4E6F48;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+        }
+
+        .input-box input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+      .input-box input[type="radio"] {
+            margin-right: 5px;
+   }
+
+        .input-box select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #C6A969;
+    outline: none;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+.input-box input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #C6A969;
+    outline: none;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.input-box select:focus {
+    border: 1px solid #C6A969;
+    box-shadow: 0 0 5px #C6A969;
+}
+.input-box input[type="text"]:focus {
+    border: 1px solid #C6A969;
+    box-shadow: 0 0 5px #C6A969;
+}
+
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+header{
+    z-index:999;
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 200px;
+    transition: 0.5s ease;
+}
+
+header .brand{
+    color:white;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap:8px;
+    white-space: nowrap;
+    font-family: 'Arial', sans-serif;
+}
+
+header .brand i {
+    font-size: 1.5em; 
+    color: #C6A969; 
+}
+
+.navigation {
+    display: flex;
+    gap: 20px;
+    flex-grow: 2; 
+    justify-content: flex-end; 
+}
+
+.brand {
+    font-size: 1.8em;
+    font-weight: bold;
+    flex-grow: 1; 
+    color: white; 
+}
+
+header .navigation{
+    position: relative;
+}
+
+header .navigation .navigation-items a{
+    position: relative;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 30px;
+    transition: 0.3s ease;
+}
+
+header .navigation .navigation-items a:before{
+    content:'';
+    position: absolute;
+    background: white;
+    width:0;
+    height: 3px;
+    bottom: 0;
+    left:0;
+    transition: 0.3s ease;
+}
+
+header .navigation .navigation-items a:hover:before{
+    width:100%; 
+}
+
+.search-bar {
+    padding: 5px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 160px;
+}
+
+.btnr1 {
+    padding: 10px 15px;
+    background-color:black;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    margin-left: 5px;
+    cursor: pointer;
+    opacity: 60%;
+}
+
+.btnr1:hover {
+    background-color: #C6A969;
+}
+
+@media (max-width: 1040px){
+    header {
+        padding: 12px 20px;
+    }
+}
+
+.footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #222;
+    padding: 10px 20px;
+ 
+    margin-top: 780px;
+    padding-top: 1000px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; 
+    background: #597E52;
+}
+
+.container {
+
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 80px; 
+    margin-top: 150px; 
+    margin-bottom: 120px; 
+}
+
+.wrapper {
+    width: 850px;
+    background: linear-gradient(145deg, #4E6F48, #3b4a34);
+    border-radius: 20px;
+    padding: 40px;
+    color: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: 0.3s ease;
+    margin-top: 150px; 
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #597E52;
+}
+
+.container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 0; 
+}
+
+.wrapper {
+    width: 850px;
+    background: linear-gradient(145deg, #4E6F48, #3b4a34);
+    border-radius: 20px;
+    padding: 40px;
+    color: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: 0.3s ease;
+    margin-bottom: 150px; 
+}
+
+.footer {
+    width: 100%;
+    background: #222;
+    padding: 20px;
+    text-align: center;
+    margin-top: auto; 
+}
+
+
+.footer {
+    width: 100%;
+    background: #222;
+    padding: 10px 20px;
+    text-align: center;
+    margin-top: auto; 
+}
+
+
+
+
+.footer .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+}
+.container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3000px; 
+    margin-bottom: 2500px; 
+}
+
+
+.footer .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.footer .box {
+    flex: 1 1 200px;
+    max-width: 300px;
+    text-align: left;
+}
+
+.footer .box h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #C6A969;
+}
+
+.footer .box a {
+    display: block;
+    color: #ccc;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.footer .box a:hover {
+    color: #C6A969;
+}
+
+.footer .box i {
+    margin-right: 8px;
+}
+
+.footer .credit {
+    margin-top: 20px;
+    font-size: 14px;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+    text-align: center; 
+}
+
+
+.footer .credit strong {
+    color: #C6A969;
+}
+
+
+
+
+    </style>
+</head>
+<body>
+    <!--Header Section-->
+    <header>
+        <a href="#" class="brand"> Ayubo Go</a>
+        </div>
+        <div class="navigation">
+            <div class="navigation-items">
+              <a href="#">Home</a>
+              <a href="#">Experiences</a>
+              <a href="#">Help</a>
+              <a href="#">About</a>
+              <a href="#">Blogs and reviews</a>
+
+                
+
+              <button class="btnr1" id="loginBtn">Login/Register</button>
+              <button class="btnr1">Book Now</button>
+
+            </div>
+        </div>
+    </header>
+   
+    <form id="registration-form" method="POST" action="/register" onsubmit="return validateForm()">
+        <div class="wrapper">
+            <div class="column">
+                <h1>Register Suppliers</h1>
+                <div class="input-box">
+                    <label for="name" class="required">Business Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="input-box">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email">
+                </div>
+                <div class="input-box">
+                    <label for="password" class="required">Password</label>
+                    <input type="text" id="password" name="password" required>
+                </div>
+                
+               
+                
+                <div class="input-box">
+                    <label for="category" class="required">Service Category</label>
+                    <select id="category" name="category" required onchange="toggleOtherCountry()">
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="Arts and crafts" selected="selected">Arts and crafts</option> 
+                        <option value="Wellness and Healing">Wellness and Healing</option> 
+                        <option value="Performing Arts">Performing Arts</option>  
+                      
+                    </select>
+                     
+                </div>
+               
+                
+            </div>
+            <div class="column">
+                <div class="input-box">
+                    <label for="description" class="required">Brief Description of your service</label>
+                    <textarea id="description" name="description" rows="4" style="width: 100%;" required></textarea>
+                </div>
+                
+                
+              <div>
+                <button type="submit" class="btn" ><b>Register</b></button>
+              </div>
+            </div>
+        </div>
+       
+    </form>
+
+    
+    <!-- Footer Section Starts -->
+<footer class="footer">
+    <div class="box-container">
+        <div class="box">
+            <h3>Quick Links</h3>
+            <a href="#home"><i class="fas fa-home"></i> Home</a>
+            <a href="#experiences"><i class="fas fa-map-marked-alt"></i> Experiences</a>
+            <a href="#help"><i class="fas fa-question-circle"></i> Help</a>
+            <a href="#about"><i class="fas fa-info-circle"></i> About</a>
+            <a href="#blogs"><i class="fas fa-comments"></i> Blogs & Reviews</a>
+        </div>
+        <div class="box">
+            <h3>Legal</h3>
+            <a href="#privacy"><i class="fas fa-user-shield"></i> Privacy Policy</a>
+            <a href="#terms"><i class="fas fa-file-contract"></i> Terms & Conditions</a>
+        </div>
+        <div class="box">
+            <h3>Connect With Us</h3>
+            <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+            <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+        <div class="box">
+            <h3>Contact Us</h3>
+            <a href="tel:+94760127391"><i class="fas fa-phone"></i> +94 760 127 391</a>
+            <a href="https://maps.google.com/?q=Colombo,Sri Lanka" target="_blank">
+                <i class="fas fa-map-marker-alt"></i> Colombo, Sri Lanka
+            </a>
+            <a href="mailto:Ayubogo@gmail.com"><i class="fas fa-envelope"></i> Ayubogo@gmail.com</a>
+        </div>
+    </div>
+    <div class="credit">© 2025 <strong>AyuboGo.lk</strong>. All rights reserved.</div>
+</footer>
+<!-- Footer Section Ends -->
+
+    
+    
+<script>
+    document.getElementById('registration-form').onsubmit = function(event) {
+        event.preventDefault(); // Prevent default form submission
+        const formData = new FormData(this);
+
+        fetch('/register', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url; // Redirect to /suppliers
+            } else {
+                return response.json();
+            }
+        })
+        .then(data => {
+            if (data && data.error) {
+                alert(data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Registration failed. Check console for details.");
+        });
+    };
+</script>
+</body>
+</html>

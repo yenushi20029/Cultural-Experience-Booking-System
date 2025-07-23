@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Supplier Details</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+   
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: #f5f5f5;
+        }
+
+        header {
+            z-index: 999;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 200px;
+            background: #597E52;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: 0.5s ease;
+        }
+
+        header .brand {
+            color: white;
+            font-size: 1.5em;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            font-family: 'Arial', sans-serif;
+        }
+
+        header .brand i {
+            font-size: 1.5em;
+            color: #C6A969;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 20px;
+            flex-grow: 2;
+            justify-content: flex-end;
+        }
+
+        header .navigation .navigation-items a {
+            position: relative;
+            color: white;
+            font-size: 1em;
+            font-weight: 500;
+            text-decoration: none;
+            margin-left: 30px;
+            transition: 0.3s ease;
+        }
+
+        header .navigation .navigation-items a:before {
+            content: '';
+            position: absolute;
+            background: white;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            transition: 0.3s ease;
+        }
+
+        header .navigation .navigation-items a:hover:before {
+            width: 100%;
+        }
+
+        .btnr1 {
+            padding: 10px 15px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            margin-left: 5px;
+            cursor: pointer;
+            opacity: 60%;
+        }
+
+        .btnr1:hover {
+            background-color: #C6A969;
+        }
+
+        .main-content {
+            margin-top: 100px;
+            padding: 40px;
+            width: 100%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            color: #597E52;
+            font-weight: 600;
+        }
+
+        .search-add-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-bar {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            width: 250px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            border-color: #C6A969;
+            box-shadow: 0 0 5px rgba(198, 169, 105, 0.5);
+        }
+
+        .add-supplier-btn {
+            padding: 10px 20px;
+            background-color: #C6A969;
+            color: black;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-supplier-btn:hover {
+            background-color: #4E6F48;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .suppliers-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .suppliers-table th {
+            background-color: #597E52;
+            color: white;
+            font-weight: 600;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .suppliers-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+        }
+
+        .suppliers-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .suppliers-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .suppliers-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .edit-btn {
+            background-color: #4CAF50;
+        }
+
+        .edit-btn:hover {
+            background-color: #3e8e41;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+        }
+
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: #f5f5f5;
+            margin: 0; /* Ensure no default margin */
+        }
+
+        .main-content {
+            flex: 1; /* Takes up available space */
+            margin-bottom: 0; /* Remove any bottom margin */
+            padding-bottom: 20px; /* Add some padding at bottom */
+        }
+
+
+        .footer {
+            width: 100%;
+            background: #222;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer .box {
+            flex: 1 1 200px;
+            max-width: 300px;
+            text-align: left;
+        }
+
+        .footer .box h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #C6A969;
+        }
+
+        .footer .box a {
+            display: block;
+            color: #ccc;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .footer .box a:hover {
+            color: #C6A969;
+        }
+
+        .footer .box i {
+            margin-right: 8px;
+        }
+
+        .footer .credit {
+            margin-top: 20px;
+            font-size: 14px;
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            text-align: center;
+            color: #ccc;
+        }
+
+        .footer .credit strong {
+            color: #C6A969;
+        }
+
+        @media (max-width: 1040px) {
+            header {
+                padding: 12px 20px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .search-add-container {
+                width: 100%;
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+
+        .download-pdf-btn {
+    padding: 10px 20px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.download-pdf-btn:hover {
+    background-color: #c9302c;
+    transform: translateY(-2px);
+}
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <a href="#" class="brand"> Ayubo Go</a>
+        <div class="navigation">
+            <div class="navigation-items">
+                <a href="/home">Home</a>
+                <a href="#">Experiences</a>
+                <a href="#">Help</a>
+                <a href="#">About</a>
+                <a href="#">Blogs and reviews</a>
+                <button class="btnr1" id="loginBtn">Login/Register</button>
+                <button class="btnr1">Book Now</button>
+            </div>
+        </div>
+    </header>
+   
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Supplier Details</h1>
+            <div class="search-add-container">
+                <input type="text" class="search-bar" placeholder="Search suppliers...">
+                <button class="add-supplier-btn" onclick="window.location.href='/register'">
+                    <i class="fas fa-plus"></i> Add Supplier
+                </button>
+                <button class="download-pdf-btn" onclick="window.location.href='/download-suppliers-pdf'">
+                    <i class="fas fa-file-pdf"></i> Download PDF
+                </button>
+            </div>
+        </div>
+        
+        <table class="suppliers-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Business Name</th>
+                    <th>Email</th>
+                    <th>Service Category</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if suppliers %}
+                    {% for s in suppliers %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ s[1] }}</td>
+                        <td>{{ s[2] }}</td>
+                        <td>{{ s[3] }}</td>
+                        <td>{{ s[4] }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="edit-btn" onclick="window.location.href='/edit/{{ s[0] }}'">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="delete-btn" onclick="deleteSupplier('{{ s[0] }}')">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="no-data">No supplier data available</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="box-container">
+            <div class="box">
+                <h3>Quick Links</h3>
+                <a href="#home"><i class="fas fa-home"></i> Home</a>
+                <a href="#experiences"><i class="fas fa-map-marked-alt"></i> Experiences</a>
+                <a href="#help"><i class="fas fa-question-circle"></i> Help</a>
+                <a href="#about"><i class="fas fa-info-circle"></i> About</a>
+                <a href="#blogs"><i class="fas fa-comments"></i> Blogs & Reviews</a>
+            </div>
+            <div class="box">
+                <h3>Legal</h3>
+                <a href="#privacy"><i class="fas fa-user-shield"></i> Privacy Policy</a>
+                <a href="#terms"><i class="fas fa-file-contract"></i> Terms & Conditions</a>
+            </div>
+            <div class="box">
+                <h3>Connect With Us</h3>
+                <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
+            <div class="box">
+                <h3>Contact Us</h3>
+                <a href="tel:+94760127391"><i class="fas fa-phone"></i> +94 760 127 391</a>
+                <a href="https://maps.google.com/?q=Colombo,Sri Lanka" target="_blank">
+                    <i class="fas fa-map-marker-alt"></i> Colombo, Sri Lanka
+                </a>
+                <a href="mailto:Ayubogo@gmail.com"><i class="fas fa-envelope"></i> Ayubogo@gmail.com</a>
+            </div>
+        </div>
+        <div class="credit">© 2025 <strong>AyuboGo.lk</strong>. All rights reserved.</div>
+    </footer>
+
+    <script>
+        function deleteSupplier(id) {
+            if (confirm('Are you sure you want to delete this supplier?')) {
+                fetch('/delete/' + id, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if (response.status === 204) {
+                        alert('Supplier deleted successfully');
+                        window.location.reload();
+                    } else {
+                        response.json().then(data => {
+                            alert(data.error || 'Error deleting supplier');
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error deleting supplier');
+                });
+            }
+        }
+
+        // Search functionality
+        document.querySelector('.search-bar').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('.suppliers-table tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

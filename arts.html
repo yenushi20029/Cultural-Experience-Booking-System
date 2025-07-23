@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayubo Go - Wellness and Traditional Healing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: #597E52;
+        }
+
+        header{
+    z-index:999;
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 200px;
+    transition: 0.5s ease;
+}
+
+header .brand{
+    color:white;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap:8px;
+    white-space: nowrap;
+    font-family: 'Arial', sans-serif;
+}
+
+header .brand i {
+    font-size: 1.5em; 
+    color: #C6A969; 
+}
+
+.navigation {
+    display: flex;
+    gap: 20px;
+    flex-grow: 2; 
+    justify-content: flex-end; 
+}
+
+.brand {
+    font-size: 1.8em;
+    font-weight: bold;
+    flex-grow: 1; 
+    color: white; 
+}
+
+
+
+header .navigation{
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+}
+header .navigation .navigation-items {
+    display: flex;
+    align-items: center;
+}
+
+header .navigation .navigation-items a{
+     position: relative;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 30px;
+    transition: 0.3s ease ;
+
+}
+.date-picker-section {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    padding: 20px;
+    border: 2px dashed #597E52;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    flex-wrap: wrap;
+}
+
+.date-column {
+    flex: 1;
+    min-width: 250px;
+}
+
+.time-column {
+    flex: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.date-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.date-input {
+    padding: 10px 24px;
+    border: 2px solid #597E52;
+    border-radius: 8px;
+    font-size: 1rem;
+    width: 100px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.date-input:focus {
+    border-color: #3d6542;
+}
+
+.date-error {
+    color: #d93025;
+    font-size: 0.9rem;
+    margin-top: 6px;
+    display: none;
+}
+.time-slot-btn {
+    padding: 10px 14px;
+    margin: 6px 0;
+    border: 2px solid #597E52;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #597E52;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.time-slot-btn:hover {
+    background-color: #597E52;
+    color: white;
+}
+.time-slot-radio {
+    display: none;
+}
+
+.time-slot-label {
+    display: inline-block;
+    margin: 6px 8px 6px 0;
+    padding: 10px 14px;
+    border: 2px solid #597E52;
+    border-radius: 8px;
+    background-color: white;
+    color: #597E52;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.time-slot-radio:checked + .time-slot-label {
+    background-color: #597E52;
+    color: white;
+    border-color: #3d6542;
+}
+
+/* Selected Time Slot */
+.time-slot-btn.selected {
+    background-color: #597E52;
+    color: white;
+    border: 2px solid #3d6542;
+}
+
+.time-slot-btn {
+    padding: 10px 14px;
+    margin: 6px 0;
+    border: 2px solid #597E52;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #597E52;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.time-slot-btn:hover {
+    background-color: #597E52;
+    color: white;
+}
+
+header .navigation .navigation-items a:before{
+    content:'';
+    position: absolute;
+    background: white;
+    width:0;
+    height: 3px;
+    bottom: 0;
+    left:0;
+    transition: 0.3s ease;
+}
+
+header .navigation .navigation-items a:hover:before{
+    width:100%; 
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: 50px;
+  margin-right: 70px; 
+  
+}
+
+.search-container i {
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 5px;
+  color: white;
+}
+
+/* Hide the search input by default */
+.search-bar {
+  width: 0;
+  opacity: 0;
+  padding: 5px;
+  margin-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: all 0.4s ease;
+  font-size: 14px;
+  background-color: white;
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Expand on hover */
+.search-container:hover .search-bar {
+  width: 160px;
+  opacity: 1;
+  position: relative;
+  transform: translateY(0);
+}
+.btn-group {
+    display: flex;
+    gap: 15px; /* Spacing between the two buttons */
+}
+
+.btn-group {
+    margin-left: auto; /* Pushes this container to the far right */
+    display: flex;
+    gap: 15px;
+}
+
+
+
+.navbtn {
+    padding: 10px 15px;
+    background-color:black;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    margin-left: 5px;
+    cursor: pointer;
+    opacity: 60%;
+}
+
+.navbtn:hover {
+    background-color: #C6A969;
+}
+
+
+        .btnr1 {
+            padding: 10px 15px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            margin-left: 5px;
+            cursor: pointer;
+            opacity: 60%;
+        }
+
+        .btnr1:hover {
+            background-color: #C6A969;
+        }
+
+        /* Wellness Section Styles */
+        .wellness-section {
+            flex-grow: 1;
+            padding: 120px 50px 40px; /* Added top padding for header */
+            background-color: #597E52;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .wellness-title {
+            font-size: 36px;
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .wellness-tag {
+            display: inline-block;
+            background-color: white;
+            color: #597E52;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 30px;
+            margin-left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .experiences-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .experience-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 380px; /* Reduced card width */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .experience-image {
+            height: 180px; /* Reduced image height */
+            overflow: hidden;
+        }
+
+        .experience-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .experience-card:hover .experience-image img {
+            transform: scale(1.1);
+        }
+
+        .experience-content {
+            padding: 15px; /* Reduced padding */
+            color: #333;
+        }
+
+        .experience-content h3 {
+            font-size: 18px; /* Slightly smaller font */
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .experience-content p {
+            font-size: 13px; /* Smaller font */
+            line-height: 1.5;
+            margin-bottom: 12px;
+            color: #666;
+        }
+
+        .experience-meta {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .experience-price {
+            font-size: 16px; /* Slightly smaller */
+            font-weight: 600;
+            color: #C6A969;
+        }
+
+        .book-now-btn {
+            display: inline-block;
+            background-color: #597E52;
+            color: white;
+            text-align: center;
+            padding: 6px 16px; /* Smaller button */
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid #597E52;
+            transition: all 0.3s ease;
+        }
+
+        .book-now-btn:hover {
+            background-color: #C6A969;
+            color: #333;
+        }
+
+        .price-booking {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Vendor Selection Page Styles */
+        .vendor-selection-page {
+            flex-grow: 1;
+            padding: 120px 50px 40px;
+            background-color: #597E52;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: none; /* Hidden by default */
+        }
+
+        .vendor-selection-title {
+            font-size: 36px;
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+.vendor-card {
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 16px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #333;
+}
+
+.vendor-card:hover {
+    border-color: #4CAF50;
+}
+
+.vendor-card.selected {
+    background-color: #4CAF50;
+    color: white;
+    border-color: #388E3C;
+}
+
+.vendor-card.selected .select-vendor-btn {
+    background-color: white;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.vendor-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.vendor-rating {
+    font-size: 1.2rem;
+    color: orange;
+}
+z
+        .back-to-experiences {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .back-to-experiences i {
+            margin-right: 8px;
+        }
+
+        .vendor-selection-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+        }
+
+        .experience-header {
+            display: flex;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .experience-header-image {
+            width: 200px;
+            height: 150px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .experience-header-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .experience-header-info h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .experience-header-info p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .experience-price-tag {
+            font-size: 18px;
+            font-weight: 600;
+            color: #C6A969;
+        }
+
+        .vendor-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .vendor-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .vendor-tab.active {
+            color: #597E52;
+            border-bottom: 2px solid #597E52;
+        }
+
+        .vendor-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .vendor-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .vendor-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .vendor-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .vendor-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .vendor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .vendor-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .vendor-rating {
+            color: #FFC107;
+            font-size: 14px;
+        }
+
+        .vendor-sessions {
+            margin-top: 15px;
+        }
+
+        .session-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .session-times {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .session-time {
+            padding: 5px 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .session-time:hover {
+            background-color: #597E52;
+            color: white;
+        }
+
+        .session-time.selected {
+            background-color: #597E52;
+            color: white;
+        }
+
+        .session-time.unavailable {
+            background-color: #f5f5f5;
+            color: #999;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        .session-time.booked {
+            background-color: #ffcccc;
+            color: #cc0000;
+            cursor: not-allowed;
+        }
+
+        .extras-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .extras-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .extra-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .extra-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .extra-option label {
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .extra-option input[type="checkbox"] {
+            accent-color: #597E52;
+        }
+
+        .extra-price {
+            font-size: 14px;
+            color: #597E52;
+            font-weight: 500;
+        }
+
+        .add-to-cart-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .total-price {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .total-price span {
+            color: #C6A969;
+        }
+
+        .add-to-cart-btn {
+            padding: 10px 25px;
+            background-color: #597E52;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #C6A969;
+        }
+
+        /* Cart Page Styles */
+        .cart-page {
+            flex-grow: 1;
+            padding: 120px 50px 40px;
+            background-color: #597E52;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: none; /* Hidden by default */
+        }
+
+        .cart-title {
+            font-size: 36px;
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .cart-items {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 60px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-details h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .cart-item-price {
+            font-size: 16px;
+            color: #C6A969;
+            font-weight: 600;
+            margin-right: 20px;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            background-color: #597E52;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .quantity-btn:hover {
+            background-color: #C6A969;
+        }
+
+        .quantity-value {
+            margin: 0 10px;
+            font-size: 16px;
+        }
+
+        .remove-item {
+            color: #ff6b6b;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+
+        .remove-item:hover {
+            color: #ff0000;
+        }
+
+        .cart-summary {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .summary-title {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .summary-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .total-row {
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .total-value {
+            color: #C6A969;
+            font-size: 18px;
+        }
+
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #597E52;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .checkout-btn:hover {
+            background-color: #C6A969;
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            padding: 50px 0;
+        }
+
+        /* Footer Styles - Matching hero.html */
+        .footer {
+            width: 100%;
+            background: #222;
+            padding: 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer .box {
+            flex: 1 1 200px;
+            max-width: 300px;
+            text-align: left;
+        }
+
+        .footer .box h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #C6A969;
+        }
+
+        .footer .box a {
+            display: block;
+            color: #ccc;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .footer .box a:hover {
+            color: #C6A969;
+        }
+
+        .footer .box i {
+            margin-right: 8px;
+        }
+
+        .footer .credit {
+            margin-top: 20px;
+            font-size: 14px;
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            text-align: center;
+            color: #ccc;
+        }
+
+        .footer .credit strong {
+            color: #C6A969;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1040px) {
+            header {
+                padding: 12px 20px;
+            }
+
+            .wellness-section, .vendor-selection-page, .cart-page {
+                padding: 100px 20px 30px;
+            }
+
+            .wellness-title, .vendor-selection-title, .cart-title {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header .navigation .navigation-items {
+                display: none;
+            }
+
+            .experience-card {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .experience-header {
+                flex-direction: column;
+            }
+
+            .experience-header-image {
+                width: 100%;
+                height: 200px;
+            }
+
+            .vendor-list {
+                grid-template-columns: 1fr;
+            }
+
+            .footer .box-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer .box {
+                text-align: center;
+            }
+            
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .cart-item-info {
+                margin-bottom: 10px;
+            }
+            
+            .cart-item-actions {
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        
+        header {
+            z-index: 999;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px; /* Reduced side padding */
+            transition: 0.5s ease;
+        }
+
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Reduced gap between items */
+        }
+
+        .navigation-items {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Reduced gap between navigation links */
+        }
+
+        header .navigation .navigation-items a {
+            position: relative;
+            color: white;
+            font-size: 0.9em; /* Slightly smaller font */
+            font-weight: 500;
+            text-decoration: none;
+            margin-left: 15px; /* Reduced margin */
+            transition: 0.3s ease;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        .search-container {
+            margin-left: 15px; /* Reduced margin */
+            margin-right: 15px; /* Reduced margin */
+        }
+
+        .btnr1 {
+            padding: 8px 12px; /* Slightly smaller buttons */
+            font-size: 0.9em; /* Smaller font */
+        }
+
+        /* Cart Styles - made more compact */
+        .cart-container {
+            position: relative;
+            margin-left: 15px;
+            margin-right: 5px;
+        }
+
+        .cart-icon {
+            font-size: 20px; /* Smaller icon */
+            color: white;
+            position: relative;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #C6A969;
+            color: white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        /* For mobile view */
+        @media (max-width: 768px) {
+            header {
+                padding: 12px 15px;
+            }
+            
+            .navigation-items a:not(.brand) {
+                display: none; /* Hide regular nav items on mobile */
+            }
+            
+            .cart-container {
+                margin-left: auto; /* Push cart to the right */
+                margin-right: 15px;
+            }
+            
+            /* You might want to add a mobile menu button here */
+        }
+        /* Cart Styles */
+        .cart-container {
+            position: relative;
+            margin-left: 20px;
+        }
+
+        .cart-icon {
+            font-size: 24px;
+            color: white;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #C6A969;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.error {
+            background-color: #ff6b6b;
+        }
+
+        .toast.success {
+            background-color: #597E52;
+        }
+
+        /* Button Group Styles */
+.button-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.add-details-btn {
+    padding: 10px 25px;
+    background-color: #597E52;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.add-details-btn:hover {
+    background-color: #C6A969;
+}
+
+.add-to-cart-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.required-note {
+    position: absolute;
+    bottom: -20px;
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+}
+
+.required-star {
+    color: red;
+    font-size: 14px;
+    margin-right: 3px;
+}
+
+/* Adjust the add-to-cart-container for the new layout */
+.add-to-cart-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+@media (max-width: 600px) {
+    .add-to-cart-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .button-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="brand"> Ayubo Go</a>
+
+        <div class="navigation">
+            <div class="navigation-items">
+              <a href="/">Home</a>
+              <a href="/categories">Explore</a>
+              <a href="/aboutus">About</a>
+              <a href="/feedback">Blogs and reviews</a>
+
+                 <div class="search-container">
+                    <i class='bx bx-search'></i>
+                    <input type="text" class="search-bar" placeholder="Search...">
+
+                  </div>
+
+                <button class="navbtn" href="/cart" id="cartbtn"><i class='bx bx-cart'></i>  Cart</button>
+
+                <button class="navbtn"  id="loginBtn" >Login/Register</button>
+
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+        <!-- Wellness Section -->
+    <section class="wellness-section" id="wellness-section">
+        <h1 class="wellness-title">Traditional Crafts Experiences</h1>
+        <div class="wellness-tag">Cultural</div>
+    
+        <div class="experiences-container">
+            <!-- Experience Card 1: Batik Making -->
+            <div class="experience-card" data-id="c1" data-name="Batik Making" data-price="45" data-category="Cultural">
+                <div class="experience-image">
+                    <img src="https://lesterlost.com/wp-content/uploads/2018/11/lesterlost-travel-sri-lanka-kandy-batik-factory-1024x640.jpg" alt="Batik Making">
+                </div>
+                <div class="experience-content">
+                    <h3>Batik Making</h3>
+                    <p>Introduction to Batik, Advanced Batik Dyeing, Batik T-Shirt Design Workshop by Kelum Gunasekara</p>
+                    <div class="price-booking">
+                        <button class="btnr1" id="make-reservation-btn">Make a reservation</button>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Experience Card 2: Handloom Weaving -->
+            <div class="experience-card" data-id="c2" data-name="Handloom Weaving" data-price="40" data-category="Cultural">
+                <div class="experience-image">
+                    <img src="https://imgs.search.brave.com/ZN0H0I0BlxjeOj6--OkQNj59Z_wU5rbLDjpMVp6QsC8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sZWdl/ci5pbWdpeC5uZXQv/RGVzdGluYXRpb25z/L1NyaWxhbmthX0Qx/MjgxL0dhbGxlX1A2/MzQxL3Nvb3JpeWEt/d2VhdmluZy1taWxs/cy0zODQ1MC5qcGc_/dz04MDAmaD00MDAm/YXV0bz1jb21wcmVz/cyxlbmhhbmNlLGZv/cm1hdCZxPTcyJmZp/dD1jcm9wJmNyb3A9/Zm9jYWw" alt="Handloom Weaving">
+                </div>
+                <div class="experience-content">
+                    <h3>Handloom Weaving</h3>
+                    <p>Weaving Basics, Pattern Techniques, Loom Handling Workshop by Nipuni Rajika</p>
+                    <div class="price-booking">
+                        <button class="btnr1" id="make-reservation-btn">Make a reservation</button>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Experience Card 3: Pottery Making -->
+            <div class="experience-card" data-id="c3" data-name="Pottery Making" data-price="35" data-category="Cultural">
+                <div class="experience-image">
+                    <img src="https://imgs.search.brave.com/NwOABUHKF18Tqrg2I4Ys6MOXntmH8IjRaOY-xIcIdfM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cy5s/YWtwdXJhLmNvbS9j/ZG4vc2hvcC9wcm9k/dWN0cy9MSzkzMzUw/MTAwLTA0LUUtMTI4/MC03MjAuanBnP3Y9/MTYyNjM2MTE4NyZ3/aWR0aD0xNDQ1" alt="Pottery Making">
+                </div>
+                <div class="experience-content">
+                    <h3>Pottery Making</h3>
+                    <p>Clay Shaping, Wheel Throwing, Pot Painting Workshop by Lakmini Wijethunga</p>
+                    <div class="price-booking">
+                        <button class="btnr1" id="make-reservation-btn">Make a reservation</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vendor Selection Page -->
+    <section class="vendor-selection-page" id="vendor-selection-page">
+        <a href="#" class="back-to-experiences" id="back-to-experiences">
+            <i class="fas fa-arrow-left"></i> Back to Experiences
+        </a>
+        <h1 class="vendor-selection-title">Select Your Vendor</h1>
+        
+        <div class="vendor-selection-content">
+            <div class="experience-header">
+                <div class="experience-header-image">
+                    <img id="vendor-exp-image" src="" alt="Experience Image">
+                </div>
+                <div class="experience-header-info">
+                    <h2 id="vendor-exp-title">Experience Title</h2>
+                    <p id="vendor-exp-description">Experience description goes here</p>
+                </div>
+            </div>
+            
+            <div class="vendor-tabs">
+                <div class="vendor-tab active" data-tab="available">Available Vendors</div>
+            </div>
+            
+            <div class="vendor-list" id="vendor-list">
+            </div>
+            
+
+            <div class="date-picker-section" style="display:none; margin: 0px 20%; align-items: center; justify-content: center;gap: 20px;">
+                <!-- Left Column: Date Picker -->
+                <div class="date-column">
+                    <label for="reservation-date" class="date-label"><strong>Select a Date:</strong></label>
+                    <input type="date" id="reservation-date" class="date-input" style="width: 200px;" min="">
+                    <span class="date-error">Please select a weekday.</span>
+                </div>
+            
+                <div id="time-column">
+                <label for="reservation-time" class="date-label" ><strong>Select a Time:</strong></label>
+
+                <select id="reservation-time" class="date-input" style="width: 200px; padding: 5px;">
+                    <option value=""> Select a time </option>
+                </select>
+                </div>                  
+            </div>
+            
+            <div id="details-section" style="display:none; margin: 20px 20%; align-items: center; justify-content: center;gap: 20px;">
+                <div>
+                    <label for="user-name" ><strong>Your Name:</strong></label>
+                    <input type="text" id="user-name" class="date-input"  style="margin-left: 30px; width: 300px;" readonly>
+                </div>
+            
+                <div style="margin-top: 10px;">
+                    <label for="num-adults"><strong>Number of Adults:</strong></label>
+                    <input type="number" id="num-adults" class="date-input" style="margin-left: 30px;" min="0" value="0">
+                </div>
+                
+                <div style="margin-top: 10px;">
+                    <label for="num-children-1-5"><strong>Children (1–5 yrs):</strong></label>
+                    <input type="number" id="num-children-1-5" class="date-input" style="margin-left: 30px;" min="0" value="0">
+                </div>
+                
+                <div style="margin-top: 10px;">
+                    <label for="num-children-6-11"><strong>Children (6–11 yrs):</strong></label>
+                    <input type="number" id="num-children-6-11" class="date-input" style="margin-left: 30px;" min="0" value="0">
+                </div>
+            </div>
+            
+
+            <div class="extras-section">
+                <h3 class="extras-title">Extras</h3>
+                <div class="extra-options">
+                    <div class="extra-option">
+                        <label>
+                            <input type="checkbox" class="extra-checkbox" data-id="ex1" data-name="Ayurvedic Consultation" data-price="15"> 
+                            Consultation
+                        </label>
+                        <span class="extra-price">+$15.00</span>
+                    </div>
+                    <div class="extra-option">
+                        <label>
+                            <input type="checkbox" class="extra-checkbox" data-id="ex3" data-name="Wellness Guidebook" data-price="8"> 
+                            Tour Guide
+                        </label>
+                        <span class="extra-price">+$8.00</span>
+                    </div>
+                    <div class="extra-option">
+                        <label>
+                            <input type="checkbox" class="extra-checkbox" data-id="ex3" data-name="Wellness Guidebook" data-price="8"> 
+                            Transportation
+                        </label>
+                        <span class="extra-price">+$56.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="add-to-cart-container">
+                <div class="total-price">
+                    Total: <span id="total-price">$0.00</span>
+                </div>
+                <div class="button-group">
+                    <div class="add-to-cart-wrapper">
+                        <button class="add-to-cart-btn" id="add-to-cart-btn">
+                            Add to Cart <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="box-container">
+            <div class="box">
+                <h3>Quick Links</h3>
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="#"><i class="fas fa-map-marked-alt"></i> Experiences</a>
+                <a href="#help"><i class="fas fa-question-circle"></i> Help</a>
+                <a href="#about"><i class="fas fa-info-circle"></i> About</a>
+                <a href="#blogs"><i class="fas fa-comments"></i> Blogs & Reviews</a>
+            </div>
+            <div class="box">
+                <h3>Legal</h3>
+                <a href="#privacy"><i class="fas fa-user-shield"></i> Privacy Policy</a>
+                <a href="#terms"><i class="fas fa-file-contract"></i> Terms & Conditions</a>
+            </div>
+            <div class="box">
+                <h3>Connect With Us</h3>
+                <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
+            <div class="box">
+                <h3>Contact Us</h3>
+                <a href="tel:+94760127391"><i class="fas fa-phone"></i> +94 760 127 391</a>
+                <a href="https://maps.google.com/?q=Colombo,Sri Lanka" target="_blank">
+                    <i class="fas fa-map-marker-alt"></i> Colombo, Sri Lanka
+                </a>
+                <a href="mailto:Ayubogo@gmail.com"><i class="fas fa-envelope"></i> Ayubogo@gmail.com</a>
+            </div>
+        </div>
+        <div class="credit">© 2025 <strong>AyuboGo.lk</strong>. All rights reserved.</div>
+    </footer>
+
+    <script>
+
+document.getElementById('reservation-date').addEventListener('change', function () {
+    const selectedDate = this.value;
+    const selectedCard = document.querySelector('.vendor-card.selected');
+    const supplierName = selectedCard?.querySelector('.select-vendor-btn')?.getAttribute('data-name');
+
+    if (!selectedDate || !supplierName) return;
+
+    fetch('http://localhost:5000/api/available-times', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ supplier: supplierName, date: selectedDate })
+    })
+    .then(res => res.json())
+    .then(data => {
+        const select = document.getElementById('reservation-time');
+        select.innerHTML = '<option value="">-- Select a time --</option>'; 
+        
+        if (data.available_sessions && data.available_sessions.length > 0) {
+            data.available_sessions.forEach(time => {
+                const option = document.createElement('option');
+                option.value = time.session_id;
+                option.textContent = `${time.start} - ${time.end} (${time.period})`;
+                select.appendChild(option);
+            });
+        } else {
+            const option = document.createElement('option');
+            option.textContent = 'No available sessions';
+            option.disabled = true;
+            select.appendChild(option);
+        }
+
+        const detailsSection = document.getElementById('details-section');
+        detailsSection.style.display = 'block';
+
+        const name = getFullNameFromCookies() || 'Guest';
+        document.getElementById('user-name').value = name;
+
+        calculateTotal();
+    })
+    .catch(err => console.error('Fetch error:', err));
+});
+
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('select-vendor-btn')) {
+                // Highlight selected card
+                document.querySelectorAll('.vendor-card').forEach(card => card.classList.remove('selected'));
+                const selectedCard = e.target.closest('.vendor-card');
+                selectedCard.classList.add('selected');
+
+                // Show the date picker section
+                document.querySelector('.date-picker-section').style.display = 'flex';
+
+                // Set min date to today
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('reservation-date').setAttribute('min', today);
+            }
+        });
+
+        const loginBtn = document.getElementById('loginBtn');
+        loginBtn.addEventListener('click', function() {
+            window.location.href = '/login';
+        });
+
+        const cartbtn = document.getElementById('cartbtn');
+        cartbtn.addEventListener('click', function() {
+            window.location.href = '/cart';
+        });
+
+        document.getElementById('reservation-date').addEventListener('change', function () {
+            const dateInput = this;
+            const selectedDate = new Date(dateInput.value);
+            const day = selectedDate.getDay();
+
+            if (day === 0 || day === 6) {
+                document.querySelector('.date-error').style.display = 'inline';
+                dateInput.value = '';
+            } else {
+                document.querySelector('.date-error').style.display = 'none';
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const reservationButtons = document.querySelectorAll(".btnr1");
+            const wellnessSection = document.getElementById("wellness-section");
+            const vendorSection = document.getElementById("vendor-selection-page");
+
+            
+
+            reservationButtons.forEach(button => {
+                button.addEventListener("click", function (e) {
+                    const card = e.target.closest(".experience-card");
+
+                    // Get data from the card
+
+                    if (!getFullNameFromCookies()) {
+                        window.location.href = '/login';
+                    }
+                    const title = card.dataset.name;
+                    const price = card.dataset.price;   
+                    const image = card.querySelector("img").src;
+                    const description = card.querySelector("p").innerText;
+
+                    // Set data in vendor selection section
+                    document.getElementById("vendor-exp-title").innerText = title;
+                    document.getElementById("vendor-exp-image").src = image;
+                    document.getElementById("vendor-exp-description").innerText = description;
+                    loadVendors(title);
+                    // Show vendor section, hide wellness section
+                    wellnessSection.style.display = "none";
+                    vendorSection.style.display = "block";
+                });
+            });
+
+            // Handle back button
+            document.getElementById("back-to-experiences").addEventListener("click", function (e) {
+                e.preventDefault();
+                vendorSection.style.display = "none";
+                wellnessSection.style.display = "block";
+            });
+        });
+        
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('select-vendor-btn')) {
+                const allCards = document.querySelectorAll('.vendor-card');
+                allCards.forEach(card => card.classList.remove('selected'));
+
+                const selectedCard = e.target.closest('.vendor-card');
+                selectedCard.classList.add('selected');
+            }
+        });
+
+        const backToExperiencesBtn = document.getElementById('back-to-experiences');
+        backToExperiencesBtn.addEventListener('click', function() {
+            document.getElementById('vendor-selection-page').style.display = 'none';
+            document.getElementById('wellness-section').style.display = 'block';
+        });
+
+        function loadVendors(subCategory) {
+            fetch(`http://localhost:5000/api/vendors?subcategory=${encodeURIComponent(subCategory)}`)
+                .then(res => res.json())
+                .then(data => {
+                    const vendorList = document.getElementById("vendor-list");
+                    vendorList.innerHTML = "";
+                    if (data.length === 0) {
+                        vendorList.innerHTML = "<p>No vendors found.</p>";
+                        return;
+                    }
+
+                    data.forEach(vendor => {
+                        const stars = "★".repeat(vendor.rating) + "☆".repeat(5 - vendor.rating);
+                        const vendorHTML = `
+                                    <style>
+                                        .vendor-card {
+                                            display: flex;
+                                            align-items: flex-start;
+                                            gap: 16px;
+                                            border: 2px solid #ccc;
+                                            border-radius: 10px;
+                                            padding: 16px;
+                                            background-color: #fff;
+                                            cursor: pointer;
+                                            transition: all 0.3s ease;
+                                            color: #333;
+                                            margin-bottom: 20px;
+                                        }
+
+                                        .vendor-card:hover {
+                                            border-color: #597E52;
+                                        }
+
+                                        .vendor-card.selected {
+                                            background-color: #597E52;
+                                            color: white;
+                                            border-color: #388E3C;
+                                        }
+
+                                        .vendor-card.selected .select-vendor-btn {
+                                            background-color: white;
+                                            color: #597E52;
+                                            font-weight: bold;
+                                        }
+
+                                        .vendor-card img {
+                                            width: 150px;
+                                            height: auto;
+                                            border-radius: 8px;
+                                            object-fit: cover;
+                                        }
+
+                                        .vendor-details {
+                                            flex: 1;
+                                        }
+
+                                        .vendor-rating {
+                                            font-size: 1.2rem;
+                                            color: orange;
+                                            margin: 8px 0;
+                                        }
+
+                                        .select-vendor-btn {
+                                            margin-top: 8px;
+                                            padding: 8px 16px;
+                                            border: none;
+                                            border-radius: 5px;
+                                            background-color: #597E52;
+                                            color: white;
+                                            cursor: pointer;
+                                            transition: background-color 0.3s;
+                                        }
+
+                                        .select-vendor-btn:hover {
+                                            background-color: #4a6846;
+                                        }
+                                    </style>
+
+                                    <div class="vendor-card">
+                                        <img src="${vendor.image}" alt="${vendor.name}">
+                                        <div class="vendor-details">
+                                            <h4>${vendor.name}</h4>
+                                            <p><strong>Price:</strong> $${vendor.price}</p>
+                                            <p><strong>Location:</strong> ${vendor.location}</p>
+                                            <p>${vendor.description}</p>
+                                            <div class="vendor-rating">${stars}</div>
+                                            <button class="select-vendor-btn btn1" data-id="${vendor.id}" data-name="${vendor.name}">Select</button>
+                                        </div>
+                                    </div>
+                                    `;
+
+                        vendorList.innerHTML += vendorHTML;
+                    });
+                })
+                .catch(err => {
+                    console.error("Error loading vendors:", err);
+                });
+        }
+        function getFullNameFromCookies() {
+            const cookies = `; ${document.cookie}`;
+
+            const firstParts = cookies.split(`; user_first_name=`);
+            const firstName = (firstParts.length === 2) ? firstParts.pop().split(';').shift() : '';
+
+            const lastParts = cookies.split(`; user_last_name=`);
+            const lastName = (lastParts.length === 2) ? lastParts.pop().split(';').shift() : '';
+            return `${firstName} ${lastName}`.trim(); // return full name
+        }
+
+
+        const adultInput = document.getElementById('num-adults');
+        const child1Input = document.getElementById('num-children-1-5');
+        const child2Input = document.getElementById('num-children-6-11');
+        const totalPriceSpan = document.getElementById('total-price');
+
+        [adultInput, child1Input, child2Input].forEach(input => {
+            input.addEventListener('input', calculateTotal);
+        });
+        document.querySelectorAll('.extra-checkbox').forEach(cb => {
+            cb.addEventListener('change', calculateTotal);
+        });
+
+
+        function calculateTotal() {
+            const adults = parseInt(adultInput.value) || 0;
+            const child1 = parseInt(child1Input.value) || 0;
+            const child2 = parseInt(child2Input.value) || 0;
+
+            const selectedCard = document.querySelector('.vendor-card.selected');
+            console.log("Selected card:", selectedCard);
+            if (!selectedCard) return;
+
+            const priceText = selectedCard.querySelector('.vendor-details p strong')?.nextSibling?.textContent?.trim();
+            console.log("Price text:", priceText);
+            const basePrice = parseFloat(priceText?.replace('$', '') || 0);
+
+            // Prices per person (adjust as needed)
+            const pricePerAdult = basePrice;
+            const pricePerChild1 = basePrice * 0.5;  // for 1–5 yrs
+            const pricePerChild2 = basePrice * 0.7;  // for 6–11 yrs
+
+            let total = (adults * pricePerAdult) + (child1 * pricePerChild1) + (child2 * pricePerChild2);
+
+            // Add extras
+            document.querySelectorAll('.extra-checkbox:checked').forEach(checkbox => {
+                const extraPrice = parseFloat(checkbox.getAttribute('data-price')) || 0;
+                total += extraPrice;
+            });
+
+            totalPriceSpan.textContent = `$${total.toFixed(2)}`;
+        }
+
+        document.getElementById('add-to-cart-btn').addEventListener('click', function () {
+
+            const selectedCard = document.querySelector('.vendor-card.selected');
+            if (!selectedCard) return alert("Please select a vendor.");
+
+            const vendorName = selectedCard.querySelector('h4').innerText;
+            const imageSrc = selectedCard.querySelector('img').src;
+            const location = selectedCard.querySelector('p').innerText;
+            const date = document.getElementById('reservation-date').value;
+
+            const timeSelect = document.getElementById('reservation-time');
+            const selectedOption = timeSelect.options[timeSelect.selectedIndex];
+            if (!selectedOption || !selectedOption.value) {
+                return alert("Please select a session time.");
+            }
+
+            const sessionId = selectedOption.value;
+            const sessionText = selectedOption.textContent;
+            const name = document.getElementById('user-name').value;
+
+            const adults = parseInt(adultInput.value) || 0;
+            const child1 = parseInt(child1Input.value) || 0;
+            const child2 = parseInt(child2Input.value) || 0;
+            const totalPrice = parseFloat(totalPriceSpan.textContent.replace('$', '')) || 0;
+
+            const selectedExtras = [];
+            document.querySelectorAll('.extra-checkbox:checked').forEach(cb => {
+                selectedExtras.push({
+                    name: cb.getAttribute('data-name'),
+                    price: parseFloat(cb.getAttribute('data-price')) || 0
+                });
+            });
+
+            const cartItem = {
+                vendor: vendorName,
+                image: imageSrc,
+                location: location,
+                date: date,
+                time: sessionText,
+                sessionId: sessionId,
+                customerName: name,
+                adults: adults,
+                children1_5: child1,
+                children6_11: child2,
+                extras: selectedExtras,
+                total: totalPrice
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push(cartItem);
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            window.location.href = "/cart"; // redirect
+        });
+
+    </script>
+</body>
+</html>
+

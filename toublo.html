@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #597E52;
+            flex-direction: column;
+           
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 50px;
+        }
+
+        .box {
+            width: 420px;
+            height: 350px;
+            background: transparent;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .form-box {
+            background: rgba(255, 255, 255, 0.1);
+            
+        }
+
+        .box h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .input-box {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            margin: 15px 0;
+        }
+
+        .input-box input {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 40px;
+            font-size: 16px;
+            color: azure;
+            padding: 20px 45px 20px 20px;
+        }
+
+        .input-box input::placeholder {
+            color: black;
+        }
+
+        .input-box i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+        }
+
+        .btn {
+            width: 100%;
+            height: 45px;
+            background: #fff;
+            border: none;
+            outline: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .register-link {
+            font-size: 14.5px;
+            margin-top: 15px;
+        }
+
+        .register-link p a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link p a:hover {
+            text-decoration: underline;
+        }
+
+        
+        
+
+
+
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                border: none;
+            }
+            .box {
+                width: 100%;
+            }
+        }
+        
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+header{
+    z-index:999;
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 200px;
+    transition: 0.5s ease;
+}
+
+header .brand{
+    color:white;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap:8px;
+    white-space: nowrap;
+    font-family: 'Arial', sans-serif;
+}
+
+header .brand i {
+    font-size: 1.5em; /* Adjust icon size */
+    color: #C6A969; /* Optional: Change icon color */
+}
+
+.navigation {
+    display: flex;
+    gap: 20px;
+    flex-grow: 2; /* Allows it to expand */
+    justify-content: flex-end; /* Aligns items to the right */
+}
+
+.brand {
+    font-size: 1.8em; /* Increases text size */
+    font-weight: bold;
+    flex-grow: 1; /* Makes it take up available space */
+    color: white; /* Adjust color if needed */
+}
+
+header .navigation{
+    position: relative;
+}
+
+header .navigation .navigation-items a{
+    position: relative;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 30px;
+    transition: 0.3s ease;
+}
+
+header .navigation .navigation-items a:before{
+    content:'';
+    position: absolute;
+    background: white;
+    width:0;
+    height: 3px;
+    bottom: 0;
+    left:0;
+    transition: 0.3s ease;
+}
+
+header .navigation .navigation-items a:hover:before{
+    width:100%; 
+}
+
+.search-bar {
+    padding: 5px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 160px;
+}
+
+.btn2 {
+    padding: 10px 15px;
+    background-color:black;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    margin-left: 5px;
+    cursor: pointer;
+    opacity: 60%;
+}
+
+.btn2:hover {
+    background-color: #C6A969;
+}
+
+@media (max-width: 1040px){
+    header {
+        padding: 12px 20px;
+    }
+}
+.footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    width: 100%;
+}
+.footer .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+}
+.container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 150px; /* Adjust as needed */
+    margin-bottom: 120px; /* Creates space before the footer */
+}
+
+
+.footer .box {
+    flex: 1 1 200px;
+    max-width: 300px;
+    text-align: left;
+}
+
+.footer .box h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #C6A969;
+}
+
+.footer .box a {
+    display: block;
+    color: #ccc;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.footer .box a:hover {
+    color: #C6A969;
+}
+
+.footer .box i {
+    margin-right: 8px;
+}
+
+.footer .credit {
+    margin-top: 20px;
+    font-size: 14px;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+}
+
+.footer .credit strong {
+    color: #C6A969;
+}
+.container {
+    display: flex;
+    align-items: stretch; /* Makes children match height */
+    justify-content: center;
+    margin-top: 150px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1); /* optional */
+}
+
+.img-box {
+    width: 420px;
+    height: 350px;
+    overflow: hidden;
+}
+
+.img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Keeps image scaled nicely */
+}
+
+.box {
+    width: 420px;
+    height: 350px;
+    padding: 30px 40px;
+    text-align: center;
+    background: transparent;
+}
+
+
+
+
+
+        
+    </style>
+</head>
+<body>
+
+      <!--Header Section-->
+      <header>
+        <a href="#" class="brand"> Ayubo Go</a>
+
+        
+       
+        </div>
+        <div class="navigation">
+            <div class="navigation-items">
+              <a href="home.html">Home</a>
+              <a href="#">Experiences</a>
+              <a href="#">Help</a>
+              <a href="#">About</a>
+              <a href="feedback.html">Blogs and reviews</a>
+
+                
+
+              <button class="btn2" id="loginBtn">Login/Register</button>
+              <button class="btn2" id="bookbtn">Book Now</button>
+
+            </div>
+        </div>
+    </header>
+    
+    
+
+    
+    <div class="container">
+        <div class="img-box">
+            <img src="https://thema-collection.imgix.net/sites/12/2023/05/ayurvi-weligama-wellness-new-feat-12.jpg?w=1505&h=760&fit=crop&crop=entropy&auto=format,enhance&q=40" alt="Ayurvedic illustration" />
+        </div>
+        <div class="right-side">
+            <div class="box form-box">
+                <form id="login-form" method="POST" action="/toublo">
+                    <h1>Login</h1>
+                    <div class="input-box">
+                        <input type="text" name="email" placeholder="Email" required>
+                        <i class="bx bx-user"></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" name="password" placeholder="Password" required>
+                        <i class="bx bxs-lock-alt"></i>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                    <div class="register-link">
+                        <p>Don't have an account? <a href="/register">Register</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+     <!-- Footer Section Starts -->
+<footer class="footer">
+    <div class="box-container">
+        <div class="box">
+            <h3>Quick Links</h3>
+            <a href="#home"><i class="fas fa-home"></i> Home</a>
+            <a href="#experiences"><i class="fas fa-map-marked-alt"></i> Experiences</a>
+            <a href="#help"><i class="fas fa-question-circle"></i> Help</a>
+            <a href="#about"><i class="fas fa-info-circle"></i> About</a>
+            <a href="#blogs"><i class="fas fa-comments"></i> Blogs & Reviews</a>
+        </div>
+        <div class="box">
+            <h3>Legal</h3>
+            <a href="#privacy"><i class="fas fa-user-shield"></i> Privacy Policy</a>
+            <a href="#terms"><i class="fas fa-file-contract"></i> Terms & Conditions</a>
+        </div>
+        <div class="box">
+            <h3>Connect With Us</h3>
+            <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+            <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+        <div class="box">
+            <h3>Contact Us</h3>
+            <a href="tel:+94760127391"><i class="fas fa-phone"></i> +94 760 127 391</a>
+            <a href="https://maps.google.com/?q=Colombo,Sri Lanka" target="_blank">
+                <i class="fas fa-map-marker-alt"></i> Colombo, Sri Lanka
+            </a>
+            <a href="mailto:Ayubogo@gmail.com"><i class="fas fa-envelope"></i> Ayubogo@gmail.com</a>
+        </div>
+    </div>
+    <div class="credit">© 2025 <strong>AyuboGo.lk</strong>. All rights reserved.</div>
+</footer>
+<!-- Footer Section Ends -->
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('login-form');
+        const loginBtn = document.getElementById('loginBtn');
+        
+        // Handle form submission
+        loginForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Logging in...';
+    
+            try {
+                // Create form data with proper encoding
+                const formData = new URLSearchParams();
+                formData.append('email', this.elements.email.value.trim());
+                formData.append('password', this.elements.password.value);
+                
+                // Send login request
+                const response = await fetch('/toublo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData,
+                    credentials: 'same-origin' // Include cookies/session
+                });
+    
+                // Handle response
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                }
+    
+                const data = await response.json();
+    
+                if (!data.success) {
+                    throw new Error(data.message || 'Login failed. Please try again.');
+                }
+    
+                // Successful login - redirect or handle as needed
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                } else {
+                    window.location.href = '/profile2'; // Default redirect
+                }
+    
+            } catch (error) {
+                console.error('Login error:', error);
+                showError(error.message || 'An error occurred during login. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
+        });
+    
+        // Show error message function
+        function showError(message) {
+            // Remove any existing error messages
+            const existingErrors = document.querySelectorAll('.login-error');
+            existingErrors.forEach(error => error.remove());
+    
+            // Create and display new error message
+            const errorElement = document.createElement('div');
+            errorElement.className = 'login-error';
+            errorElement.style.color = '#ff6b6b';
+            errorElement.style.margin = '10px 0';
+            errorElement.style.padding = '8px 12px';
+            errorElement.style.backgroundColor = 'rgba(255, 107, 107, 0.1)';
+            errorElement.style.borderRadius = '4px';
+            errorElement.style.textAlign = 'center';
+            errorElement.textContent = message;
+    
+            // Insert error message above the submit button
+            const submitButton = loginForm.querySelector('button[type="submit"]');
+            loginForm.insertBefore(errorElement, submitButton);
+    
+            // Add shake animation
+            loginForm.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                loginForm.style.animation = '';
+            }, 500);
+        }
+    
+        // Login button click handler (if needed)
+        if (loginBtn) {
+            loginBtn.addEventListener('click', function() {
+                // Scroll to login form if not already visible
+                const loginSection = document.querySelector('.container');
+                if (loginSection) {
+                    loginSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+    
+        // Add shake animation style
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                20%, 60% { transform: translateX(-5px); }
+                40%, 80% { transform: translateX(5px); }
+            }
+            .login-error {
+                transition: all 0.3s ease;
+            }
+        `;
+        document.head.appendChild(style);
+    });
+    
+    // Logout functionality (if on this page)
+    document.getElementById('logoutBtn2')?.addEventListener('click', function() {
+        fetch('/logout', {
+            method: 'POST',
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/login';
+            } else {
+                console.error('Logout failed');
+            }
+        })
+        .catch(error => {
+            console.error('Logout error:', error);
+        });
+    });
+
+    
+    </script>
+
+
+    
+</body>
+</html>

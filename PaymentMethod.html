@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Aybo Go</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+       
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #597E52;
+        }
+
+        /* Payment container styles */
+        .payment-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .combined-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* Package and Payment details sections */
+        .package-details, .payment-details {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .package-details h3, .payment-details h2 {
+            color: #597E52;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .package-details h3::after, .payment-details h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            right: 25%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #597E52, transparent);
+        }
+
+        /* Payment options styles */
+        .payment-options {
+            margin-bottom: 30px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .payment-options label {
+            display: block;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .payment-options label:hover {
+            border-color: #597E52;
+            background: #f0f7f0;
+        }
+
+        .payment-options input[type="radio"] {
+            margin-right: 10px;
+            }
+
+        /* Cards container styles */
+        .cards-container {
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .cards-container h3 {
+            color: #597E52;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+        }
+
+        .cards-list {
+            max-height: 250px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .card-item {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .card-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .card-item.selected {
+            border-color: #597E52;
+            background-color: #f0f7f0;
+        }
+
+        .card-info p {
+            margin: 8px 0;
+            color: #555;
+        }
+
+        .card-info strong {
+            color: #597E52;
+        }
+
+        /* Bank transfer section styles */
+        .bank-transfer {
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .bank-details {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid #ddd;
+        }
+
+        .bank-details p {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .bank-details strong {
+            color: #597E52;
+        }
+
+        /* Upload box styles */
+        .upload-box {
+            border: 2px dashed #ddd;
+            padding: 25px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .upload-box:hover {
+            border-color: #597E52;
+        }
+
+        .upload-box.uploaded {
+            border-color: #597E52;
+            background-color: #f0f7f0;
+        }
+
+        .upload-success {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #597E52;
+        }
+
+        .upload-success i {
+            font-size: 1.2em;
+        }
+
+        /* Button styles */
+        .btnr1 {
+            width: 100%;
+            padding: 12px;
+            background-color: #597E52;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btnr1:hover {
+            background-color: #43623d;
+            transform: translateY(-2px);
+        }
+
+        .confirm-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #597E52;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .confirm-btn:hover {
+            background-color: #43623d;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .payment-container {
+                margin-top: 80px;
+                padding: 15px;
+            }
+
+            .combined-container {
+                gap: 20px;
+            }
+
+            .package-details, .payment-details {
+                max-width: 100%;
+        }
+
+        .payment-options label {
+                padding: 12px;
+            }
+
+            .card-item {
+                padding: 15px;
+            }
+        }
+
+        *{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+header{
+    z-index:999;
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 200px;
+    transition: 0.5s ease;
+}
+
+header .brand{
+    color:white;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap:8px;
+    white-space: nowrap;
+    font-family: 'Arial', sans-serif;
+}
+
+header .brand i {
+    font-size: 1.5em; 
+    color: #C6A969; 
+}
+
+.navigation {
+    display: flex;
+    gap: 20px;
+    flex-grow: 2; 
+    justify-content: flex-end; 
+}
+
+.brand {
+    font-size: 1.8em;
+    font-weight: bold;
+    flex-grow: 1; 
+    color: white; 
+}
+
+header .navigation{
+    position: relative;
+}
+
+header .navigation .navigation-items a{
+    position: relative;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 30px;
+    transition: 0.3s ease;
+}
+
+header .navigation .navigation-items a:before{
+    content:'';
+    position: absolute;
+    background: white;
+    width:0;
+    height: 3px;
+    bottom: 0;
+    left:0;
+    transition: 0.3s ease;
+}
+
+header .navigation .navigation-items a:hover:before{
+    width:100%; 
+}
+
+.search-bar {
+    padding: 5px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 160px;
+}
+
+.btnr1 {
+    padding: 10px 15px;
+    background-color:black;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    margin-left: 5px;
+    cursor: pointer;
+    opacity: 60%;
+}
+
+.btnr1:hover {
+    background-color: #C6A969;
+}
+
+@media (max-width: 1040px){
+    header {
+        padding: 12px 20px;
+    }
+}
+        .DownloadBtn {
+            width: 200px;
+            margin: 30px auto 0;
+            display: block;
+            padding: 12px 24px;
+            background-color: #597E52;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .DownloadBtn:hover {
+            background-color: #C6A969;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .DownloadBtn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-label {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .footer {
+            background: #222;
+            color: #fff;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .footer .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap:px;
+        }
+        .footer .box {
+            flex: 1 1 250px;
+            max-width: 300px;
+            text-align: left;
+        }
+        .footer .box h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #C6A969;
+        }
+        .footer .box a {
+            display: block;
+            color: #ccc;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 5px 0;
+            transition: color 0.3s ease;
+        }
+        .footer .box a:hover {
+            color: #C6A969;
+        }
+        .footer .box i {
+            margin-right: 8px;
+        }
+        .footer .credit {
+            margin-top: 20px;
+            font-size: 14px;
+            border-top: 1px solid #444;
+            padding-top: 10px;
+        }
+        .footer .credit strong {
+            color: #C6A969;
+        }
+
+        .cart-table {
+    width: 100%;
+    max-width: 800px; /* Limits the width */
+    margin: auto;
+    border-collapse: collapse;
+    font-size: 14px; /* Smaller font for compact look */
+}
+
+.cart-table th,
+.cart-table td {
+    padding: 6px 8px; /* Less padding */
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.summary-row td,
+.total-row td {
+    font-weight: bold;
+    background-color: #f5f5f5;
+}
+
+        .item-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .item-category {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 3px;
+        }
+        
+        .summary-row td {
+            padding-top: 15px;
+            background-color: #f9f9f9;
+        }
+        
+        .summary-label {
+            font-weight: 600;
+            text-align: right;
+        }
+        
+        .summary-value {
+            font-weight: 600;
+        }
+        
+        .total-row td {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 15px;
+        }
+        
+        .total-label {
+            text-align: right;
+        }
+        
+        .total-value {
+            color: #597E52;
+        }
+        
+        .upload-success {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #28a745;
+        }
+        
+        .upload-success i {
+            font-size: 1.2em;
+        }
+        
+        .upload-box.uploaded {
+            background-color: #f0fff4;
+            border-color: #28a745;
+        }
+
+        /* Toast notification styles */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .toast-success {
+            background-color: #28a745;
+        }
+
+        .toast-error {
+            background-color: #dc3545;
+        }
+
+        .selected-card {
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .card-display {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 8px;
+        }
+
+        .card-display p {
+            margin: 5px 0;
+            color: #333;
+        }
+
+        .btnr1 {
+            width: 100%;
+            padding: 10px;
+            background: #597E52;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .btnr1:hover {
+            background: #43623D;
+        }
+
+        .bank-details {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .bank-details p {
+            margin: 5px 0;
+            color: #333;
+        }
+
+        .bank-details strong {
+            color: #43623d;
+        }
+
+        /* Add this to your existing styles */
+        .name-input {
+            margin: 20px 0;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .name-input label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .name-input input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .name-input input:focus {
+            outline: none;
+            border-color: #597E52;
+        }
+    </style>
+</head>
+<body>
+    <!--Header Section-->
+    <header>
+        <a href="#" class="brand"> Ayubo Go</a>
+        </div>
+        <div class="navigation">
+            <div class="navigation-items">
+              <a href="#">Home</a>
+              <a href="#">Experiences</a>
+              <a href="#">Help</a>
+              <a href="#">About</a>
+              <a href="#">Blogs and reviews</a>
+           
+            </div>
+        </div>
+    </header>
+     
+    <main>
+        <div class="payment-container">
+            <div class="combined-container">
+                <!-- Left side - Package Details -->
+                <div class="package-details">
+                    <h3>Your Package</h3>
+                    <div id="tableContent">Loading...</div>
+                    <button class="DownloadBtn" onclick="downloadReceipt()">Download Receipt</button>
+                </div>
+                
+                <!-- Right side - Payment Method -->
+                <div class="payment-details">
+                    <h2>Payment Details</h2>
+                    
+                    <div class="payment-options">
+                        <label>
+                            <input type="radio" name="payment" value="card" checked>
+                            <span>Card Payment</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="payment" value="bank">
+                            <span>Bank Transfer</span>
+                        </label>
+                    </div>
+
+                    <div id="cardPaymentSection">
+                        <div class="cards-container">
+                            <h3>Select a Card</h3>
+                            <div id="cardsList" class="cards-list">
+                                <!-- Cards will be loaded here -->
+                    </div>
+                            <button onclick="window.location.href='/add'" class="btnr1">Add New Card</button>
+                        </div>
+                    </div>
+                    
+                    <div id="bankTransferSection" style="display: none;">
+                        <div class="bank-transfer">
+                            <h3>Bank Transfer</h3>
+                            <div class="bank-details">
+                                <p><strong>Bank Name:</strong> Commercial Bank</p>
+                                <p><strong>Account Number:</strong> 1234567890</p>
+                                <p><strong>Account Name:</strong> Ayubo Go Tourism</p>
+                                <p><strong>Branch:</strong> Colombo</p>
+                                <p><strong>SWIFT Code:</strong> CCEYLKLX</p>
+                            </div>
+                            <div class="name-input">
+                                <label for="bankTransferName">Your Name:</label>
+                                <input type="text" id="bankTransferName" placeholder="Enter your name" required>
+                            </div>
+                            <div class="upload-box" id="receiptUploadBox">
+                                <p>Please upload your bank transfer receipt</p>
+                                <input type="file" id="receiptUpload" accept="image/*,.pdf" style="display: none;">
+                                <button class="upload-btn" onclick="document.getElementById('receiptUpload').click()">Upload Receipt</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="confirm-btn" id="confirmPaymentBtn">Confirm Payment</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="box-container">
+            <div class="box">
+                <h3>Quick Links</h3>
+                <a href="#home"><i class="fas fa-home"></i> Home</a>
+                <a href="#experiences"><i class="fas fa-map-marked-alt"></i> Experiences</a>
+                <a href="#help"><i class="fas fa-question-circle"></i> Help</a>
+                <a href="#about"><i class="fas fa-info-circle"></i> About</a>
+                <a href="#blogs"><i class="fas fa-comments"></i> Blogs & Reviews</a>
+            </div>
+            <div class="box">
+                <h3>Legal</h3>
+                <a href="#privacy"><i class="fas fa-user-shield"></i> Privacy Policy</a>
+                <a href="#terms"><i class="fas fa-file-contract"></i> Terms & Conditions</a>
+            </div>
+            <div class="box">
+                <h3>Connect With Us</h3>
+                <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
+            <div class="box">
+                <h3>Contact Us</h3>
+                <a href="tel:+94760127391"><i class="fas fa-phone"></i> +94 760 127 391</a>
+                <a href="https://maps.google.com/?q=Colombo,Sri Lanka" target="_blank">
+                    <i class="fas fa-map-marker-alt"></i> Colombo, Sri Lanka
+                </a>
+                <a href="mailto:Ayubogo@gmail.com"><i class="fas fa-envelope"></i> Ayubogo@gmail.com</a>
+            </div>
+        </div>
+        <div class="credit">©️ 2025 <strong>AyuboGo.lk</strong>. All rights reserved.</div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script>
+        // Payment data storage
+        let payments = JSON.parse(localStorage.getItem('payments')) || [];
+        const cartData = JSON.parse(localStorage.getItem('cartData')) || [];
+        console.log("cartData", cartData);
+        let userID = localStorage.getItem('user_id');
+        let bookingID = 'BK-' + new Date().getFullYear() + '-' + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+        let uploadedFile = null;
+        let selectedCardId = null;
+        document.addEventListener("DOMContentLoaded", function () {
+            // Display package details
+            displayPackageDetails(cartData);
+    
+            // Initialize payment method selection
+            const paymentOptions = document.querySelectorAll('input[name="payment"]');
+            const cardPaymentSection = document.getElementById('cardPaymentSection');
+            const bankTransferSection = document.getElementById('bankTransferSection');
+            const confirmPaymentBtn = document.getElementById('confirmPaymentBtn');
+            
+            if (paymentOptions && cardPaymentSection && bankTransferSection && confirmPaymentBtn) {
+            paymentOptions.forEach(option => {
+                option.addEventListener('change', function() {
+                        if (this.value === 'card') {
+                            cardPaymentSection.style.display = 'block';
+                            bankTransferSection.style.display = 'none';
+                            confirmPaymentBtn.style.display = selectedCardId ? 'block' : 'none';
+                        } else if (this.value === 'bank') {
+                            cardPaymentSection.style.display = 'none';
+                            bankTransferSection.style.display = 'block';
+                            confirmPaymentBtn.style.display = 'none';
+                            uploadedFile = null;
+                        }
+                });
+            });
+            }
+
+            // Handle receipt upload
+            const receiptUpload = document.getElementById('receiptUpload');
+            if (receiptUpload) {
+                receiptUpload.addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    uploadedFile = e.target.files[0];
+                        const uploadBox = document.getElementById('receiptUploadBox');
+                        if (uploadBox) {
+                    uploadBox.innerHTML = `
+                        <div class="upload-success">
+                            <i class="fas fa-check-circle"></i>
+                            <span>${uploadedFile.name}</span>
+                        </div>
+                    `;
+                    uploadBox.classList.add('uploaded');
+                            confirmPaymentBtn.style.display = 'block';
+                        }
+                }
+            });
+            }
+    
+            // Handle payment confirmation
+            if (confirmPaymentBtn) {
+                confirmPaymentBtn.addEventListener('click', function() {
+                    const selectedPaymentMethod = document.querySelector('input[name="payment"]:checked').value;
+                    
+                    if (selectedPaymentMethod === 'bank' && !uploadedFile) {
+                        showToast('Please upload your bank transfer receipt', 'error');
+                        return;
+                    }
+                    
+                    if (selectedPaymentMethod === 'card') {
+                        const selectedCard = document.querySelector('.card-item.selected');
+                        if (!selectedCard) {
+                            showToast('Please select a card', 'error');
+                            return;
+                        }
+                        selectedCardId = selectedCard.dataset.cardId;
+                    }
+    
+                    // Create new payment record
+                    const newPayment = {
+                        id: 'PY-' + Date.now(),
+                        bookingID: bookingID,
+                        date: new Date().toISOString().split('T')[0],
+                        name: selectedPaymentMethod === 'card' ? 
+                            document.querySelector('.card-item.selected .card-info p:nth-child(2)').textContent.split(':')[1].trim() : 
+                            document.getElementById('bankTransferName').value,
+                        passportNumber: 'PS' + Math.floor(Math.random() * 100000000).toString().padStart(8, '0'),
+                        paymentMethod: selectedPaymentMethod === 'bank' ? 'Bank Transfer' : 'Card Payment',
+                        status: 'pending',
+                        amount: cartData.total,
+                        sessionId: cartData.sessionId,
+                        items: cartData.items,
+                        receipt: selectedPaymentMethod === 'bank' ? uploadedFile.name : null,
+                        cardId: selectedPaymentMethod === 'card' ? selectedCardId : null
+                    };
+    
+                    // Add to payments array
+                    payments.push(newPayment);
+                    
+                    // Save to localStorage
+                    localStorage.setItem('payments', JSON.stringify(payments));
+                    localStorage.setItem('currentBooking', JSON.stringify({
+                        userID: getCookieValue('user_id'),
+                        items: cartData.items,  
+                        sessionId: cartData.sessionId,
+                        subtotal: cartData.subtotal,
+                        tax: cartData.tax,
+                        total: cartData.total,
+                        paymentMethod: selectedPaymentMethod === 'bank' ? 'Bank Transfer' : 'Card Payment',
+                        status: 'pending',
+                        date: new Date().toISOString(),
+                        receipt: selectedPaymentMethod === 'bank' ? uploadedFile.name : null,
+                        cardId: selectedPaymentMethod === 'card' ? selectedCardId : null
+                    }));
+
+                    const currentBooking = JSON.parse(localStorage.getItem('currentBooking'));
+                    const bookingItem = currentBooking.items[0];
+                    console.log("bookingItem", bookingItem);
+
+
+                getSupplierIdFromName(bookingItem.vendor, function(supplierId) {
+                    if (!supplierId) {
+                        showToast("Supplier not found", "error");
+                        return;
+                    }
+
+                    console.log("Resolved supplier ID:", supplierId);
+
+                    fetch('/api/bookings', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            tourist_id: getCookieValue('user_id'),
+                            supplier_id: supplierId,
+                            booking_date: bookingItem.date,
+                            session_id: bookingItem.sessionId,
+                            num_adults: bookingItem.adults,
+                            num_children_1_5: bookingItem.children1_5,
+                            num_children_6_11: bookingItem.children6_11,
+                            price: bookingItem.total,
+                            status: 'pending'
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log('Booking saved:', data);
+                        const bookingID = data.booking_id;
+                        savePayment(bookingID, newPayment);  
+                    })
+                    .catch(err => {
+                        console.error('Booking failed:', err);
+                    });
+                });
+
+
+                });
+            }
+
+            loadSavedCards();
+        });
+
+
+        function sendBookingConfirmationEmail(bookingID, newPayment) {
+            fetch('http://localhost:5000/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userID: getCookieValue('user_id'),
+                    booking_id: bookingID,
+                    amount: newPayment.amount,
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to send booking confirmation email');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Booking confirmation email sent successfully!');
+                showToast('Booking confirmation email sent successfully!', 'success');
+                console.log('Booking confirmation email sent:', data);
+            })
+            .catch(error => {
+                alert('Error sending booking confirmation email!');
+                showToast('Error sending booking confirmation email:', 'error');
+                console.error('Error sending booking confirmation email:', error);
+            });
+        }
+
+        function savePayment(bookingID, newPayment) {
+            fetch('http://localhost:5000/api/payments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    booking_id: bookingID,
+                    date: newPayment.date,
+                    payment_method: newPayment.paymentMethod,
+                    name: newPayment.name,
+                    status: 'Approved',
+                    amount: newPayment.amount
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to save payment to server');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Payment saved:', data);
+                setTimeout(() => {
+                    showToast('Payment confirmed successfully!', 'success');
+                }, 2000);
+
+                localStorage.removeItem('currentBooking');
+                localStorage.removeItem('payments');
+                localStorage.removeItem('cart');
+                localStorage.removeItem('cartItems');
+                sendBookingConfirmationEmail(bookingID, newPayment);
+                alert('Booking confirmed successfully!');
+                window.location.href = '/userdash';
+            })
+            .catch(error => {
+                console.error('Error saving payment:', error);
+                showToast('Error saving payment. Please try again.', 'error');
+            });
+
+        }
+
+        function displayPackageDetails(cartData) {
+            const tableContent = document.getElementById('tableContent');
+            if (!tableContent) return;
+
+            if (!cartData || !cartData.items || cartData.items.length === 0) {
+                tableContent.innerHTML = '<p>No items in your package</p>';
+                return;
+            }
+
+            const items = cartData.items;
+            const subtotal = cartData.subtotal || 0;
+            const tax = cartData.tax || 0;
+            const total = cartData.total || 0;
+
+            let html = `
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Vendor</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Adults</th>
+                            <th>Children 1–5</th>
+                            <th>Children 6–11</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            items.forEach(item => {
+                html += `
+                    <tr>
+                        <td>${item.vendor}</td>
+                        <td>${item.date}</td>
+                        <td>${item.time}</td>
+                        <td>${item.adults}</td>
+                        <td>${item.children1_5}</td>
+                        <td>${item.children6_11}</td>
+                        <td>$${item.total.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    <tr class="summary-row">
+                        <td colspan="6" class="summary-label">Subtotal:</td>
+                        <td class="summary-value">$${subtotal.toFixed(2)}</td>
+                    </tr>
+                    <tr class="summary-row">
+                        <td colspan="6" class="summary-label">Tax (10%):</td>
+                        <td class="summary-value">$${tax.toFixed(2)}</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="6" class="total-label">Total:</td>
+                        <td class="total-value">$${total.toFixed(2)}</td>
+                    </tr>
+                </tbody>
+            </table>
+            `;
+
+            tableContent.innerHTML = html;
+        }
+
+        // Show toast notification
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 300);
+                }, 3000);
+            }, 100);
+        }
+function getCookieValue(name) {
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+        const [key, value] = cookie.split('=');
+        if (key === name) {
+            return value;
+        }
+    }
+    return null;
+}
+
+        function loadSavedCards() {
+            const userID = getCookieValue('user_id');
+            fetch(`/api/cards/${userID}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const cardsList = document.getElementById('cardsList');
+                        if (!cardsList) return;
+                        
+                        cardsList.innerHTML = '';
+                        
+                        if (data.cards.length === 0) {
+                            cardsList.innerHTML = '<p>No cards available. Please add a card.</p>';
+                        } else {
+                            data.cards.forEach(card => {
+                                const cardElement = createCardElement(card);
+                                cardsList.appendChild(cardElement);
+                            });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function createCardElement(card) {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'card-item';
+            cardDiv.dataset.cardId = card.id;
+            cardDiv.innerHTML = `
+                <div class="card-info">
+                    <p><strong>Card Number:</strong> •••• •••• •••• ${card.card_number.slice(-4)}</p>
+                    <p><strong>Cardholder:</strong> ${card.cardholder_name}</p>
+                    <p><strong>Expiry:</strong> ${card.expiry_date}</p>
+                    <p><strong>Type:</strong> ${card.card_type}</p>
+                </div>
+            `;
+            
+            cardDiv.addEventListener('click', function() {
+                // Remove selected class from all cards
+                document.querySelectorAll('.card-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked card
+                this.classList.add('selected');
+                selectedCardId = this.dataset.cardId;
+                
+                // Show confirm button when a card is selected
+                const confirmPaymentBtn = document.getElementById('confirmPaymentBtn');
+                if (confirmPaymentBtn) {
+                    confirmPaymentBtn.style.display = 'block';
+                }
+            });
+            
+            return cardDiv;
+        }
+
+        // Add download functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const downloadBtn = document.querySelector('.DownloadBtn');
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', generateReceipt);
+            }
+        });
+
+        function generateReceipt() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Add title
+            doc.setFontSize(20);
+            doc.text('Order Summary', 105, 20, { align: 'center' });
+            
+            // Add booking details
+            doc.setFontSize(12);
+            doc.text(`Booking ID: ${bookingID}`, 14, 30);
+            doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 40);
+            doc.text(`Customer: ${userID}`, 14, 50);
+            
+            // Add items table
+            const tableData = cartData.items.map(item => [
+                item.name,
+                item.category,
+                `$${item.price.toFixed(2)}`
+            ]);
+            
+            // Add summary rows
+            tableData.push(['Subtotal', '', `$${cartData.subtotal.toFixed(2)}`]);
+            tableData.push(['Tax', '', `$${cartData.tax.toFixed(2)}`]);
+            tableData.push(['Total', '', `$${cartData.total.toFixed(2)}`]);
+            
+            doc.autoTable({
+                startY: 60,
+                head: [['Item', 'Category', 'Price']],
+                body: tableData,
+                theme: 'grid',
+                headStyles: { fillColor: [89, 126, 82] },
+                styles: { fontSize: 10 },
+                columnStyles: {
+                    0: { cellWidth: 80 },
+                    1: { cellWidth: 50 },
+                    2: { cellWidth: 30 }
+                }
+            });
+            
+            // Add payment method
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            const finalY = doc.lastAutoTable.finalY || 60;
+            doc.text(`Payment Method: ${paymentMethod === 'bank' ? 'Bank Transfer' : 'Card Payment'}`, 14, finalY + 20);
+            
+            // Add thank you message
+            doc.setFontSize(14);
+            doc.text('Thank you for choosing Ayubo Go!', 105, finalY + 40, { align: 'center' });
+            
+            // Save the PDF
+            const filename = `Order_Summary_${bookingID}.pdf`;
+            doc.save(filename);
+        }
+
+
+        function getSupplierIdFromName(name, callback) {
+            fetch('http://localhost:5000/api/get-supplier-id', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.supplier_id) callback(data.supplier_id);
+                else callback(null);
+            })
+            .catch(err => {
+                console.error('Error fetching supplier ID:', err);
+                callback(null);
+            });
+        }
+
+
+    </script>
+</body>
+</html>
+

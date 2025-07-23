@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    background-color:#597E52;
+}
+
+header{
+    z-index:999;
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 200px;
+    transition: 0.5s ease;
+}
+
+header .brand{
+    color:white;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap:8px;
+    white-space: nowrap;
+    font-family: 'Arial', sans-serif;
+}
+
+header .brand i {
+    font-size: 1.5em; 
+    color: #C6A969; 
+}
+
+.navigation {
+    display: flex;
+    gap: 20px;
+    flex-grow: 2; 
+    justify-content: flex-end; 
+}
+
+.brand {
+    font-size: 1.8em;
+    font-weight: bold;
+    flex-grow: 1; 
+    color: white; 
+}
+
+
+
+
+header .navigation{
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+}
+header .navigation .navigation-items {
+    display: flex;
+    align-items: center;
+}
+
+header .navigation .navigation-items a{
+     position: relative;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 30px;
+    transition: 0.3s ease ;
+
+}
+
+header .navigation .navigation-items a:before{
+    content:'';
+    position: absolute;
+    background: white;
+    width:0;
+    height: 3px;
+    bottom: 0;
+    left:0;
+    transition: 0.3s ease;
+}
+
+header .navigation .navigation-items a:hover:before{
+    width:100%; 
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: 50px;
+  margin-right: 70px; 
+  
+}
+
+.search-container i {
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 5px;
+  color: white;
+}
+
+/* Hide the search input by default */
+.search-bar {
+  width: 0;
+  opacity: 0;
+  padding: 5px;
+  margin-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: all 0.4s ease;
+  font-size: 14px;
+  background-color: white;
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Expand on hover */
+.search-container:hover .search-bar {
+  width: 160px;
+  opacity: 1;
+  position: relative;
+  transform: translateY(0);
+}
+.btn-group {
+    display: flex;
+    gap: 15px; /* Spacing between the two buttons */
+}
+
+.btn-group {
+    margin-left: auto; /* Pushes this container to the far right */
+    display: flex;
+    gap: 15px;
+}
+
+
+
+
+
+
+.btn {
+    padding: 10px 15px;
+    background-color:black;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    margin-left: 5px;
+    cursor: pointer;
+    opacity: 60%;
+}
+
+.btn:hover {
+    background-color: #C6A969;
+}
+
+.home{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction:column ;
+    background:#597E52 ;
+}
+.home:before{
+    z-index:777;
+    content:'';
+    position: absolute;
+    background: #597E52;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left:0;
+}
+
+
+</style>
+<body>
+
+      <header>
+        <a href="/" class="brand"> Ayubo Go</a>
+
+
+       
+        </div>
+        <div class="navigation">
+            <div class="navigation-items">
+              <a href="/">Home</a>
+              <a href="/categories">Explore</a>
+              <a href="/aboutus">About</a>
+              <a href="/feedback">Blogs and reviews</a>
+
+                 <div class="search-container">
+                    <i class='bx bx-search'></i>
+                    <input type="text" class="search-bar" placeholder="Search...">
+
+                  </div>
+
+                <button class="btn" href="/cart" id="cartbtn"><i class='bx bx-cart'></i>  Cart</button>
+
+                <button class="btn" id="loginBtn" >Login/Register</button>
+
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="about-section">
+          <!-- Hero Banner -->
+          <div class="hero-banner" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://traveltradejournal.com/wp-content/uploads/2023/12/Sri-Lanka.jpg'); background-size: cover; background-position: center; padding: 100px 20px; text-align: center; color: white;">
+            <div class="container">
+              <h1 style="font-size: 3em; margin-bottom: 20px; font-weight: 700;">Welcome to Ayubo Go</h1>
+              <p style="max-width: 800px; margin: 0 auto; font-size: 1.2em; line-height: 1.8;">
+                Your gateway to unforgettable cultural adventures, authentic local experiences, and seamless travel planning. 
+                Discover Sri Lanka like never before—book cultural journeys, connect with communities, and make memories that last a lifetime.
+              </p>
+            </div>
+          </div>
+      
+          <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px;">
+            <!-- About Us Section -->
+            <section class="about-block" style="margin-bottom: 60px;">
+              <div class="flex-container" style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center;">
+                <div class="content" style="flex: 1 1 50%;">
+                  <h2 style="font-size: 2.2em; color: #C6A969; margin-bottom: 20px;">About Us</h2>
+                  <p style="font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;">
+                    Welcome to <strong style="color: #C6A969;">AYUBO GO</strong> - Your ultimate companion for exploring the rich tapestry of culture, heritage, and adventure. We are a dedicated team of tourism enthusiasts, tech innovators, and cultural ambassadors who believe in the power of travel to connect people.
+                  </p>
+                  <p style="font-size: 1.1em; line-height: 1.8;">
+                    Our platform bridges the gap between curious travelers and authentic local experiences. Whether you're looking to join a traditional dance workshop, savor regional delicacies, or uncover hidden natural wonders, Ayubo Go is your gateway to a deeper, more meaningful journey.
+                  </p>
+                </div>
+                <div class="image" style="flex: 1 1 45%;">
+                  <img src="https://assets.hiphotels.com/attachments/5d13546a9c0e15049b000213/hd.jpg?1561547873" alt="About Us" style="width: 100%; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                </div>
+              </div>
+            </section>
+      
+            <!-- Mission Section -->
+            <section class="mission-block" style="margin-bottom: 60px; background: rgba(198, 169, 105, 0.1); padding: 40px; border-radius: 12px;">
+              <div class="flex-container" style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center;">
+                <div class="image" style="flex: 1 1 40%;">
+                  <img src="https://www.mot.gov.jm/sites/default/files/public/styles/large/public/photo_-_tourism_linkages_network_to_host_major_spa_standards_workshop.jpg?itok=lliYlJj-" alt="Our Mission" style="width: 100%; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                </div>
+                <div class="content" style="flex: 1 1 55%;">
+                  <h2 style="font-size: 2.2em; color: #C6A969; margin-bottom: 20px;">Our Mission</h2>
+                  <p style="font-size: 1.1em; line-height: 1.8;">
+                    To revolutionize tourism by creating a digital platform that connects travelers with authentic, culturally rich experiences while supporting local communities. We provide a seamless, secure environment where users can easily find, book, and enjoy tours, cultural activities, and accommodations.
+                  </p>
+                  <p style="font-size: 1.1em; line-height: 1.8;">
+                    Through our technology, we promote responsible and sustainable tourism practices, ensuring that the places and people we celebrate continue to thrive for generations to come.
+                  </p>
+                </div>
+              </div>
+            </section>
+      
+            <!-- Vision Section -->
+            <section class="vision-block" style="margin-bottom: 60px;">
+              <div class="flex-container" style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center;">
+                <div class="content" style="flex: 1 1 55%;">
+                  <h2 style="font-size: 2.2em; color: #C6A969; margin-bottom: 20px;">Our Vision</h2>
+                  <p style="font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;">
+                    To become the most trusted and innovative platform for cultural and heritage tourism across the globe. We aspire to redefine the way people experience travel—not just as leisure, but as an opportunity to learn, grow, and connect across cultures.
+                  </p>
+                  <p style="font-size: 1.1em; line-height: 1.8;">
+                    We envision a future where travelers seek deeper connections, local communities are empowered through tourism, and traditions are preserved through responsible sharing.
+                  </p>
+                </div>
+                <div class="image" style="flex: 1 1 40%;">
+                  <img src="https://ttgasia.2017.ttgasia.com/wp-content/uploads/sites/2/2020/12/257_thai_wellness_chonburi_thai_spa_03ss_1.jpg" alt="Our Vision" style="width: 100%; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                </div>
+              </div>
+            </section>
+      
+            <!-- Team Section -->
+            <section class="team-block" style="margin-bottom: 60px;">
+              <h2 style="font-size: 2.2em; color: #C6A969; text-align: center; margin-bottom: 40px;">Meet Our Team</h2>
+              <p style="font-size: 1.1em; line-height: 1.8; text-align: center; max-width: 800px; margin: 0 auto 40px;">
+                We are a group of passionate developers, designers, and travel lovers working together to make tourism more accessible and enjoyable.
+              </p>
+              
+              <div class="team-grid" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
+                <div class="team-card" style="background: white; padding: 25px; border-radius: 12px; width: 250px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s;">
+                  <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Tharushi" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 3px solid #C6A969;">
+                  <h3 style="color: #222; margin-bottom: 5px;">Tharushi</h3>
+                  <p style="color: #C6A969; font-weight: 600; font-size: 0.9em;">Founder & CEO</p>
+                </div>
+                
+                <div class="team-card" style="background: white; padding: 25px; border-radius: 12px; width: 250px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s;">
+                  <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Amashi" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 3px solid #C6A969;">
+                  <h3 style="color: #222; margin-bottom: 5px;">Amashi</h3>
+                  <p style="color: #C6A969; font-weight: 600; font-size: 0.9em;">Supplier Relations</p>
+                </div>
+                
+                <div class="team-card" style="background: white; padding: 25px; border-radius: 12px; width: 250px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s;">
+                  <img src="https://randomuser.me/api/portraits/women/58.jpg" alt="Yenushi" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 3px solid #C6A969;">
+                  <h3 style="color: #222; margin-bottom: 5px;">Yenushi</h3>
+                  <p style="color: #C6A969; font-weight: 600; font-size: 0.9em;">Booking Operations</p>
+                </div>
+                
+                <div class="team-card" style="background: white; padding: 25px; border-radius: 12px; width: 250px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s;">
+                  <img src="https://randomuser.me/api/portraits/women/51.jpg" alt="Vishaka" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 3px solid #C6A969;">
+                  <h3 style="color: #222; margin-bottom: 5px;">Vishaka</h3>
+                  <p style="color: #C6A969; font-weight: 600; font-size: 0.9em;">Payment Systems</p>
+                </div>
+              </div>
+            </section>
+      
+            <!-- Gallery Section -->
+            <section class="gallery-block" style="margin-bottom: 60px;">
+              <h2 style="font-size: 2.2em; color: #C6A969; text-align: center; margin-bottom: 40px;">Our Experiences</h2>
+              <div class="gallery-grid" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 25px;">
+                <div class="gallery-item" style="flex: 1 1 30%; min-width: 250px; position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                  <img src="https://www.ethnikfestivals.com/wp-content/uploads/2024/04/art_and_culture-1024x626.jpg" alt="Arts & Crafts" style="width: 100%; height: 250px; object-fit: cover; transition: transform 0.3s;">
+                  <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.7)); padding: 20px; color: white;">
+                    <h3 style="margin: 0;">Arts & Crafts</h3>
+                  </div>
+                </div>
+                
+                <div class="gallery-item" style="flex: 1 1 30%; min-width: 250px; position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                  <img src="http://static.investindia.gov.in/s3fs-public/2021-08/shutterstock_1388470073.jpg" alt="Wellness" style="width: 100%; height: 250px; object-fit: cover; transition: transform 0.3s;">
+                  <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.7)); padding: 20px; color: white;">
+                    <h3 style="margin: 0;">Wellness & Healing</h3>
+                  </div>
+                </div>
+                
+                <div class="gallery-item" style="flex: 1 1 30%; min-width: 250px; position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                  <img src="https://www.dpsgs.org/dpsg-cms/imagedir/DPSGV/2020/59325872_2200201533566170_6540602775053533184_o.jpg" alt="Performing Arts" style="width: 100%; height: 250px; object-fit: cover; transition: transform 0.3s;">
+                  <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.7)); padding: 20px; color: white;">
+                    <h3 style="margin: 0;">Performing Arts</h3>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    
+
+      <script>
+        const loginBtn = document.getElementById('loginBtn');
+        loginBtn.addEventListener('click', function() {
+            window.location.href = '/login';
+        });
+
+        const cartbtn = document.getElementById('cartbtn');
+        cartbtn.addEventListener('click', function() {
+            window.location.href = '/cart';
+        });
+      </script>
+</body>
+</html>
